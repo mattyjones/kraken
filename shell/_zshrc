@@ -1,0 +1,35 @@
+## THEMES ##
+ZSH_THEME="robbyrussell"
+
+## PLUGINS ##
+plugins=()
+
+## SHH AGENT CONFIG ##
+key_file=~/.ssh/id_rsa
+ssh-add > /dev/null 2>&1
+
+## EDITOR CONFIG ##
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='nvim'
+else
+  export EDITOR='vim'
+fi
+
+## USER CONFIG ##
+COMPLETION_WAITING_DOTS="true"
+
+## INCLUDES ##
+source $HOME/.aliasrc # alias functions
+source $HOME/.exportrc # env exports
+source $HOME/.secrets # env secrets
+source $HOME/.functions # env functions
+source $ZSH/oh-my-zsh.sh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# https://github.com/ajeetdsouza/zoxide
+eval "$(zoxide init zsh)"
+
+# https://starship.rs
+eval "$(starship init zsh)"
+
+test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)

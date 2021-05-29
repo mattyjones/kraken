@@ -1,0 +1,57 @@
+#! /bin/bash
+
+## ALIASES ##
+
+# Copy a public key to the clipboard
+alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+
+# Copy a provate key to the clipboard
+alias prikey="more ~/.ssh/id_rsa | pbcopy | echo '=> Private key copied to pasteboard.'"
+
+
+# Flush Directory Service cache
+alias flush-dns='sudo killall -HUP mDNSResponder'
+
+# IP addresses
+alias pubip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias localip="sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
+alias ips="sudo ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+
+# Safe auto-correct by default
+alias ra="rubocop -a "
+
+# Do not glob by default, required for zsh
+alias rake="noglob rake"
+
+# URL-encode strings
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+
+# Shortcut to for golang src directory
+alias golang='cd $PROJECTDIR/Go/src/'
+
+# I use neovim not vim
+alias vim='nvim'
+
+# MClear the screen
+alias cls='clear'
+
+# Don't use cp in modern times
+alias cp='rsync --progress -avz'
+
+# Default to colored output
+alias ls='ls -C'
+
+# Always enable colored `grep` output
+alias grep='grep --color=auto '
+
+# Dotfiles repo directory
+alias dotfiles='cd $PROJECTDIR/$NAME/dotfiles'
+
+# What cool things are running on the box
+alias rtc='which awk perl python python3 python3 ruby lua gcc cc vi vim nmap find netcat nc wget tftp ftp 2>/dev/null'
+
+# Start a webserver
+alias webserver="sudo python2 -m SimpleHTTPServer 80"
+
+# Stopwatch
+alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
