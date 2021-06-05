@@ -18,6 +18,10 @@ export HISTCONTROL=ignoredups;
 export LANG="en_US.UTF-8";
 export LC_ALL="en_US.UTF-8";
 
+# Avoid issues with `gpg` as installed via Homebrew.
+# https://stackoverflow.com/a/42265848/96656
+export GPG_TTY=$(tty);
+
 # Perl
 export PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
 export PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
@@ -26,3 +30,21 @@ export PERL_MB_OPT="--install_base" "${HOME}"/perl5\; export PERL_MB_OPT;
 export PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 
 #export PATH="/usr/local/opt/mysql-client/bin:${PATH}"
+
+# Highlight section titles in man pages
+
+export LESS_TERMCAP_md="${yellow}";
+
+# Keep showing man page after exit
+
+export MANPAGER='less -X';
+
+# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
+export PYTHONIOENCODING='UTF-8';
+
+# Go path.
+export GOPATH="$CODE/go";
+
+# Dotfiles
+export DOTFILES_DIR="$HOME/dotfiles";
+export DOTFILES_IDE="vs"

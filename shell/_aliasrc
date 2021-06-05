@@ -52,5 +52,52 @@ alias rtc='which awk perl python python3 python3 ruby lua gcc cc vi vim nmap fin
 # Start a webserver
 alias webserver="sudo python2 -m SimpleHTTPServer 80"
 
+# macOS has no `md5sum`, so use `md5` as a fallback
+command -v md5sum > /dev/null || alias md5sum="md5"
+
+# macOS has no `sha1sum`, so use `shasum` as a fallback
+command -v sha1sum > /dev/null || alias sha1sum="shasum"
+
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+
+# Get the weather
+alias weather="curl -4 http://wttr.in/$1"
+
+# Shortcuts
+alias dbox="cd $HOME/Dropbox"
+alias dls="cd $HOME/Downloads"
+alias dotfiles="cd $HOME/dotfiles"
+alias dtop="cd $HOME/Desktop"
+alias lib="cd $HOME/Library"
+alias work="cd $HOME/Work"
+alias repos="cd $HOME/repos"
+alias proj="cd $HOME/projects"
+alias dwork="cd $HOME/Dropbox/Work"
+alias drepos="cd $HOME/Dropbox/repos"
+alias dcode="cd $HOME/Dropbox/code"
+alias dproj="cd $HOME/Dropbox/projects"
+
+# Empty the Trash on all mounted volumes and the main HDD.
+# Also, clear Apple’s System Logs to improve shell startup speed.
+# Finally, clear download history from quarantine. https://mths.be/bum
+alias emptytrash=" \
+  sudo rm -rfv /Volumes/*/.Trashes; \
+  sudo rm -rfv $HOME/.Trash; \
+  sudo rm -rfv /private/var/log/asl/*.asl; \
+  sqlite3 $HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent' \
+"
+
+# Get macOS Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
+alias update='\
+  sudo softwareupdate -i -a; \
+  brew update; \
+  brew upgrade; \
+  brew cleanup; \
+  npm install npm -g; \
+  npm update -g; \
+  npm cache clean; \
+  sudo gem update --system; \
+  sudo gem update; \
+  sudo gem cleanup; \
+'

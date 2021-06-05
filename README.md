@@ -64,8 +64,15 @@ https://www.freecodecamp.org/news/how-to-handle-multiple-git-configurations-in-o
 https://crunchify.com/how-to-set-github-user-name-and-user-email-per-repository-different-config-for-different-repository/
 https://stackoverflow.com/questions/4220416/can-i-specify-multiple-users-for-myself-in-gitconfig
 
-do we ask these questions ahead of time or now (email, username, etc
-)
+do we ask these questions ahead of time or now (email, username, etc)
+
+what about alactricty
+
+Can we do a remote install
+sh -c "`curl -fsSL https://raw.github.com/webpro/dotfiles/master/remote-install.sh`"
+
+# Dotfiles
+https://github.com/aaronbates/dotfiles
 
 https://github.com/WillPower3309/awesome-dotfiles
 https://github.com/lcpz/awesome-copycats

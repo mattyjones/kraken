@@ -148,6 +148,9 @@
 [format]
 	pretty = %C(yellow)%h%Creset %s %C(red)(%an, %cr)%Creset
 
+[github]
+    user = myshov
+
 [gpg]
 	program = gpg
 

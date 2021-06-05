@@ -1,9 +1,40 @@
 #! /bin/bash
+#
+#  kraken
+#
+# AUTHOR: Matt Jones
+#
+# DESCRIPTION:
+#    Kraken is a semi-automated, opinionated environment configuration tool.
+#    Application and tool specific configurations are easy to modify. All tools
+#    are built and installed as isolated as possible to ensure modularity and
+#    user specific tastes.
+#
+# OUTPUT:
+#    plain-text
+#
+# PLATFORMS:
+#    OSX, MacOs
+#
+# DEPENDENCIES:
+#    bash
+#
+# USAGE:
+#    scripts/configure_osx
+#
+# NOTES:
+#
+# LICENSE:
+#    MIT
+#
 
-#TODO need to check all the links to see if they exist and are pointing to the right place
+# TODO need to check all the links to see if they exist and are pointing to the right place
 # TODO Some kind of a user menu saying the existing stuff will be removed
 
-##-- initalize script --##
+##---------------------- Initialize script --------------------##
+
+# This gathers basic info, performs any setup configurations and makes sure any script dependencies
+# are met.
 initalize() {
   cwd=$(pwd)
   user_name=$(logname)
@@ -13,6 +44,10 @@ initalize() {
     echo "curl should of been installed by default"
     exit 1
   fi
+
+  # Bring in XCode tools
+  softwareupdate -i -a
+  xcode-select --install
 
 }
 
@@ -51,7 +86,10 @@ initalize() {
 #  echo "\n --- Kracken Packages ---\n" >> existing_brew && diff existing_brew my_brew | grep '^>' | sed 's/^>\ //' >>  existing_brew
 #}
 
-##-- install homebrew --##
+##---------------------- Install Homebrew --------------------##
+
+# We check to see if homebrew is installed and if not then we install it. After it completes
+# we install the brewfile and install all programs contained in it.
 install_homebrew() {
 
   echo "Do you want to install Homebrew [Y/n]"
@@ -202,18 +240,21 @@ configure_git() {
 
 main() {
   initalize
+  git
+  gpg
   install_homebrew
+  configure_hyper
+  configure_nvim
   configure_oh_my_zsh
   configure_shell_env
+  configure_starship
   install_dircolors
   install_tmux
-  configure_hyper
+  configure_osx
+
 }
 
 # TODO tests?
 # TODO secure this
-# TODO do we need user intervention
 
 main
-
-}

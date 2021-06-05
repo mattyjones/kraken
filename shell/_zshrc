@@ -18,6 +18,8 @@ fi
 ## USER CONFIG ##
 COMPLETION_WAITING_DOTS="true"
 
+ulimit -S -n 8192
+
 ## INCLUDES ##
 source $HOME/.aliasrc   # alias functions
 source $HOME/.exportrc  # env exports
@@ -33,3 +35,7 @@ eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
 test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
+
+# Append to the Bash history file, rather than overwriting it
+
+shopt -s histappend
