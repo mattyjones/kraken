@@ -71,6 +71,15 @@ what about alactricty
 Can we do a remote install
 sh -c "`curl -fsSL https://raw.github.com/webpro/dotfiles/master/remote-install.sh`"
 
+https://driesvints.com/blog/getting-started-with-dotfiles/
+https://github.com/holman/dotfiles
+
+# lots of mac configs
+https://github.com/mathiasbynens/dotfiles/blob/master/.macos 
+
+# Huge brewfile
+https://github.com/driesvints/dotfiles/blob/main/Brewfile
+
 # Dotfiles
 https://github.com/aaronbates/dotfiles
 
