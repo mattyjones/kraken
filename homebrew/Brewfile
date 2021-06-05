@@ -5,6 +5,7 @@ tap 'homebrew/cask-fonts'
 tap 'homebrew/core'
 
 
+brew 'alacritty'
 # brew 'ansible'
 # brew 'awscli'
 brew 'bat'
