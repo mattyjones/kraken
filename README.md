@@ -52,6 +52,22 @@ add the default user to sudo
 
 the script must be run as root if the user is not in the sudo group
 
+we have an install script that does all the initial things and then maybe sets some kind of config file with varibales??
+
+then we have an update script?
+
+Could we just have some of the variables be env exports, such as the name and email in the git configs
+
+we should add a doc on how to do this per repo but set the main one to what ever the user wants to set it to via commandline questions.
+
+how do we deal with updates to the gitconfig, most likely the same as we do with the brew file, we could do a ifdef file
+https://www.freecodecamp.org/news/how-to-handle-multiple-git-configurations-in-one-machine/
+https://crunchify.com/how-to-set-github-user-name-and-user-email-per-repository-different-config-for-different-repository/
+https://stackoverflow.com/questions/4220416/can-i-specify-multiple-users-for-myself-in-gitconfig
+
+do we ask these questions ahead of time or now (email, username, etc
+)
+
 
 https://github.com/WillPower3309/awesome-dotfiles
 https://github.com/lcpz/awesome-copycats

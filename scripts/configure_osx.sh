@@ -16,25 +16,82 @@ initalize() {
 
 }
 
+# add_if_missing() {
+# {
+#   awk '{
+#     while (NR + shift < $1) {
+#         print (NR + shift) " NA"
+#         shift++
+#     }
+#     print
+# }
+# END {
+#     shift++
+#     while (NR + shift < 13) {
+#         print (NR + shift) " NA"
+#         shift++
+#     }
+# } 
+# }'
+# }
+
+#update_brewfile() {
+#  existing_brewfile=""
+#  kracken_brewfile="$cwd/homebrew/Brewfile"
+#  if [ ! "$HOME/Brewfile" ]; then
+#    existing_brewfile="/Users/$user_name/Brewfile"
+#    echo "Installing Kracken Brewfile"
+#    if [! $(grep -Fxq "string" $existing_brewfile)]; then
+#      echo "\n --- Kracken Packages ---\n" > existing_brewfile
+#    fi
+#    cp "${cwd}"/homebrew/Brewfile /Users/"{$user_name}"/Brewfile
+#  fi
+#if ! grep -q "\--- Kracken Packages ---" existing_brew; then echo "not found" >> existing_brew; else; echo "I got you" >> existing_brew; fi
+#
+#  echo "\n --- Kracken Packages ---\n" >> existing_brew && diff existing_brew my_brew | grep '^>' | sed 's/^>\ //' >>  existing_brew
+#}
+
 ##-- install homebrew --##
 install_homebrew() {
 
-  echo "Installing homebrew"
+  echo "Do you want to install Homebrew [Y/n]"
+  read ans
+  if [[ $ans == "" ]] || [[ $ans == "Y" ]]; then
+    echo "Installing homebrew"
   if [ -n "$(brew -v)" ]; then
     echo "Installing Homebrew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   else
     echo "Homebrew is already installed"
   fi
-
-  if [ ! -f "/~Brewfile" ]; then
-    echo "Linking brewfile"
-    ln -s "${cwd}"/homebrew/Brewfile /Users/"{$user_name}"/Brewfile
   fi
 
-  echo "installing homebrew packages"
-  brew update
-  brew bundle install --cleanup --file ~/Brewfile
+  install_brewfile
+}
+
+install_brewfile() {
+#    echo "Do you want to use the default Brewfile. This will add any additional Kracken packages to an existing Brewfile. [Y/n]"
+#    read ans
+#    if [[ $ans == "" ]] || [[ $ans == "Y" ]]; then
+#     echo "Adding Kracken packages to the Brewfile"
+
+    # echo "Installing homebrew"
+  # if [ -n "$(brew -v)" ]; then
+  #   echo "Installing Homebrew"
+  #   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # else
+  #   echo "Homebrew is already installed"
+  # fi
+
+
+   if [ ! -f "/~Brewfile" ]; then
+     echo "Linking brewfile"
+     ln -s "${cwd}"/homebrew/Brewfile /Users/"{$user_name}"/Brewfile
+   fi
+
+   echo "installing homebrew packages"
+   brew update
+   brew bundle install --cleanup --file ~/Brewfile
 }
 
 ##-- Install TMUX --##
@@ -86,9 +143,9 @@ configure_starship() {
   ln -s "${cwd}"/starship/starship.toml /Users/"${user_name}"/.config/starship.toml
 }
 
-configure_gpg() {
-  ln -s "${cwd}"/gnupg/gpg-agent.conf /Users/"${user_name}"/.gnupg/gpg-agent.conf
-}
+#configure_gpg() {
+#  ln -s "${cwd}"/gnupg/gpg-agent.conf /Users/"${user_name}"/.gnupg/gpg-agent.conf
+#}
 
 configure_nvim() {
   # TODO make sure the config dir is there
@@ -122,6 +179,27 @@ configure_hyper() {
 
 }
 
+configure_git() {
+
+  echo "Do you want to install the kracken .gitconfig to \$HOME/.gitconfig?"
+  read -r ans
+  if [[ $ans == "" ]] || [[ $ans == "Y" ]]; then
+    if [ ! -f $HOME/.gitconfig ]; then
+      echo "A global .gitconfig down not exist using kracken"
+      ln -s "${cwd}"/git/_gitconfig /Users/"${user_name}"/.gitconfig
+    fi
+
+    echo "What name will you commit with? This is usually your real name."
+    read -r name
+    git config --global user.name $name
+
+    echo "What email will you commit with?"
+    read -r email
+    git config --global user.email $email
+  fi
+
+}
+
 main() {
   initalize
   install_homebrew
@@ -137,3 +215,5 @@ main() {
 # TODO do we need user intervention
 
 main
+
+}

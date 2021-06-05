@@ -11,7 +11,7 @@
 
 # Pentest and CTF specific packages (these are optional)
 pentest_pkgs=()
-pentest_pkgs=()
+# pentest_pkgs=()
 
 # Base firefox (these are optional)
 web_pkgs=("firefox")
@@ -343,11 +343,11 @@ status=$(id | awk "{ print \$1 }" | grep "root")
   counter=0
   install_pkg_grps "Development" "${development_pkgs[@]}"
 
-  counter=0
-  install_pkg_grps "Windows" "${windows_pkgs[@]}"
+#  counter=0
+ # install_pkg_grps "Windows" "${windows_pkgs[@]}"
 
-  counter=0
-  install_pkg_grps "Web" "${web_pkgs[@]}"
+  # counter=0
+  # install_pkg_grps "Web" "${web_pkgs[@]}"
 
   counter=0
   install_pkg_grps "Tool" "${tools_pkgs[@]}"
@@ -361,12 +361,12 @@ status=$(id | awk "{ print \$1 }" | grep "root")
   counter=0
   install_pkg_grps "Security" "${security_pkgs[@]}"
 
-  counter=0
+#  counter=0
 #  install_pkg_grps "i3" "${i3_pkgs[@]}"
-  install_pkg_grps "Awesome Window Manager" "${awesomewm_pkgs[@]}"
+#  install_pkg_grps "Awesome Window Manager" "${awesomewm_pkgs[@]}"
 
   # counter=0
-   install_pkg_grps "Security" "${security_pkgs[@]}"
+  #  install_pkg_grps "Security" "${security_pkgs[@]}"
 
   counter=0
   install_pkg_grps "Network" "${network_pkgs[@]}"
@@ -374,7 +374,7 @@ status=$(id | awk "{ print \$1 }" | grep "root")
 #  install_bat
 
 # TODO check to make sure the version < 1.0.6
-  install_masscan
+#  install_masscan
 
 ###--------------------------------Shell Installation and Configuration--------------------------------------###
 
@@ -390,7 +390,7 @@ status=$(id | awk "{ print \$1 }" | grep "root")
 
 main
 
-cleanup
+#cleanup
 
 # TODO do something wher masscan is updated in the secrity list
 # TODO fix masscan build error
