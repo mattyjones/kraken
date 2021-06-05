@@ -1,3 +1,5 @@
+#! /bin/env zsh
+
 ## THEMES ##
 ZSH_THEME="robbyrussell"
 
@@ -27,9 +29,6 @@ source $HOME/.secrets   # env secrets
 source $HOME/.functions # env functions
 source $ZSH/oh-my-zsh.sh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# https://github.com/ajeetdsouza/zoxide
-eval "$(zoxide init zsh)"
 
 # https://starship.rs
 eval "$(starship init zsh)"
