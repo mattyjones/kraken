@@ -6,7 +6,7 @@ plugins=()
 
 ## SHH AGENT CONFIG ##
 key_file=~/.ssh/id_rsa
-ssh-add > /dev/null 2>&1
+ssh-add >/dev/null 2>&1
 
 ## EDITOR CONFIG ##
 if [[ -n $SSH_CONNECTION ]]; then
@@ -19,9 +19,9 @@ fi
 COMPLETION_WAITING_DOTS="true"
 
 ## INCLUDES ##
-source $HOME/.aliasrc # alias functions
-source $HOME/.exportrc # env exports
-source $HOME/.secrets # env secrets
+source $HOME/.aliasrc   # alias functions
+source $HOME/.exportrc  # env exports
+source $HOME/.secrets   # env secrets
 source $HOME/.functions # env functions
 source $ZSH/oh-my-zsh.sh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
