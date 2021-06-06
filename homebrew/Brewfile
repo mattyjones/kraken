@@ -5,12 +5,11 @@ tap 'homebrew/cask-fonts'
 tap 'homebrew/core'
 
 
-brew 'alacritty'
 # brew 'ansible'
 # brew 'awscli'
 brew 'bat'
 brew 'binutils'
-# brew 'chruby'
+brew 'chruby'
 brew 'coreutils'
 # brew 'dep'
 brew 'diffutils'
@@ -33,7 +32,7 @@ brew 'jq'
 # brew 'lua'
 brew 'make'
 brew 'mas'
-#brew 'mu-editor'
+# brew 'mu-editor'
 # brew 'neofetch'
 brew 'neovim'
 # brew 'nmap'
@@ -47,7 +46,7 @@ brew 'pipenv'
 brew 'python3'
 brew 'rsync'
 # brew 'ruby-build'
-# brew 'ruby-install'
+brew 'ruby-install'
 # brew 'rust'
 brew 'shellcheck'
 brew 'starship'
@@ -67,6 +66,7 @@ brew 'upx'
 brew 'zsh'
 brew 'zsh-syntax-highlighting'
 
+cask 'alacritty'
 cask 'alfred'
 cask 'amazon-workspaces'
 # cask 'calibre'
@@ -113,6 +113,5 @@ mas 'Telegram Light', id: 946399090
 # mas 'Transmit 5', id: 1436522307
 mas 'Ulysses', id: 1225570693
 mas 'Unarchiver', id: 425424353
-
 
 

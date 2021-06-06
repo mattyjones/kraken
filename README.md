@@ -80,6 +80,9 @@ https://github.com/mathiasbynens/dotfiles/blob/master/.macos
 # Huge brewfile
 https://github.com/driesvints/dotfiles/blob/main/Brewfile
 
+https://github.com/mathiasbynens/dotfiles/blob/master/.macos
+https://github.com/thoughtbot/dotfiles
+
 # Dotfiles
 https://github.com/aaronbates/dotfiles
 
