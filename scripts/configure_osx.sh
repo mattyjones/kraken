@@ -196,8 +196,7 @@ install_dircolors() {
 # it as the default terminal as that is the standard shell in MacOS.
 configure_oh_my_zsh() {
   # TODO remove the config backup when we are done
-  local ans=""
-
+  
   # Check to see if it is already installed
   if [ -f "$HOME/.oh-my-zsh/" ]; then
     echo "oh-my-zsh is already installed. Skipping installation"

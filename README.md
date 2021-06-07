@@ -88,6 +88,17 @@ review the macos script
 
 review remaining dotfiles or other bits
 
+https://github.com/VundleVim/Vundle.vim
+https://www.atlassian.com/git/tutorials/dotfiles
+https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789
+https://drewdevault.com/2019/12/30/dotfiles.html
+https://www.anishathalye.com/2014/08/03/managing-your-dotfiles/
+https://abdullah.today/encrypted-dotfiles/
+https://dotfiles.github.io/inspiration/
+http://gully.github.io/2015/11/15/brews_gems_dotfiles_conda_installing_on_mac/
+https://dotfiles.github.io/inspiration/
+https://www.twilio.com/blog/using-dotfiles-productivity-bootstrap-systems
+
 .tor
 .vscode
 .wraith
