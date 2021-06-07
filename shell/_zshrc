@@ -23,8 +23,8 @@ COMPLETION_WAITING_DOTS="true"
 ulimit -S -n 8192
 
 ## INCLUDES ##
-source $HOME/.aliasrc   # alias functions
-source $HOME/.exportrc  # env exports
+source $HOME/.alias   # alias functions
+source $HOME/.exports  # env exports
 source $HOME/.secrets   # env secrets
 source $HOME/.functions # env functions
 source $ZSH/oh-my-zsh.sh

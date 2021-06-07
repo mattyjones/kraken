@@ -127,40 +127,36 @@ install_brewfile() {
   fi
 
   echo "Updating Homebrew package list"
-  if [ -n "$(brew update --force)" ]; then
+  if brew update --force >/dev/null; then
+    echo "Homebrew was updated successfully"
+  else
     echo "'brew update' failed"
     exit 1
-  else
-    echo "Homebrew was updated successfully"
+
   fi
 
   echo "Upgrading Homebrew package list"
-  if [ -n "$(brew upgrade)" ]; then
+  if brew upgrade >/dev/null; then
+    echo "Homebrew was upgraded successfully"
+  else
     echo "'brew upgrade' failed"
     exit 1
-  else
-    echo "Homebrew was upgraded successfully"
   fi
 
-  # I need to grab the $? of the command somehow and if !=0 fail.
-  # The current method is cheap and smelly
   echo "Installing homebrew packages"
-  local out
-  out=$(brew bundle install --file "$brew_file")
-
-  if [[ $out =~ "Homebrew Bundle failed"* ]]; then
+  if brew bundle install --file "$brew_file" >/dev/null; then
+    echo "All Homebrew packages were installed successfully"
+  else
     echo "'brew bundle install' failed"
     exit 1
-  else
-    echo "All Homebrew packages were installed successfully"
   fi
 
   echo "Running a cleanup of Homebrew"
-  if [ -n "$(brew cleanup >"$HOME"/Desktop/brew_cleanup)" ]; then
+  if brew cleanup >"$HOME"/Desktop/brew_cleanup; then
+    echo "Homebrew cleanup list was created successfully"
+  else
     echo "'brew cleanup' failed"
     exit 1
-  else
-    echo "Homebrew cleanup list was created successfully"
   fi
 
   echo "Homebrew Installation Complete"
@@ -186,7 +182,11 @@ install_tmux() {
 # Set the colors I want. Not always necessary to do this, it is very terminal specific.
 # I am just in the habit of doing it so, why not.
 install_dircolors() {
-  ln -s "${cwd}"/shell/_dir_colors "$HOME"/.dir_colors
+  if [ -f "$HOME"/.dir_colors ]; then
+    echo "dir_colors already installed. Skipping."
+  else
+    ln -s "${cwd}"/shell/_dir_colors "$HOME"/.dir_colors
+  fi
 
   return 0
 }
@@ -213,12 +213,9 @@ configure_oh_my_zsh() {
 
 # Drop my specific dotfiles onto the box
 configure_shell_env() {
-  ln -s "${cwd}"/shell/_aliasrc "$HOME"/.aliasrc
-  ln -s "${cwd}"/shell/_exportrc "$HOME"/.exportrc
-  ln -s "${cwd}"/shell/_secretsrc "$HOME"/.secretsrc
-  ln -s "${cwd}"/shell/_zshrc "$HOME"/.zshrc
-  ln -s "${cwd}"/shell/_functionsrc "$HOME"/.functionsrc
+  ln -s $HOME/Projects/mattyjones/dotfiles/shell/_alias "$HOME"/.alias; ln -s $HOME/Projects/mattyjones/dotfiles/shell/_exports "$HOME"/.exports; ln -s $HOME/Projects/mattyjones/dotfiles/shell/_secrets "$HOME"/.secrets; ln -s $HOME/Projects/mattyjones/dotfiles/shell/_zshrc "$HOME"/.zshrc; ln -s $HOME/Projects/mattyjones/dotfiles/shell/_functions "$HOME"/.functions
 
+$HOME/Projects/mattyjones/dotfiles
   return 0
 }
 
