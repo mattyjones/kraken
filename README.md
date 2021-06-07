@@ -68,6 +68,18 @@ do we ask these questions ahead of time or now (email, username, etc)
 
 what about alactricty
 
+doing software updates does not work
+
+make sudo what needs to be sudo
+
+colored output
+
+use print instead of echo
+
+bring all stderr to the screen
+
+find a way to get the exit code from the install fail
+
 Can we do a remote install
 sh -c "`curl -fsSL https://raw.github.com/webpro/dotfiles/master/remote-install.sh`"
 
