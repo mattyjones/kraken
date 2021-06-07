@@ -80,6 +80,28 @@ bring all stderr to the screen
 
 find a way to get the exit code from the install fail
 
+install tor
+
+review all debris scripts and remove dead ones
+
+review the macos script
+
+review remaining dotfiles or other bits
+
+.tor
+.vscode
+.wraith
+.alacritty
+.perl
+.editorconfig
+.gem
+.gitkracken
+.build ruby
+.install rust
+.install cargo
+.ssh
+
+
 Can we do a remote install
 sh -c "`curl -fsSL https://raw.github.com/webpro/dotfiles/master/remote-install.sh`"
 

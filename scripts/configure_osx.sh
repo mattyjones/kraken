@@ -213,9 +213,12 @@ configure_oh_my_zsh() {
 
 # Drop my specific dotfiles onto the box
 configure_shell_env() {
-  ln -s $HOME/Projects/mattyjones/dotfiles/shell/_alias "$HOME"/.alias; ln -s $HOME/Projects/mattyjones/dotfiles/shell/_exports "$HOME"/.exports; ln -s $HOME/Projects/mattyjones/dotfiles/shell/_secrets "$HOME"/.secrets; ln -s $HOME/Projects/mattyjones/dotfiles/shell/_zshrc "$HOME"/.zshrc; ln -s $HOME/Projects/mattyjones/dotfiles/shell/_functions "$HOME"/.functions
+  ln -s "${cwd}"/shell/_aliasrc "$HOME"/.aliasrc
+  ln -s "${cwd}"/shell/_exportrc "$HOME"/.exportrc
+  ln -s "${cwd}"/shell/_secretsrc "$HOME"/.secretsrc
+  ln -s "${cwd}"/shell/_zshrc "$HOME"/.zshrc
+  ln -s "${cwd}"/shell/_functionsrc "$HOME"/.functionsrc
 
-$HOME/Projects/mattyjones/dotfiles
   return 0
 }
 
