@@ -31,10 +31,13 @@
 # TODO need to check all the links to see if they exist and are pointing to the right place
 # TODO Some kind of a user menu saying the existing stuff will be removed
 
-##---------------------- Initialize script --------------------##
+##---------------------- Initialize config script --------------------##
 
 # This gathers basic info, performs any setup configurations and makes sure any script dependencies
 # are met.
+
+set -e
+
 initalize() {
   cwd=$(pwd)
   user_name=$(logname)
@@ -45,46 +48,51 @@ initalize() {
     exit 1
   fi
 
-  # Bring in XCode tools
-  softwareupdate -i -a
-  xcode-select --install
+  # Ask for the administrator password upfront
+  sudo -v
+
+  # Keep-alive: update existing `sudo` time stamp until we have finished
+  while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+  done 2>/dev/null &
+
+  # Make sure the necessary directorys exist and if not create them.
+  if [[ -d "$HOME"/.config ]]; then
+    echo "Creating the baseline config directory"
+    mkdir "$HOME"/.config
+  fi
+
+  return 0
+}
+
+# Bring in XCode tools if needed
+install_dev_tools() {
+  if [ -n "$(sudo xcode-select -v)" ]; then
+    if ! [ "$(sudo xcode-select --install)" ]; then
+      echo "Developer tools install failed"
+    fi
+  else
+    echo "XCode developer tools already installed"
+  fi
+
+  return 0
 
 }
 
-# add_if_missing() {
-# {
-#   awk '{
-#     while (NR + shift < $1) {
-#         print (NR + shift) " NA"
-#         shift++
-#     }
-#     print
-# }
-# END {
-#     shift++
-#     while (NR + shift < 13) {
-#         print (NR + shift) " NA"
-#         shift++
-#     }
-# } 
-# }'
-# }
+# TODO Need to capture the return status. Do not run this without some additional
+# checks so things don't get borked.
 
-#update_brewfile() {
-#  existing_brewfile=""
-#  kracken_brewfile="$cwd/homebrew/Brewfile"
-#  if [ ! "$HOME/Brewfile" ]; then
-#    existing_brewfile="/Users/$user_name/Brewfile"
-#    echo "Installing Kracken Brewfile"
-#    if [! $(grep -Fxq "string" $existing_brewfile)]; then
-#      echo "\n --- Kracken Packages ---\n" > existing_brewfile
-#    fi
-#    cp "${cwd}"/homebrew/Brewfile /Users/"{$user_name}"/Brewfile
-#  fi
-#if ! grep -q "\--- Kracken Packages ---" existing_brew; then echo "not found" >> existing_brew; else; echo "I got you" >> existing_brew; fi
-#
-#  echo "\n --- Kracken Packages ---\n" >> existing_brew && diff existing_brew my_brew | grep '^>' | sed 's/^>\ //' >>  existing_brew
-#}
+# Install any software updates necessary. Doe not work
+# fo OS updates for some reason.
+install_updates() {
+  if ! [ "$(sudo softwareupdate --install -all)" ]; then
+    echo "Software updates failed to be installed"
+  fi
+
+  return 0
+}
 
 ##---------------------- Install Homebrew --------------------##
 
@@ -92,165 +100,234 @@ initalize() {
 # we install the brewfile and install all programs contained in it.
 install_homebrew() {
 
-  echo "Do you want to install Homebrew [Y/n]"
-  read ans
-  if [[ $ans == "" ]] || [[ $ans == "Y" ]]; then
-    echo "Installing homebrew"
+  echo "Checking homebrew"
   if [ -n "$(brew -v)" ]; then
     echo "Installing Homebrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   else
     echo "Homebrew is already installed"
   fi
-  fi
 
   install_brewfile
+
+  return 0
 }
 
+# Link the Brewfile and install all packages. We also run cleanup after
+# to generate a list of debis that should be removed, the actual removal
+# is a manual process to provide for a sanity check.
 install_brewfile() {
-#    echo "Do you want to use the default Brewfile. This will add any additional Kracken packages to an existing Brewfile. [Y/n]"
-#    read ans
-#    if [[ $ans == "" ]] || [[ $ans == "Y" ]]; then
-#     echo "Adding Kracken packages to the Brewfile"
+  brew_file="$HOME/Brewfile"
 
-    # echo "Installing homebrew"
-  # if [ -n "$(brew -v)" ]; then
-  #   echo "Installing Homebrew"
-  #   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  # else
-  #   echo "Homebrew is already installed"
-  # fi
+  if [ ! -f "$brew_file" ]; then
+    echo "Linking brewfile"
+    ln -s "$cwd"/homebrew/Brewfile "$brew_file"
+  else
+    echo "Brewfile already linked"
+  fi
 
+  echo "Updating Homebrew package list"
+  if [ -n "$(brew update --force)" ]; then
+    echo "'brew update' failed"
+    exit 1
+  else
+    echo "Homebrew was updated successfully"
+  fi
 
-   if [ ! -f "/~Brewfile" ]; then
-     echo "Linking brewfile"
-     ln -s "${cwd}"/homebrew/Brewfile /Users/"{$user_name}"/Brewfile
-   fi
+  echo "Upgrading Homebrew package list"
+  if [ -n "$(brew upgrade)" ]; then
+    echo "'brew upgrade' failed"
+    exit 1
+  else
+    echo "Homebrew was upgraded successfully"
+  fi
 
-   echo "installing homebrew packages"
-   brew update
-   brew bundle install --cleanup --file ~/Brewfile
+  # I need to grab the $? of the command somehow and if !=0 fail.
+  # The current method is cheap and smelly
+  echo "Installing homebrew packages"
+  local out
+  out=$(brew bundle install --file "$brew_file")
+
+  if [[ $out =~ "Homebrew Bundle failed"* ]]; then
+    echo "'brew bundle install' failed"
+    exit 1
+  else
+    echo "All Homebrew packages were installed successfully"
+  fi
+
+  echo "Running a cleanup of Homebrew"
+  if [ -n "$(brew cleanup >"$HOME"/Desktop/brew_cleanup)" ]; then
+    echo "'brew cleanup' failed"
+    exit 1
+  else
+    echo "Homebrew cleanup list was created successfully"
+  fi
+
+  echo "Homebrew Installation Complete"
+
+  return 0
 }
 
-##-- Install TMUX --##
+##---------------------- Install TMUX --------------------##
+
+# Install and configure tmux. I use it as my primary terminal inface and run
+# it upon terminal startup so it is always ready for me.
 install_tmux() {
 
   echo "configuring tmux"
-  ln -s "${cwd}"/tmux/_tmux /Users/"${user_name}"/.tmux
-  #  ln -s _tmux ~/.tmux
-  #  mv ~/_tmux ~/.tmux
-  ln -s "${cwd}"/tmux/_tmux.conf /Users/"${user_name}"/.tmux.conf
-  #    ln -s "$(pwd)"/_tmux/_tmx.conf ~/.tmux.conf
-  #  mv ~/.tmux/_tmux.conf ~/.tmux.conf
+  ln -s "${cwd}"/tmux/_tmux "$HOME"/.tmux
+  ln -s "${cwd}"/tmux/_tmux.conf "$HOME"/.tmux.conf
+
+  return 0
 }
 
+##---------------------- Shell Configuration --------------------##
+
+# Set the colors I want. Not always necessary to do this, it is very terminal specific.
+# I am just in the habit of doing it so, why not.
 install_dircolors() {
-  ln -s "${cwd}"/shell/_dir_colors /Users/"${user_name}"/.dir_colors
+  ln -s "${cwd}"/shell/_dir_colors "$HOME"/.dir_colors
+
+  return 0
 }
 
 # Install and provide a baseline configuration for oh-my-zsh that a user can then configure
-# to their hearts content for the next four hours.
+# to my hearts content for the next four hours. I don't bother with installing zsh and setting
+# it as the default terminal as that is the standard shell in MacOS.
 configure_oh_my_zsh() {
   # TODO remove the config backup when we are done
   local ans=""
 
   # Check to see if it is already installed
-  if [ -f "${HOME}/.oh-my-zsh/" ]; then
-    echo "oh-my-zsh is already installed. Do you wish to reinstall it? This will replace your current configuration [Y/n]"
-    read -r ans
-    if [[ "${ans}" == "n" ]]; then
-      echo "Skipping installation"
-    else
-      echo "Removing existing configuration and reinstalling oh-my-zsh"
-      rm -rf "${HOME}"/.oh-my-zsh/
-      curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-      ln -s "${cwd}"/oh-my-zsh/ /Users/"${user_name}"/.oh-my-zsh
-    fi
+  if [ -f "$HOME/.oh-my-zsh/" ]; then
+    echo "oh-my-zsh is already installed. Skipping installation"
+  else
+    # Remove any existing configuration just in case and then do an install
+    rm -rf "$HOME"/.oh-my-zsh/
+    curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+    ln -s "${cwd}"/oh-my-zsh/ "$HOME"/.oh-my-zsh
   fi
+
+  return 0
 }
 
+# Drop my specific dotfiles onto the box
 configure_shell_env() {
-  ln -s "${cwd}"/shell/_aliasrc /Users/"${user_name}"/.aliasrc
-  ln -s "${cwd}"/shell/_exportrc /Users/"${user_name}"/.exportrc
-  ln -s "${cwd}"/shell/_secretsrc /Users/"${user_name}"/.secretsrc
-  ln -s "${cwd}"/shell/_zshrc /Users/"${user_name}"/.zshrc
-  ln -s "${cwd}"/shell/_functionsrc /Users/"${user_name}"/.functionsrc
+  ln -s "${cwd}"/shell/_aliasrc "$HOME"/.aliasrc
+  ln -s "${cwd}"/shell/_exportrc "$HOME"/.exportrc
+  ln -s "${cwd}"/shell/_secretsrc "$HOME"/.secretsrc
+  ln -s "${cwd}"/shell/_zshrc "$HOME"/.zshrc
+  ln -s "${cwd}"/shell/_functionsrc "$HOME"/.functionsrc
+
+  return 0
 }
 
+# Configure Starship for my development prompt
 configure_starship() {
-  ln -s "${cwd}"/starship/starship.toml /Users/"${user_name}"/.config/starship.toml
+  ln -s "${cwd}"/starship/starship.toml "$HOME"/.config/starship.toml
+
+  return 0
 }
 
-#configure_gpg() {
-#  ln -s "${cwd}"/gnupg/gpg-agent.conf /Users/"${user_name}"/.gnupg/gpg-agent.conf
-#}
+# TODO Do something with this at some point
+configure_gpg() {
+  #  ln -s "${cwd}"/gnupg/gpg-agent.conf $HOME/.gnupg/gpg-agent.conf
 
+  return 0
+}
+
+# Configure my current terminal emulator
+configure_alacritty() {
+
+  return 0
+}
+
+##---------------------- Neovim Configuration --------------------##
+
+# Configure Neovim
 configure_nvim() {
-  # TODO make sure the config dir is there
-  # TODO check to make sure neovim is installed
+  # TODO we should be installing this, not just copying it over but hey
+  # if the shoe fits
 
-    # Check to see if it is already installed
-  if [ -f "${HOME}/.config/nvim/" ]; then
-    echo "nvim may already be configured. Do you wish to use the new configuration or keep the current one?"
-     echo "Replace the existing configuration[Y/n]"
+  # Check to see if it is already installed
+  if [ -f "$HOME/.config/nvim/" ]; then
+    echo "Neovim is already configured."
+  else
+    # Make sure an existing config is gone to avoid pollution
+    rm -rf "$HOME"/.config/nvim/
+    ln -s "${cwd}"/nvim/nvim "$HOME"/.config/
+  fi
+  return 0
+}
 
-    read -r ans
-    if [[ "${ans}" == "n" ]]; then
-      echo "Skipping kracken neovim installation"
-    else
-      echo "Removing existing configuration and installing kracken"
-      rm -rf "${HOME}"/.config/nvim/
-ln -s "${cwd}"/nvim/nvim /Users/"${user_name}"/config/
-    fi
+##---------------------- Terminal Configurations --------------------##
+
+# Configure hyper as a terminal if I am installing it. This is a Node.js based
+# terminal configured via js and css. It is fancy but I have seen perf issues and
+# something about it just bugs me so it is only here for legacy reasons.
+configure_hyper() {
+  if [[ "$(which hyper)" ]]; then
+
+    # Removing the default setup
+    rm -rf ~/.hyper*
+
+    echo "Configuring the hyper.js environment"
+    ln -s "${cwd}"/hyper/_hyper.js "$HOME"/.hyper.js
+    ln -s "${cwd}"/hyper/_hyper_plugins "${Home}"/.hyper_plugins
   fi
 
-
+  return 0
 }
 
-configure_hyper() {
-  # Removing the default setup
-  rm -rf ~/.hyper*
+##---------------------- Git Configuration --------------------##
 
-  echo "configuring the custom hyper.js"
-  ln -s "${cwd}"/hyper/_hyper.js /Users/"${user_name}"/.hyper.js
-  ln -s "${cwd}"/hyper/_hyper_plugins /Users/"${user_name}"/.hyper_plugins
-
-}
-
+# Configure my git environment. Do not enable this unless you really know what
+# you are doing. No, I'm serious. I have a lot of tweaks and touches in here
+# due to having multiple profiles and working on many different projects.
 configure_git() {
 
-  echo "Do you want to install the kracken .gitconfig to \$HOME/.gitconfig?"
-  read -r ans
-  if [[ $ans == "" ]] || [[ $ans == "Y" ]]; then
-    if [ ! -f $HOME/.gitconfig ]; then
-      echo "A global .gitconfig down not exist using kracken"
-      ln -s "${cwd}"/git/_gitconfig /Users/"${user_name}"/.gitconfig
-    fi
-
-    echo "What name will you commit with? This is usually your real name."
-    read -r name
-    git config --global user.name $name
-
-    echo "What email will you commit with?"
-    read -r email
-    git config --global user.email $email
+  if [ ! -f $HOME/.gitconfig ]; then
+    echo "Installing a global git configuration file to my home directory."
+    ln -s "${cwd}"/git/_gitconfig "$HOME"/.gitconfig
   fi
 
+  return 0
 }
 
+##--------------------------- Main -------------------------##
 main() {
+
+  # Sanity check the environment and box
   initalize
-  git
-  gpg
+
+  # Configure MacOS specific bits
+  configure_osx
+
+  # Install as many of the packages I need as I can
   install_homebrew
+
+  # Setup my terminals
   configure_hyper
-  configure_nvim
+  configure_alacritty
+  install_tmux
+
+  # Setup my shell environment
   configure_oh_my_zsh
   configure_shell_env
-  configure_starship
   install_dircolors
-  install_tmux
-  configure_osx
+
+  # Setup development specific bits
+  configure_starship
+  configure_git
+
+  # Configure my editors
+  configure_nvim
+
+  # Misc bits and pieces
+  configure_gpg
+
+  echo "All done. Go be a creepy human"
+  exit 0
 
 }
 
