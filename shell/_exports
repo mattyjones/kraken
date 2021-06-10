@@ -42,4 +42,4 @@ export MANPAGER='less -X';
 export PYTHONIOENCODING='UTF-8';
 
 # Dotfiles
-export DOTFILES_DIR="$PROJECTDIR/mattyjones/dotfiles";
+export DOTFILES_DIR="$PROJECTDIR/mattyjones/kraken";

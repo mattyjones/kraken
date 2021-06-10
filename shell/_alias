@@ -43,9 +43,6 @@ alias ls='ls -C'
 # Always enable colored `grep` output
 alias grep='grep --color=auto '
 
-# Dotfiles repo directory
-alias dotfiles='cd $DOTFILES_DIR'
-
 # What cool things are running on the box
 alias rtc='which awk perl python python3 python3 ruby lua gcc cc vi vim nmap find netcat nc wget tftp ftp 2>/dev/null'
 
@@ -67,7 +64,7 @@ alias weather="curl -4 http://wttr.in/$1"
 # Shortcuts
 alias dbox="cd $HOME/Dropbox"
 alias dls="cd $HOME/Downloads"
-alias dotfiles="cd $HOME/dotfiles"
+alias dotfiles="cd $DOTFILES_DIR"
 alias dtop="cd $HOME/Desktop"
 alias lib="cd $HOME/Library"
 alias work="cd $HOME/Work"
