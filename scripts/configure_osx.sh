@@ -40,7 +40,7 @@ set -e
 
 initalize() {
   cwd=$(pwd)
-  user_name=$(logname)
+  user_name=$USER
 
   if [ -n "$(curl -v)" ]; then
     echo "curl is not installed."
@@ -212,11 +212,11 @@ configure_oh_my_zsh() {
 
 # Drop my specific dotfiles onto the box
 configure_shell_env() {
-  ln -s "${cwd}"/shell/_aliasrc "$HOME"/.aliasrc
-  ln -s "${cwd}"/shell/_exportrc "$HOME"/.exportrc
-  ln -s "${cwd}"/shell/_secretsrc "$HOME"/.secretsrc
+  ln -s "${cwd}"/shell/_alias "$HOME"/.alias
+  ln -s "${cwd}"/shell/_exports "$HOME"/.exports
+  ln -s "${cwd}"/shell/_secrets "$HOME"/.secrets
   ln -s "${cwd}"/shell/_zshrc "$HOME"/.zshrc
-  ln -s "${cwd}"/shell/_functionsrc "$HOME"/.functionsrc
+  ln -s "${cwd}"/shell/_functions "$HOME"/.functions
 
   return 0
 }
@@ -237,6 +237,7 @@ configure_gpg() {
 
 # Configure my current terminal emulator
 configure_alacritty() {
+  ln -s "${cwd}"/alacritty/_alacritty.yml "$HOME"/.alacritty.yml
 
   return 0
 }
@@ -300,13 +301,13 @@ main() {
   initalize
 
   # Configure MacOS specific bits
-  configure_osx
+  # configure_osx
 
   # Install as many of the packages I need as I can
   install_homebrew
 
   # Setup my terminals
-  configure_hyper
+  # configure_hyper
   configure_alacritty
   install_tmux
 
@@ -323,7 +324,7 @@ main() {
   configure_nvim
 
   # Misc bits and pieces
-  configure_gpg
+  # configure_gpg
 
   echo "All done. Go be a creepy human"
   exit 0

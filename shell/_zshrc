@@ -37,6 +37,3 @@ eval "$(starship init zsh)"
 
 test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 
-# Append to the Bash history file, rather than overwriting it
-
-shopt -s histappend
