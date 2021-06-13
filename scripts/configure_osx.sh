@@ -171,8 +171,8 @@ install_brewfile() {
 install_tmux() {
 
   echo "configuring tmux"
-  ln -s "${cwd}"/tmux/_tmux "$HOME"/.tmux
-  ln -s "${cwd}"/tmux/_tmux.conf "$HOME"/.tmux.conf
+  ln -s "$cwd"/tmux/_tmux "$HOME"/.tmux
+  ln -s "$cwd"/tmux/_tmux.conf "$HOME"/.tmux.conf
 
   return 0
 }
@@ -185,7 +185,7 @@ install_dircolors() {
   if [ -f "$HOME"/.dir_colors ]; then
     echo "dir_colors already installed. Skipping."
   else
-    ln -s "${cwd}"/shell/_dir_colors "$HOME"/.dir_colors
+    ln -s "$cwd"/shell/_dir_colors "$HOME"/.dir_colors
   fi
 
   return 0
@@ -204,7 +204,7 @@ configure_oh_my_zsh() {
     # Remove any existing configuration just in case and then do an install
     rm -rf "$HOME"/.oh-my-zsh/
     curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-    ln -s "${cwd}"/oh-my-zsh/ "$HOME"/.oh-my-zsh
+    ln -s "${cwd}"/oh-my-zsh/_oh-my-zsh "$HOME"/.oh-my-zsh
   fi
 
   return 0
@@ -223,7 +223,7 @@ configure_shell_env() {
 
 # Configure Starship for my development prompt
 configure_starship() {
-  ln -s "${cwd}"/starship/starship.toml "$HOME"/.config/starship.toml
+  ln -s "$cwd"/starship/starship.toml "$HOME"/.config/starship.toml
 
   return 0
 }
@@ -237,7 +237,7 @@ configure_gpg() {
 
 # Configure my current terminal emulator
 configure_alacritty() {
-  ln -s "${cwd}"/alacritty/_alacritty.yml "$HOME"/.alacritty.yml
+  ln -s "$cwd"/alacritty/_alacritty.yml "$HOME"/.alacritty.yml
 
   return 0
 }

@@ -29,11 +29,8 @@ source $HOME/.secrets   # env secrets
 source $HOME/.functions # env functions
 source $ZSH/oh-my-zsh.sh
 
-source /usr/local/share/chruby/chruby.sh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # https://starship.rs
 eval "$(starship init zsh)"
-
-test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 
