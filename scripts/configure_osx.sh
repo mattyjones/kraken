@@ -313,12 +313,34 @@ configure_git() {
   return 0
 }
 
+##---------------------- Ruby Installation --------------------##
+
+# Install a known good version of 3.x ruby. This does not replace the system ruby
+# and uses ruby-install for the installation and chruby for auto-switching. Both of these
+# are installed via Homebrew.
+# If you change the version of Ruby you install ensure that you also update
+# the zshrc file and tell chruby which one to use as your default.
+# TODO Check to see if it is already installed and if so delete it
+install_ruby() {
+
+  if [[ "$(which ruby-install)" ]]; then
+    echo "Installing the latest 3.x Ruby with ruby-install. This may take about 5m"
+    ruby-install ruby 3
+  else
+    echo "You need to have 'ruby-install' installed or modify this function"
+  fi
+
+  return 0
+}
+
 ##--------------------------- Main -------------------------##
 main() {
 
   # Sanity check the environment and box
   initalize
 
+  # This is very expermental, enable at your own peril. I suggest 
+  # creating a backup first
   # Configure MacOS specific bits
   # configure_osx
 
