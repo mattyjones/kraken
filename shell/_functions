@@ -21,6 +21,7 @@ pbpaste() {
 }
 
 is-executable() {
+  # shellcheck disable=2155
     local BIN=$(command -v "$1" 2>/dev/null)
     if [[ ! $BIN == "" && -x $BIN ]]; then true; else false; fi
 }
@@ -36,10 +37,7 @@ is-supported() {
         fi
     fi
 }
-
-
-
-
+# shellcheck disable=2002
 extract() {
     if [ -f "$1" ]; then
         case "$1" in
@@ -54,6 +52,7 @@ extract() {
             *.zip)      unzip "$1"                            ;;
             *.ZIP)      unzip "$1"                            ;;
             *.pax)      cat "$1" | pax -r                     ;;
+            # *.pax)      cat "$1" | pax -r                     ;;
             *.pax.Z)    uncompress "$1" --stdout | pax -r     ;;
             *.Z)        uncompress "$1"                       ;;
             *)          echo "'$1' cannot be extracted/mounted via extract()" ;;
@@ -64,12 +63,10 @@ extract() {
 }
 
 prepend-path() {
-    [ -d $1 ] && PATH="$1:$PATH"
+    [ -d "$1" ] && PATH="$1:$PATH"
 }
 
 cleanup() {
-    is-executable npm && npm cache clean
     is-executable brew && brew cleanup
     is-executable brew && brew cask cleanup
-    is-executable rvm && rvm cleanup all
 }

@@ -11,31 +11,10 @@ Shell is hyper.js The theme is [Nord][6]
 
 Check the config file for a list of plugins enabled
 
-git
-
-gnugpg
-
-homebrew
-
-hyper
-
-nvim
-
-oh-my-zsh
-
-osx
 
 scripts
 
-shell
-
-starship
-
-tmux
-
 iterm can be used and the links are here for the theme, [nord][7]
-
-should I do a single install script and then libraries for each, then I can pass in variables as needed
 
 this will use realpath to get the full file path to the libraries. Need to fige this out in a more clean manner
 
@@ -50,14 +29,9 @@ add the default user to sudo
 
 the script must be run as root if the user is not in the sudo group
 
-we have an install script that does all the initial things and then maybe sets some kind of config file with varibales??
+Could I just have some of the variables be env exports, such as the name and email in the git configs
 
-then we have an update script?
-
-Could we just have some of the variables be env exports, such as the name and email in the git configs
-
-we should add a doc on how to do this per repo but set the main one to what ever the user wants to set it to via
-commandline questions.
+I should add a doc on how to do this per repo but set the main one to what ever the user wants to set it to via commandline questions.
 
 how do we deal with updates to the gitconfig, most likely the same as we do with the brew file, we could do a ifdef file
 https://www.freecodecamp.org/news/how-to-handle-multiple-git-configurations-in-one-machine/
@@ -66,27 +40,13 @@ https://stackoverflow.com/questions/4220416/can-i-specify-multiple-users-for-mys
 
 do we ask these questions ahead of time or now (email, username, etc)
 
-what about alactricty
-
-doing software updates does not work
-
-make sudo what needs to be sudo
-
 colored output
 
-use print instead of echo
+use printf instead of echo where it makes sense
 
 bring all stderr to the screen
 
-find a way to get the exit code from the install fail
-
-install tor
-
 review all debris scripts and remove dead ones
-
-review the macos script
-
-review remaining dotfiles or other bits
 
 https://github.com/VundleVim/Vundle.vim
 https://www.atlassian.com/git/tutorials/dotfiles
@@ -102,7 +62,6 @@ https://www.twilio.com/blog/using-dotfiles-productivity-bootstrap-systems
 .tor
 .vscode
 .wraith
-.alacritty
 .perl
 .editorconfig
 .gem
