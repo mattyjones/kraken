@@ -1,5 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =5
+let g:netrw_dirhistcnt =8
+let g:netrw_dirhist_8='/Users/matt/Projects/Go/src/blackhatGo/pixel'
+let g:netrw_dirhist_7='/Users/matt/Projects/Go/src'
+let g:netrw_dirhist_6='/Users/matt/Projects/Go/src/blackhatGo/pixel'
 let g:netrw_dirhist_5='/Users/matt/Projects/mattyjones/kraken/scripts'
 let g:netrw_dirhist_4='/Users/matt/Projects/mattyjones/kraken'
 let g:netrw_dirhist_3='/Users/matt/Projects/mattyjones/guessing_game'
