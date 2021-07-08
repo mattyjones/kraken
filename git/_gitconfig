@@ -210,6 +210,7 @@
 	#fetch = +refs/pull/*/head:refs/remotes/origin/pull/*
 
 [user]
-	name = "Matty"
-	email = "urlugal@gmail.com"
-	signingKey = ""
+	name = Matty Jones
+	# email = ""
+	signingkey = 34E1596F9B3E0277C320781BAF71BE65C64F8282
+	email = urlugal@gmail.com

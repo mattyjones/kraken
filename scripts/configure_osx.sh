@@ -183,6 +183,16 @@ configure_tmux() {
   return 0
 }
 
+##---------------------- Install CPAN --------------------##
+
+# Install and configure cpan. I need Perl some some specific projects. 
+install_cpan() {
+
+  echo "configuring cpan"
+  sudo cpan App::cpanminus
+
+  return 0
+
 ##---------------------- Shell Configuration --------------------##
 
 # Set the colors I want. Not always necessary to do this, it is very terminal 
@@ -249,7 +259,6 @@ configure_gpg() {
 
   return 0
 }
-
 
 ##---------------------- Neovim Configuration --------------------##
 
@@ -348,7 +357,6 @@ main() {
   install_homebrew
 
   # Setup my terminals
-  # configure_hyper 
   configure_alacritty
   configure_tmux
 
@@ -360,6 +368,7 @@ main() {
   # Setup development specific bits
   configure_starship
   configure_git
+  # install_cpan
   install_ruby
 
   # Configure my editors

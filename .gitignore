@@ -2,4 +2,7 @@
 debris/
 .DS_Store
 notes.*
+secrets
+.secrets
+shell/_secrets
 shell/_secrets

@@ -6,14 +6,15 @@ tap 'homebrew/core'
 
 # brew 'ansible'
 # brew 'awscli'
-brew 'bat'
+# brew 'bat'
 brew 'binutils'
-brew 'chruby'
+# brew 'chruby'
 brew 'coreutils'
+# brew 'cpanminus'
 # brew 'dep'
 brew 'diffutils'
 brew 'findutils'
-brew 'fzf'
+# brew 'fzf'
 brew 'gawk'
 # brew 'gdb'
 brew 'git'
@@ -39,25 +40,25 @@ brew 'neovim'
 # brew 'openssl'
 # brew 'openvpn'
 # brew 'pcre'
-brew 'perltidy'
+# brew 'perltidy'
 brew 'pipenv'
 # brew 'powerline-go'
 brew 'python3'
 brew 'rsync'
 # brew 'ruby-build'
-brew 'ruby-install'
+# brew 'ruby-install'
 # brew 'rust'
 brew 'shellcheck'
 brew 'starship'
 # brew 'terraform'
 # brew 'telnet'
 brew 'tmux'
-brew 'tor'
-brew 'transmission-cli'
+# brew 'tor'
+# brew 'transmission-cli'
 brew 'trash' # Manage the Trash bin
 brew 'tree' # List directories in a tree structure
 # brew 'unrar'
-brew 'upx'
+# brew 'upx'
 # brew 'vim', args: ['with-lua']
 # brew 'watch'
 # brew 'wget'
@@ -70,11 +71,11 @@ cask 'alacritty'
 # cask 'amazon-workspaces'
 # cask 'calibre'
 # cask 'dashlane'
-cask 'discord'
-cask 'firefox'
-cask 'font-fira-code'
+# cask 'discord'
+# cask 'firefox'
 # cask 'google-chrome'
 cask 'font-fira-code'
+cask 'gitkraken'
 cask 'grammarly'
 # cask 'handbrake'
 # cask 'hyper'
@@ -89,25 +90,25 @@ cask 'slack'
 cask 'spotify'
 # cask 'steam'
 # cask 'sublime-text'
-cask 'telegram-desktop'
-cask 'transmission'
+# cask 'telegram-desktop'
+# cask 'transmission'
 # cask 'vagrant'
-cask 'veracrypt'
+# cask 'veracrypt'
 # cask 'virtualbox'
 cask 'visual-studio-code'
-cask 'vmware-fusion'
+# cask 'vmware-fusion'
 cask 'vlc'
-# cask 'zoom'
+cask 'zoom'
 
 # Mac App Store
 mas 'Grammerly for Safari', id: 1462114288
 mas 'Keeper', id: 414781829
 mas 'Keynote', id: 409183694
-mas 'Numbers', id: 409203825
+# mas 'Numbers', id: 409203825
 mas 'OmniFocus 3', id: 1346203938
-mas 'OmniOutliner 5', id: 1142578772
-mas 'Pages', id: 409201541
-mas 'Telegram Light', id: 946399090
+# mas 'OmniOutliner 5', id: 1142578772
+# mas 'Pages', id: 409201541
+# mas 'Telegram Light', id: 946399090
 # mas 'Transmit 5', id: 1436522307
 mas 'Ulysses', id: 1225570693
 mas 'Unarchiver', id: 425424353

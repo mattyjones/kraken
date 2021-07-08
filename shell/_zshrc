@@ -47,6 +47,3 @@ source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.z
 
 # https://starship.rs
 eval "$(starship init zsh)"
-
-test -r ~/.dir_colors && eval "$(dircolors ~/.dir_colors)"
-
