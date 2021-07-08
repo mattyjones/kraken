@@ -369,7 +369,7 @@ main() {
   configure_starship
   configure_git
   # install_cpan
-  install_ruby
+  # install_ruby
 
   # Configure my editors
   configure_nvim

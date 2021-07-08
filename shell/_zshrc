@@ -39,9 +39,9 @@ source "$HOME/.grep" # env grep
 source "$ZSH/oh-my-zsh.sh"
 
 ## RUBY ENVIRONMENT ##
-source /usr/local/share/chruby/chruby.sh # load chruby
-source /usr/local/share/chruby/auto.sh # enable auto-switching
-chruby ruby-3 # set the default ruby for my environment
+# source /usr/local/share/chruby/chruby.sh # load chruby
+# source /usr/local/share/chruby/auto.sh # enable auto-switching
+# chruby ruby-3 # set the default ruby for my environment
 
 source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
