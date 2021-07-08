@@ -13,7 +13,7 @@ COLOR tty
 TERM alacritty
 TERM alacritty-direct
 TERM ansi
-TERM *color*
+TERM -- *color*
 TERM con[0-9]*x[0-9]*
 TERM cons25
 TERM console

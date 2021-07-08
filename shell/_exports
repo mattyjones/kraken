@@ -5,7 +5,8 @@ export PROJECTDIR="$HOME/Projects"
 
 # Set my editors
 export GUI_EDITOR="code"
-export EDITOR=$(which nvim);
+EDITOR=$(which nvim);
+export EDITOR
 
 # Set paths
 # export CPAN_HOME=/usr/local/Cellar/cpanminus/<version>
@@ -25,7 +26,9 @@ export LC_ALL="en_US.UTF-8";
 
 # Avoid issues with `gpg` as installed via Homebrew.
 # https://stackoverflow.com/a/42265848/96656
-export GPG_TTY=$(tty);
+GPG_TTY=$(tty);
+export GPG_TTY
+
 
 # Perl
 # export PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
@@ -33,9 +36,6 @@ export GPG_TTY=$(tty);
 # export PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 # export PERL_MB_OPT="--install_base" "${HOME}"/perl5\; export PERL_MB_OPT;
 # export PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
-
-# Highlight section titles in man pages
-export LESS_TERMCAP_md="${yellow}";
 
 # Keep showing man page after exit
 export MANPAGER='less -X';

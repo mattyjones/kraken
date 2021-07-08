@@ -1,4 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =2
-let g:netrw_dirhist_2='/Users/matt.jones/Projects/mattyjones/kraken'
-let g:netrw_dirhist_1='/Users/matt.jones/.zsh'
+let g:netrw_dirhistcnt =5
+let g:netrw_dirhist_5='/Users/matt/Projects/mattyjones/kraken/scripts'
+let g:netrw_dirhist_4='/Users/matt/Projects/mattyjones/kraken'
+let g:netrw_dirhist_3='/Users/matt/Projects/mattyjones/guessing_game'
+let g:netrw_dirhist_2='/Users/matt/Projects/mattyjones/guessing_game/src'
+let g:netrw_dirhist_1='/Users/matt/Projects/mattyjones/guessing_game'

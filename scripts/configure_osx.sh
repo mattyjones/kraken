@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/env bash
 #
 #  kraken
 #
@@ -14,7 +14,7 @@
 #    plain-text
 #
 # PLATFORMS:
-#    OSX, MacOs
+#    OSX, MacOS
 #
 # DEPENDENCIES:
 #    bash
@@ -28,19 +28,22 @@
 #    MIT
 #
 
-# TODO need to check all the links to see if they exist and are pointing to the right place
-# TODO Some kind of a user menu saying the existing stuff will be removed
+# TODO Need to check all the links to see if they exist and are pointing to the right place
+# TODO Some kind of a user menu
+# TODO Respect 80 character limit when possible
+# TODO add functions for managing cobra and viper configs
+# TODO add functions for any custom gemrc stuff
+# TODO add functions for any python configs (pipenv)
+# TODO add function for root editorconfig
+# TODO can we add the jetbrains toolbox, alfred, keeper, to the brew file
 
 ##---------------------- Initialize config script --------------------##
 
 # This gathers basic info, performs any setup configurations and makes sure any script dependencies
 # are met.
-
-set -e
-
 initalize() {
+  echo "Starting installation..."
   cwd=$(pwd)
-  user_name=$USER
 
   if [ -n "$(curl -v)" ]; then
     echo "curl is not installed."
@@ -59,9 +62,9 @@ initalize() {
   done 2>/dev/null &
 
   # Make sure the necessary directorys exist and if not create them.
-  if [[ -d "$HOME"/.config ]]; then
-    echo "Creating the baseline config directory"
-    mkdir "$HOME"/.config
+  if [[ -d "$HOME/.config" ]]; then
+    echo "Creating the user .config directory"
+    mkdir "$HOME/.config"
   fi
 
   return 0
@@ -69,6 +72,7 @@ initalize() {
 
 # Bring in XCode tools if needed
 install_dev_tools() {
+  echo "Installing Apple XCode cli tools..."
   if [ -n "$(sudo xcode-select -v)" ]; then
     if ! [ "$(sudo xcode-select --install)" ]; then
       echo "Developer tools install failed"
@@ -81,11 +85,13 @@ install_dev_tools() {
 
 }
 
+##---------------------- MacOS Specific Configuration --------------------##
+
 # TODO Need to capture the return status. Do not run this without some additional
 # checks so things don't get borked.
 
-# Install any software updates necessary. Doe not work
-# fo OS updates for some reason.
+# Install any software updates necessary. Does not work
+# for OS updates for some reason.
 install_updates() {
   if ! [ "$(sudo softwareupdate --install -all)" ]; then
     echo "Software updates failed to be installed"
@@ -102,7 +108,7 @@ install_homebrew() {
 
   echo "Checking homebrew"
   if [ -n "$(brew -v)" ]; then
-    echo "Installing Homebrew"
+    echo "Installing Homebrew..."
     sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   else
     echo "Homebrew is already installed"
@@ -121,7 +127,7 @@ install_brewfile() {
 
   if [ ! -f "$brew_file" ]; then
     echo "Linking brewfile"
-    ln -s "$cwd"/homebrew/Brewfile "$brew_file"
+    ln -s "$cwd/homebrew/Brewfile" "$brew_file"
   else
     echo "Brewfile already linked"
   fi
@@ -152,7 +158,7 @@ install_brewfile() {
   fi
 
   echo "Running a cleanup of Homebrew"
-  if brew cleanup >"$HOME"/Desktop/brew_cleanup; then
+  if brew cleanup > "$HOME/Desktop/brew_cleanup"; then
     echo "Homebrew cleanup list was created successfully"
   else
     echo "'brew cleanup' failed"
@@ -164,15 +170,15 @@ install_brewfile() {
   return 0
 }
 
-##---------------------- Install TMUX --------------------##
+##---------------------- Configure TMUX --------------------##
 
-# Install and configure tmux. I use it as my primary terminal inface and run
-# it upon terminal startup so it is always ready for me.
-install_tmux() {
+# I use tmux as my primary terminal inface and run
+# it on terminal startup so it is always ready for me.
+configure_tmux() {
 
-  echo "configuring tmux"
-  ln -s "$cwd"/tmux/_tmux "$HOME"/.tmux
-  ln -s "$cwd"/tmux/_tmux.conf "$HOME"/.tmux.conf
+  echo "Configuring tmux..."
+  ln -s "$cwd/tmux/_tmux" "$HOME/.tmux"
+  ln -s "$cwd/tmux/_tmux.conf" "$HOME/.tmux.conf"
 
   return 0
 }
@@ -189,17 +195,21 @@ install_cpan() {
 
 ##---------------------- Shell Configuration --------------------##
 
-# Set the colors I want. Not always necessary to do this, it is very terminal specific.
-# I am just in the habit of doing it so, why not.
+# Set the colors I want. Not always necessary to do this, it is very terminal 
+# and OS specific. I am just in the habit of doing it.
 install_dircolors() {
-  if [ -f "$HOME"/.dir_colors ]; then
+  if [ -f "$HOME/.dir_colors" ]; then
     echo "dir_colors already installed. Skipping."
   else
-    ln -s "$cwd"/shell/_dir_colors "$HOME"/.dir_colors
+    ln -s "$cwd/shell/_dir_colors" "$HOME/.dir_colors"
   fi
 
   return 0
 }
+
+# TODO oh-my-zsh cannot be updated as the git pieces are not in the directory.
+# This should be installed then my directory should be dropped while still
+# retaining the ability to update itself automatically.
 
 # Install and provide a baseline configuration for oh-my-zsh that a user can then configure
 # to my hearts content for the next four hours. I don't bother with installing zsh and setting
@@ -210,11 +220,13 @@ configure_oh_my_zsh() {
   # Check to see if it is already installed
   if [ -f "$HOME/.oh-my-zsh/" ]; then
     echo "oh-my-zsh is already installed. Skipping installation"
+    echo "Updating oh-my-zsh..."
+    omz update
   else
     # Remove any existing configuration just in case and then do an install
-    rm -rf "$HOME"/.oh-my-zsh/
+    rm -rf "$HOME/.oh-my-zsh/"
     curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-    ln -s "${cwd}"/oh-my-zsh/_oh-my-zsh "$HOME"/.oh-my-zsh
+    ln -s "$cwd/oh-my-zsh/" "$HOME/.oh-my-zsh"
   fi
 
   return 0
@@ -222,32 +234,28 @@ configure_oh_my_zsh() {
 
 # Drop my specific dotfiles onto the box
 configure_shell_env() {
-  ln -s "${cwd}"/shell/_alias "$HOME"/.alias
-  ln -s "${cwd}"/shell/_exports "$HOME"/.exports
-  ln -s "${cwd}"/shell/_secrets "$HOME"/.secrets
-  ln -s "${cwd}"/shell/_zshrc "$HOME"/.zshrc
-  ln -s "${cwd}"/shell/_functions "$HOME"/.functions
+  ln -s "$cwd/shell/_alias" "$HOME/.alias"
+  ln -s "$cwd/shell/_exports" "$HOME/.exports"
+  ln -s "$cwd/shell/_secrets" "$HOME/.secrets"
+  ln -s "$cwd/shell/_zshrc" "$HOME/.zshrc"
+  ln -s "$cwd/shell/_functions" "$HOME/.functions"
+  ln -s "$cwd/shell/_grep" "$HOME/.grep"
 
   return 0
 }
 
 # Configure Starship for my development prompt
 configure_starship() {
-  ln -s "$cwd"/starship/starship.toml "$HOME"/.config/starship.toml
+  ln -s "$cwd/starship/starship.toml" "$HOME/.config/starship.toml"
 
   return 0
 }
+
+##---------------------- GPG Configuration --------------------##
 
 # TODO Do something with this at some point
 configure_gpg() {
-  #  ln -s "${cwd}"/gnupg/gpg-agent.conf $HOME/.gnupg/gpg-agent.conf
-
-  return 0
-}
-
-# Configure my current terminal emulator
-configure_alacritty() {
-  ln -s "$cwd"/alacritty/_alacritty.yml "$HOME"/.alacritty.yml
+  #  ln -s "$cwd/gnupg/gpg-agent.conf $HOME/.gnupg/gpg-agent.conf
 
   return 0
 }
@@ -264,8 +272,8 @@ configure_nvim() {
     echo "Neovim is already configured."
   else
     # Make sure an existing config is gone to avoid pollution
-    rm -rf "$HOME"/.config/nvim/
-    ln -s "${cwd}"/nvim/nvim "$HOME"/.config/
+    rm -rf "$HOME/.config/nvim/"
+    ln -s "$cwd/nvim/nvim" "$HOME/.config/"
   fi
   return 0
 }
@@ -282,9 +290,19 @@ configure_hyper() {
     rm -rf ~/.hyper*
 
     echo "Configuring the hyper.js environment"
-    ln -s "${cwd}"/hyper/_hyper.js "$HOME"/.hyper.js
-    ln -s "${cwd}"/hyper/_hyper_plugins "${Home}"/.hyper_plugins
+    ln -s "$cwd/hyper/_hyper.js" "$HOME/.hyper.js"
+    ln -s "$cwd/hyper/_hyper_plugins" "$Home/.hyper_plugins"
   fi
+
+  return 0
+}
+
+# Alacritty is my current terminal emulator for all platforms. It is
+# very fast, easy to configure, and has all the options I need. When it starts
+# I launch tmux automagically to allow me the flexibility I need. See the 
+# config file for more details.
+configure_alacritty() {
+  ln -s "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
 
   return 0
 }
@@ -296,9 +314,29 @@ configure_hyper() {
 # due to having multiple profiles and working on many different projects.
 configure_git() {
 
-  if [ ! -f $HOME/.gitconfig ]; then
+  if [ ! -f "$HOME/.gitconfig" ]; then
     echo "Installing a global git configuration file to my home directory."
-    ln -s "${cwd}"/git/_gitconfig "$HOME"/.gitconfig
+    ln -s "$cwd/git/_gitconfig" "$HOME/.gitconfig"
+  fi
+
+  return 0
+}
+
+##---------------------- Ruby Installation --------------------##
+
+# Install a known good version of 3.x ruby. This does not replace the system ruby
+# and uses ruby-install for the installation and chruby for auto-switching. Both of these
+# are installed via Homebrew.
+# If you change the version of Ruby you install ensure that you also update
+# the zshrc file and tell chruby which one to use as your default.
+# TODO Check to see if it is already installed and if so delete it
+install_ruby() {
+
+  if [[ "$(which ruby-install)" ]]; then
+    echo "Installing the latest 3.x Ruby with ruby-install. This may take about 5m"
+    ruby-install ruby 3
+  else
+    echo "You need to have 'ruby-install' installed or modify this function"
   fi
 
   return 0
@@ -310,6 +348,8 @@ main() {
   # Sanity check the environment and box
   initalize
 
+  # This is very expermental, enable at your own peril. I suggest 
+  # creating a backup first
   # Configure MacOS specific bits
   # configure_osx
 
@@ -318,7 +358,7 @@ main() {
 
   # Setup my terminals
   configure_alacritty
-  install_tmux
+  configure_tmux
 
   # Setup my shell environment
   configure_oh_my_zsh
@@ -329,6 +369,7 @@ main() {
   configure_starship
   configure_git
   # install_cpan
+  install_ruby
 
   # Configure my editors
   configure_nvim
@@ -342,6 +383,5 @@ main() {
 }
 
 # TODO tests?
-# TODO secure this
 
 main

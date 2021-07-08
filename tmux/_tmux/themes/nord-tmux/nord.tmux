@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck disable=2155
+# shellcheck disable=2034
 # Copyright (C) 2017-present Arctic Ice Studio <development@arcticicestudio.com>
 # Copyright (C) 2017-present Sven Greb <development@svengreb.de>
 
@@ -27,6 +29,7 @@ __cleanup() {
 
 __load() {
   tmux source-file "$_current_dir/$NORD_TMUX_COLOR_THEME_FILE"
+
 
   local status_content=$(tmux show-option -gqv "$NORD_TMUX_STATUS_CONTENT_OPTION")
   local no_patched_font=$(tmux show-option -gqv "$NORD_TMUX_NO_PATCHED_FONT_OPTION")

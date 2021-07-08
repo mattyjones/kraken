@@ -31,7 +31,7 @@ alias golang='cd $PROJECTDIR/Go/src/'
 # I use neovim not vim
 alias vim='nvim'
 
-# MClear the screen
+# Clear the screen
 alias cls='clear'
 
 # Don't use cp in modern times
@@ -58,42 +58,34 @@ command -v sha1sum > /dev/null || alias sha1sum="shasum"
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
+alias brewclean='brew cleanup --prune=all'
+
 # Get the weather
 alias weather="curl -4 http://wttr.in/$1"
 
 # Shortcuts
-alias dbox="cd $HOME/Dropbox"
-alias dls="cd $HOME/Downloads"
-alias dotfiles="cd $DOTFILES_DIR"
-alias dtop="cd $HOME/Desktop"
-alias lib="cd $HOME/Library"
-alias work="cd $HOME/Work"
-alias repos="cd $HOME/repos"
-alias proj="cd $HOME/projects"
-alias dwork="cd $HOME/Dropbox/Work"
-alias drepos="cd $HOME/Dropbox/repos"
-alias dcode="cd $HOME/Dropbox/code"
-alias dproj="cd $HOME/Dropbox/projects"
+alias dls='cd $HOME/Downloads'
+alias dotfiles='cd $DOTFILES_DIR'
+alias dtop='cd $HOME/Desktop'
+alias lib='cd $HOME/Library'
+alias proj='cd $HOME/Projects'
 
 # Empty the Trash on all mounted volumes and the main HDD.
 # Also, clear Apple’s System Logs to improve shell startup speed.
 # Finally, clear download history from quarantine. https://mths.be/bum
+# shellcheck disable=2139
 alias emptytrash=" \
-  sudo rm -rfv /Volumes/*/.Trashes; \
-  sudo rm -rfv $HOME/.Trash; \
   sudo rm -rfv /private/var/log/asl/*.asl; \
   sqlite3 $HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent' \
 "
 
 # Get macOS Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
+# shellcheck disable=1004
 alias update='\
   sudo softwareupdate -i -a; \
   brew update; \
   brew upgrade; \
   brew cleanup; \
-  npm install npm -g; \
-  npm update -g; \
-  npm cache clean; \
   sudo gem update --system; \
   sudo gem update; \
   sudo gem cleanup; \
