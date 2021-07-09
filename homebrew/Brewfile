@@ -46,8 +46,9 @@ brew 'pipenv'
 brew 'python3'
 brew 'rsync'
 # brew 'ruby-build'
-# brew 'ruby-install'
-# brew 'rust'
+brew 'ruby-install'
+# brew 'rust' # do not install both rust and rustup
+brew 'rustup'
 brew 'shellcheck'
 brew 'starship'
 # brew 'terraform'
@@ -98,7 +99,8 @@ cask 'spotify'
 cask 'visual-studio-code'
 # cask 'vmware-fusion'
 cask 'vlc'
-cask 'zoom'
+cask 'xmind'
+# cask 'zoom'
 
 # Mac App Store
 mas 'Grammerly for Safari', id: 1462114288
