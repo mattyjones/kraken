@@ -2,36 +2,13 @@ This uses [nord][1] for tmux You need nord [dircolors][3]
 
 Install [homebrew][2] and use my brewfile, make sure you make any changes before running this
 
-Do not install anything by hand if you can help it, just use the brewfile allowing you to update as much of your entire
+Do not install any apps by hand if you can help it, just use the brewfile allowing you to update as much of your entire
 system as possible from a single command
 
 this should be done with homebrew I use [Fira Code][5] for everything and enable ligatures
 
-Shell is hyper.js The theme is [Nord][6]
-
-Check the config file for a list of plugins enabled
-
-
-scripts
-
-iterm can be used and the links are here for the theme, [nord][7]
-
-this will use realpath to get the full file path to the libraries. Need to fige this out in a more clean manner
-
-Maybe just do an ls of the root and pull the config file from it
-
-You will need to install the official vmware tools from the menu before doing anything. Then you can cut and paste this
-script in, pull the repo, or simply cut and paste the dotfiles you want
-
-add sbin to the root path
-
-add the default user to sudo
-
-the script must be run as root if the user is not in the sudo group
-
 Could I just have some of the variables be env exports, such as the name and email in the git configs
 
-I should add a doc on how to do this per repo but set the main one to what ever the user wants to set it to via commandline questions.
 
 how do we deal with updates to the gitconfig, most likely the same as we do with the brew file, we could do a ifdef file
 https://www.freecodecamp.org/news/how-to-handle-multiple-git-configurations-in-one-machine/
@@ -46,8 +23,6 @@ use printf instead of echo where it makes sense
 
 bring all stderr to the screen
 
-review all debris scripts and remove dead ones
-
 https://github.com/VundleVim/Vundle.vim
 https://www.atlassian.com/git/tutorials/dotfiles
 https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789
@@ -59,17 +34,9 @@ http://gully.github.io/2015/11/15/brews_gems_dotfiles_conda_installing_on_mac/
 https://dotfiles.github.io/inspiration/
 https://www.twilio.com/blog/using-dotfiles-productivity-bootstrap-systems
 
-.tor
-.vscode
-.wraith
-.perl
-.editorconfig
-.gem
-.gitkracken
-.build ruby
-.install rust
-.install cargo
-.ssh
+.gemrc
+.bundle
+
 
 
 Can we do a remote install

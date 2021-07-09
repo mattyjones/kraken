@@ -31,11 +31,9 @@
 # TODO Need to check all the links to see if they exist and are pointing to the right place
 # TODO Some kind of a user menu
 # TODO Respect 80 character limit when possible
-# TODO add functions for managing cobra and viper configs
-# TODO add functions for any custom gemrc stuff
-# TODO add functions for any python configs (pipenv)
-# TODO add function for root editorconfig
 # TODO can we add the jetbrains toolbox, alfred, keeper, to the brew file
+# TODO list of vscode extensions
+# TODO some sort of jetbrains configs, beyond the cloud
 
 ##---------------------- Initialize config script --------------------##
 
@@ -195,7 +193,7 @@ install_cpan() {
 
 ##---------------------- Shell Configuration --------------------##
 
-# Set the colors I want. Not always necessary to do this, it is very terminal 
+# Set the colors I want. Not always necessary to do this, it is very terminal
 # and OS specific. I am just in the habit of doing it.
 install_dircolors() {
   if [ -f "$HOME/.dir_colors" ]; then
@@ -207,16 +205,12 @@ install_dircolors() {
   return 0
 }
 
-# TODO oh-my-zsh cannot be updated as the git pieces are not in the directory.
-# This should be installed then my directory should be dropped while still
-# retaining the ability to update itself automatically.
-
 # Install and provide a baseline configuration for oh-my-zsh that a user can then configure
 # to my hearts content for the next four hours. I don't bother with installing zsh and setting
 # it as the default terminal as that is the standard shell in MacOS.
 configure_oh_my_zsh() {
   # TODO remove the config backup when we are done
-  
+
   # Check to see if it is already installed
   if [ -f "$HOME/.oh-my-zsh/" ]; then
     echo "oh-my-zsh is already installed. Skipping installation"
@@ -226,8 +220,12 @@ configure_oh_my_zsh() {
     # Remove any existing configuration just in case and then do an install
     rm -rf "$HOME/.oh-my-zsh/"
     curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-    ln -s "$cwd/oh-my-zsh/" "$HOME/.oh-my-zsh"
+    rm "$HOME/.zshrc.pre*" # Remove any backup files that were created
+    rm "$HOME/.zshrc" # Remove the stock zshrc file so we can link the custom one
   fi
+
+  # Add any updated themes, plugins, etc that are needed
+  echo "Installing zsh plugins..."
 
   return 0
 }
@@ -236,10 +234,15 @@ configure_oh_my_zsh() {
 configure_shell_env() {
   ln -s "$cwd/shell/_alias" "$HOME/.alias"
   ln -s "$cwd/shell/_exports" "$HOME/.exports"
-  ln -s "$cwd/shell/_secrets" "$HOME/.secrets"
   ln -s "$cwd/shell/_zshrc" "$HOME/.zshrc"
   ln -s "$cwd/shell/_functions" "$HOME/.functions"
   ln -s "$cwd/shell/_grep" "$HOME/.grep"
+
+  if [ -f "$HOME/.secrets" ]; then
+    echo "Base secrets file is already installed. Skipping"
+  else
+    cp "$cwd/shell/_secrets" "$HOME/.secrets"
+  fi
 
   return 0
 }
@@ -247,6 +250,13 @@ configure_shell_env() {
 # Configure Starship for my development prompt
 configure_starship() {
   ln -s "$cwd/starship/starship.toml" "$HOME/.config/starship.toml"
+
+  return 0
+}
+
+# Install the root  editorconfig file
+install_editorconfig() {
+  ln -s "$cwd/editorconfig/_editorconfig" "$HOME/.editorconfig"
 
   return 0
 }
@@ -278,6 +288,15 @@ configure_nvim() {
   return 0
 }
 
+# This is my personal config file for testing and using wraith
+# https://github.com/N0MoreSecr3ts/wraith
+configure_wraith() {
+  mkdir "$HOME/.wraith"
+  ln -s "$cwd/wraith/config.yaml" "$HOME/.wraith/config.yaml"
+
+  return 0
+}
+
 ##---------------------- Terminal Configurations --------------------##
 
 # Configure hyper as a terminal if I am installing it. This is a Node.js based
@@ -299,7 +318,7 @@ configure_hyper() {
 
 # Alacritty is my current terminal emulator for all platforms. It is
 # very fast, easy to configure, and has all the options I need. When it starts
-# I launch tmux automagically to allow me the flexibility I need. See the 
+# I launch tmux automagically to allow me the flexibility I need. See the
 # config file for more details.
 configure_alacritty() {
   ln -s "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
@@ -339,6 +358,11 @@ install_ruby() {
     echo "You need to have 'ruby-install' installed or modify this function"
   fi
 
+# TODO Install default rubocop file
+# https://raw.githubusercontent.com/rubocop/rubocop/master/config/default.yml
+
+# TODO Create a general gemfile for bundler
+
   return 0
 }
 
@@ -348,7 +372,7 @@ main() {
   # Sanity check the environment and box
   initalize
 
-  # This is very expermental, enable at your own peril. I suggest 
+  # This is very expermental, enable at your own peril. I suggest
   # creating a backup first
   # Configure MacOS specific bits
   # configure_osx
@@ -370,6 +394,8 @@ main() {
   configure_git
   # install_cpan
   install_ruby
+  install_editorconfig
+  configure_wraith
 
   # Configure my editors
   configure_nvim
