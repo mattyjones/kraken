@@ -1,27 +1,10 @@
 This uses [nord][1] for tmux You need nord [dircolors][3]
 
-Install [homebrew][2] and use my brewfile, make sure you make any changes before running this
+I use [Fira Code][5] for everything and enable ligatures
 
-Do not install any apps by hand if you can help it, just use the brewfile allowing you to update as much of your entire
-system as possible from a single command
-
-this should be done with homebrew I use [Fira Code][5] for everything and enable ligatures
-
-Could I just have some of the variables be env exports, such as the name and email in the git configs
-
-
-how do we deal with updates to the gitconfig, most likely the same as we do with the brew file, we could do a ifdef file
 https://www.freecodecamp.org/news/how-to-handle-multiple-git-configurations-in-one-machine/
 https://crunchify.com/how-to-set-github-user-name-and-user-email-per-repository-different-config-for-different-repository/
 https://stackoverflow.com/questions/4220416/can-i-specify-multiple-users-for-myself-in-gitconfig
-
-do we ask these questions ahead of time or now (email, username, etc)
-
-colored output
-
-use printf instead of echo where it makes sense
-
-bring all stderr to the screen
 
 https://github.com/VundleVim/Vundle.vim
 https://www.atlassian.com/git/tutorials/dotfiles
@@ -36,8 +19,6 @@ https://www.twilio.com/blog/using-dotfiles-productivity-bootstrap-systems
 
 .gemrc
 .bundle
-
-
 
 Can we do a remote install
 sh -c "`curl -fsSL https://raw.github.com/webpro/dotfiles/master/remote-install.sh`"

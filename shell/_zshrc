@@ -1,6 +1,6 @@
 #! /bin/env bash
 # shellcheck disable=SC1091
-
+# shellcheck source=/Users/matt/
 
 ## THEMES ##
 export ZSH_THEME="robbyrussell"

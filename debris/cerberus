@@ -1,0 +1,312 @@
+#!/usr/bin/perl
+
+#
+#  cerberus
+#
+# AUTHOR: Matt Jones
+#
+# DESCRIPTION:
+#    Cerberus is an automated network and service scanning tool. It is designed to
+#    be a fire and forget tool capable of scanning a network for live hosts and then
+#    enumerating the host itself as well as all udp and tcp ports. This is not 
+#    designed to quiet or stealthly at this time and could be made more performant at
+#    expense of portability.
+#
+# OUTPUT:
+#    plain-text
+#
+# PLATFORMS:
+#    Linux
+#
+# DEPENDENCIES:
+#    Perl Standard Library
+#
+# USAGE:
+#   # default scan of a /24 range with all output formats
+#   ./cerberus -r 10.0.0.1-255 -i tun0 -o all
+#
+# NOTES:
+#   
+# LICENSE: 
+#    MIT
+#
+
+use warnings;
+use strict;
+
+use Term::ANSIColor qw(:constants);
+use Getopt::Long qw(GetOptions);
+use Cwd qw(getcwd);
+use File::Spec::Functions;
+
+# use threads;
+# https://perldoc.perl.org/threads::shared
+# https://stackoverflow.com/questions/15429183/multithreading-for-perl-code
+
+# use Switch;
+
+local $Term::ANSIColor::AUTORESET = 1;
+
+my $DEBUG = 0;
+my $SILENT = 0;
+my $COMMAND = "cerberus";
+my $BASE_DIR = getcwd();
+my $VERSION = "0.0.1";
+
+my $ip_range;
+my $interface;
+my $output_type;
+my $output_flag;
+my $usr_name = `logname`;
+my $usr_group = `groups $usr_name | awk '{ print \$3 }'`;
+
+chomp($usr_name);
+chomp($usr_group);
+
+sub logo {
+    print RED, `echo "     _____           _        "`;
+    print RED, `echo "    /  __ \\         | |             "`;
+    print RED, `echo "    | /  \\/ ___ _ __| |__   ___ _ __ _   _ ___ "`;
+    print RED, `echo "    | |    / _ \\ '__| '_ \\ / _ \\ '__| | | / __|"`;
+    print RED, `echo '    | \\__/\\  __/ |  | |_) |  __/ |  | |_| \\__ \\'`;
+    print RED, `echo "     \\____/\\___|_|  |_.__/ \\___|_|   \\__,_|___/"`;
+
+}
+
+sub usage {
+    my $exitval = defined($_) ? $_ : 0;
+    print <<EOF;
+Cerberus $VERSION
+$COMMAND [-h|--help] [-s|--silent] [-d|--debug] [-r|--range] [-o|--output-type]
+    --help, -h          : Print this help, then exit
+    --silent, -s        : Do not write to stdout
+    --debug, -d         : Print debug info
+    --ip_range, -r      : IP range to scan Ex. 10.0.0.1-254
+    --interface, -i     : Network interface Ex. eth0, tun0
+    --output-type, -o   : Service and Host enumeration output file formats (grep, xml, normal, kiddie, all)
+EOF
+    exit $exitval;
+}
+
+# Parse with NMAP parser
+# https://metacpan.org/pod/Nmap::Parser
+sub host_discovery {
+
+    print YELLOW, "[*]<-----------------Host Discovery----------------->\n";
+    print YELLOW, "[*] ", RESET, "Scanning $ip_range for active hosts\n";
+
+    # This will do a ping sweep and drop the host ip into an array and print a count of the
+    # number of hosts that is has found
+    my $result =
+        `nmap -sn -n --unprivileged $ip_range | grep report | cut -d " " -f 5`;
+    my @host_array = split "\n", $result;
+    my $host_count = @host_array;
+
+    print YELLOW, "[*]\n";
+    print YELLOW, "[*] ", RESET, "Number of hosts discovered: $host_count\n";
+
+    foreach my $host (@host_array) {
+        print YELLOW, "[*]    $host\n";
+    }
+    # send the array of ips back
+    print YELLOW, "[*]\n";
+    return @host_array;
+}
+
+sub port_scan {
+    print BLUE, "[*]<-------------------Port Scan-------------------->\n";
+
+    my @hosts = @_;
+
+    my @discovered_ports;
+
+    foreach my $host (@hosts) {
+        # Sscan tcp and udp ports with a sane set of options. If you want to increase the speed then up the rate.
+        # Be warned that while masscan is very fast it will tip over routers and switches as well as get
+        # you black listed.
+        # The port, ip, and ptotocol are put into a hash and then added to an array and return back
+        my $cmd =
+            `/usr/bin/masscan $host -p1-65535,U:1-65535 --rate 1000 -e $interface --wait 0 2> /dev/null | grep open | awk '
+      { print \$6 " " \$4 } ' | awk -F/ ' { print \$1 " " \$2 }
+      ' | awk '                           { print \$1 " " \$3 " " \$2 } '`;
+        my @scan_output_array = split "\n", $cmd;
+        my $port_count = @scan_output_array;
+
+        if ($DEBUG == 1) {
+            print RED, "Out: $cmd\n";
+            foreach my $p (@scan_output_array) {
+                print RED, "Port: $p\n";
+            }
+        }
+
+        push(@discovered_ports, @scan_output_array);
+
+        print BLUE, "[*]", RESET, " Discovered $port_count ports on $host\n";
+        print BLUE, "[*]\n";
+
+    }
+
+    return @discovered_ports;
+}
+
+sub host_scan {
+    print GREEN, "[*]<-------------------Host Scan-------------------->\n";
+
+    my @host_list = @_;
+
+    # Create the directory structure where final user output will be sent
+    foreach my $host (@host_list) {
+        print GREEN, "[*] ", RESET, "Gathering host information for $host\n";
+        print GREEN, "[*]\n";
+        my $output_dir = catdir($BASE_DIR, $host);
+
+        if (getcwd() ne $output_dir) {
+            chdir $BASE_DIR;
+            unless (-d $host) {
+                mkdir $host;
+                chdir $host;
+            }
+            chdir $output_dir;
+
+        }
+
+        # Scan each host for detailed info and write it out to a file
+        my $cmd =
+            `nmap -O --osscan-guess -A -Pn -oN host-data $host 2> /dev/null`;
+        `chown -R $usr_name:$usr_group .`;
+    }
+}
+
+sub service_scan {
+
+    my @port_array = @_;
+
+    print CYAN, "[*]<------------------Service Scan------------------>\n";
+
+    # For every port that was found by masscan enumerate it with nmap. The output will be
+    # written out to the directory for the host. Each port will have its own text file.
+    foreach my $line (@port_array) {
+
+        my @ports = split " ", $line;
+        my $ip = $ports[0];
+        my $protocol_switch;
+        my $port_type = $ports[1];
+        my $port_number = $ports[2];
+        my $output_dir = catdir($BASE_DIR, $ip);
+
+        if ($port_type eq "tcp") {
+            $protocol_switch = "-p";
+        }
+        else {
+            $protocol_switch = "-pU:";
+        }
+
+        if ($DEBUG) {
+            print RED, "IP: $ip\n";
+            print RED, "protocol switch$protocol_switch\n";
+            print RED, "Port type: $port_type\n";
+            print RED, "Port Number: $port_number\n";
+        }
+
+        if (getcwd() ne $output_dir) {
+            chdir $BASE_DIR;
+            unless (-d $ip) {
+                mkdir $ip;
+                chdir $ip;
+            }
+            chdir $output_dir;
+
+        }
+        print CYAN, "[*] ", RESET, "Scanning $port_type $port_number on $ip\n";
+
+        my $cmd =
+            `/usr/bin/nmap -sV -n --version-all -sC -Pn -A $protocol_switch$port_number -oN port-$port_number $ip`;
+        `chown -R $usr_name:$usr_group .`;
+    }
+
+    print CYAN, "[*]\n";
+
+}
+
+sub initialize {
+    logo();
+
+    # Make sure we have the tools needed
+    my $nmap_binary = `which nmap`;
+    my $masscan_binary = `which masscan`;
+
+    # Make sure we are root
+    if ($> ne 0) {
+        print RED, "This needs to be run as root\n";
+        exit 1;
+    }
+
+    # Make sure we have the variables be need
+    die "Please enter an IP range using the NMap format\n"
+        unless defined($ip_range);
+
+    die "Please enter an output file format, see help for supported formats\n"
+        unless defined($output_type);
+
+    die "Please enter a network interface\n"
+        unless defined($interface);
+
+    unless (defined $nmap_binary) {
+        print RED, "This tools requires NMap\n";
+        exit 1;
+    }
+
+    unless (defined $masscan_binary) {
+        print RED, "This tools requires masscan\n";
+        exit 1;
+    }
+
+}
+
+# Not using a switch because I want to keep this standard library
+sub set_file_type {
+
+    # Setting the proper output file format. These are based on the nmap outputs
+    if ($output_type eq "xml") {
+        $output_flag = "-oX";
+    }
+    elsif ($output_type eq "normal") {
+        $output_flag = "oN";
+    }
+    elsif ($output_type eq "kiddie") {
+        $output_flag = "-oS";
+    }
+    elsif ($output_type = "grep") {
+        $output_flag = "-oG";
+    }
+    else {
+        $output_flag = "-oA";
+    }
+}
+
+# Main entry point of the script
+sub run {
+
+    initialize();
+
+    my @host_array = host_discovery();
+
+    host_scan(@host_array);
+
+    my @port_array = port_scan(@host_array);
+
+    service_scan(@port_array);
+
+}
+
+GetOptions(
+    'help|h'         => sub {usage();},
+    'silent|s'       => \$SILENT,
+    'ip_range|r=s'   => \$ip_range,
+    'interface|i=s'  => \$interface,
+    'debug|d'        => \$DEBUG,
+    'output-type|do' => \$output_type
+
+);
+
+run();

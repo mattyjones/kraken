@@ -5,7 +5,7 @@
 # Copy a public key to the clipboard
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
-# Copy a provate key to the clipboard
+# Copy a private key to the clipboard
 alias prikey="more ~/.ssh/id_rsa | pbcopy | echo '=> Private key copied to pasteboard.'"
 
 # Flush Directory Service cache
@@ -61,7 +61,7 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 alias brewclean='brew cleanup --prune=all -s && rm -rf $(brew --cache)'
 
 # Get the weather
-alias weather="curl -4 http://wttr.in/$1"
+alias weather="curl -4 https://wttr.in/$1" # FIXME
 
 # Shortcuts
 alias dls='cd $HOME/Downloads'

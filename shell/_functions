@@ -2,8 +2,12 @@
 
 # Linux specific aliases, work on both MacOS and Linux.
 pbcopy() {
+  local stdin
+  local pbcopy
+
   stdin=$(</dev/stdin)
   pbcopy="$(which pbcopy)"
+
   if [[ -n "$pbcopy" ]]; then
     echo "$stdin" | "$pbcopy"
   else
@@ -12,6 +16,8 @@ pbcopy() {
 }
 
 pbpaste() {
+  local pbpaste
+
   pbpaste="$(which pbpaste)"
   if [[ -n "$pbpaste" ]]; then
     "$pbpaste"
@@ -21,9 +27,10 @@ pbpaste() {
 }
 
 is-executable() {
-  # shellcheck disable=2155
-    local BIN=$(command -v "$1" 2>/dev/null)
-    if [[ ! $BIN == "" && -x $BIN ]]; then true; else false; fi
+  # shellcheck disable=
+    local executable
+    executable=$(command -v "$1" 2>/dev/null)
+    if [[ ! $executable == "" && -x $executable ]]; then true; else false; fi
 }
 
 is-supported() {
