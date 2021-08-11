@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =8
+let g:netrw_dirhistcnt =9
+let g:netrw_dirhist_9='/Users/matt/Projects/mattyjones/dorfile_old'
 let g:netrw_dirhist_8='/Users/matt/Projects/Go/src/blackhatGo/pixel'
 let g:netrw_dirhist_7='/Users/matt/Projects/Go/src'
 let g:netrw_dirhist_6='/Users/matt/Projects/Go/src/blackhatGo/pixel'
