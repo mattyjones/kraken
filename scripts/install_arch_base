@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# $DESCRIPTION$
+$COPYRIGHT_OPTIONAL$
+
+function main() {
+    :$END$
+}
+
+main "$@"

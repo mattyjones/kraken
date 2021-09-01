@@ -14,13 +14,13 @@
 #    plain-text
 #
 # PLATFORMS:
-#    OSX, MacOS
+#    ParrotOS
 #
 # DEPENDENCIES:
 #    bash
 #
 # USAGE:
-#    scripts/configure_osx
+#    scripts/configure_parrot.sh
 #
 # NOTES:
 #
@@ -31,7 +31,6 @@
 # TODO Need to check all the links to see if they exist and are pointing to the right place
 # TODO Some kind of a user menu
 # TODO Respect 80 character limit when possible
-# TODO can we add the jetbrains toolbox, alfred, keeper, to the brew file
 # TODO list of vscode extensions
 # TODO some sort of jetbrains configs, beyond the cloud
 
@@ -59,114 +58,21 @@ initalize() {
     kill -0 "$$" || exit
   done 2>/dev/null &
 
-  # Make sure the necessary directorys exist and if not create them.
+  # Make sure the necessary directories exist and if not create them.
   if [[ -d "$HOME/.config" ]]; then
     echo "Creating the user .config directory"
     mkdir "$HOME/.config"
   fi
 
-  return 0
-}
-
-# Bring in XCode tools if needed
-install_dev_tools() {
-  echo "Installing Apple XCode cli tools..."
-  if [ -n "$(sudo xcode-select -v)" ]; then
-    if ! [ "$(sudo xcode-select --install)" ]; then
-      echo "Developer tools install failed"
-    fi
-  else
-    echo "XCode developer tools already installed"
-  fi
-
-  return 0
-
-}
-
-##---------------------- MacOS Specific Configuration --------------------##
-
-# TODO Need to capture the return status. Do not run this without some additional
-# checks so things don't get borked.
-
-# Install any software updates necessary. Does not work
-# for OS updates for some reason.
-install_updates() {
-  if ! [ "$(sudo softwareupdate --install -all)" ]; then
-    echo "Software updates failed to be installed"
+  if [[ -d "$HOME/.local" ]]; then
+     echo "Creating the user .local directory"
+     mkdir "$HOME/.local"
   fi
 
   return 0
 }
 
-##---------------------- Install Homebrew --------------------##
 
-# We check to see if homebrew is installed and if not then we install it. After it completes
-# we install the brewfile and install all programs contained in it.
-install_homebrew() {
-
-  echo "Checking homebrew"
-  if [ -n "$(brew -v)" ]; then
-    echo "Installing Homebrew..."
-    sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  else
-    echo "Homebrew is already installed"
-  fi
-
-  install_brewfile
-
-  return 0
-}
-
-# Link the Brewfile and install all packages. We also run cleanup after
-# to generate a list of debis that should be removed, the actual removal
-# is a manual process to provide for a sanity check.
-install_brewfile() {
-  brew_file="$HOME/Brewfile"
-
-  if [ ! -f "$brew_file" ]; then
-    echo "Linking brewfile"
-    ln -s "$cwd/homebrew/Brewfile" "$brew_file"
-  else
-    echo "Brewfile already linked"
-  fi
-
-  echo "Updating Homebrew package list"
-  if brew update --force >/dev/null; then
-    echo "Homebrew was updated successfully"
-  else
-    echo "'brew update' failed"
-    exit 1
-
-  fi
-
-  echo "Upgrading Homebrew package list"
-  if brew upgrade >/dev/null; then
-    echo "Homebrew was upgraded successfully"
-  else
-    echo "'brew upgrade' failed"
-    exit 1
-  fi
-
-  echo "Installing homebrew packages"
-  if brew bundle install --file "$brew_file" >/dev/null; then
-    echo "All Homebrew packages were installed successfully"
-  else
-    echo "'brew bundle install' failed"
-    exit 1
-  fi
-
-  echo "Running a cleanup of Homebrew"
-  if brew cleanup > "$HOME/Desktop/brew_cleanup"; then
-    echo "Homebrew cleanup list was created successfully"
-  else
-    echo "'brew cleanup' failed"
-    exit 1
-  fi
-
-  echo "Homebrew Installation Complete"
-
-  return 0
-}
 
 ##---------------------- Configure TMUX --------------------##
 
@@ -175,21 +81,16 @@ install_brewfile() {
 configure_tmux() {
 
   echo "Configuring tmux..."
+
+  # install it
+  sudo apt-get install tmux &> /dev/null
+
+  # link my configs
   ln -s "$cwd/tmux/_tmux" "$HOME/.tmux"
   ln -s "$cwd/tmux/_tmux.conf" "$HOME/.tmux.conf"
 
   return 0
 }
-
-##---------------------- Install CPAN --------------------##
-
-# Install and configure cpan. I need Perl some some specific projects. 
-install_cpan() {
-
-  echo "configuring cpan"
-  sudo cpan App::cpanminus
-
-  return 0
 
 ##---------------------- Shell Configuration --------------------##
 
@@ -209,8 +110,6 @@ install_dircolors() {
 # to my hearts content for the next four hours. I don't bother with installing zsh and setting
 # it as the default terminal as that is the standard shell in MacOS.
 configure_oh_my_zsh() {
-  # TODO remove the config backup when we are done
-
   # Check to see if it is already installed
   if [ -f "$HOME/.oh-my-zsh/" ]; then
     echo "oh-my-zsh is already installed. Skipping installation"
@@ -225,10 +124,33 @@ configure_oh_my_zsh() {
   fi
 
   # Add any updated themes, plugins, etc that are needed
-  echo "Installing zsh plugins..."
+  # echo "Installing zsh plugins..."
+  # TODO install plugins
+
+  enable_zsh
 
   return 0
 }
+
+enable_zsh() {
+# Set ZSH as the default shell
+# There is a lot of pam noise and sed going on in here. It is simply due to the fact we are running
+# the script as the root user yet we want to change the shell of the user that invoked it.
+
+# TODO notifications about this and that it worked
+# TODO is it already the shell
+
+sudo sed -i.bak '/auth       required   pam_shells.so/a auth       sufficient   pam_wheel.so trust group=chsh' /etc/pam.d/chsh
+sudo groupadd chsh
+sudo usermod -a -G chsh "$script_user"
+sudo su "$script_user" -c "chsh -s $(which zsh)"
+sudo gpasswd -d "$script_user" chsh
+sudo groupdel chsh
+sudo sed -i.bak '/auth       sufficient   pam_wheel.so trust group=chsh/d' /etc/pam.d/chsh
+
+reboot=true
+}
+
 
 # Drop my specific dotfiles onto the box
 configure_shell_env() {
@@ -249,6 +171,8 @@ configure_shell_env() {
 
 # Configure Starship for my development prompt
 configure_starship() {
+  wget https://starship.rs/install.sh
+  sudo sh install.sh --force
   ln -s "$cwd/starship/starship.toml" "$HOME/.config/starship.toml"
 
   return 0
@@ -274,6 +198,7 @@ configure_gpg() {
 
 # Configure Neovim
 configure_nvim() {
+  sudo apt-get install neovim &> /dev/null
   # TODO we should be installing this, not just copying it over but hey
   # if the shoe fits
 
@@ -298,23 +223,6 @@ configure_wraith() {
 }
 
 ##---------------------- Terminal Configurations --------------------##
-
-# Configure hyper as a terminal if I am installing it. This is a Node.js based
-# terminal configured via js and css. It is fancy but I have seen perf issues and
-# something about it just bugs me so it is only here for legacy reasons.
-configure_hyper() {
-  if [[ "$(which hyper)" ]]; then
-
-    # Removing the default setup
-    rm -rf ~/.hyper*
-
-    echo "Configuring the hyper.js environment"
-    ln -s "$cwd/hyper/_hyper.js" "$HOME/.hyper.js"
-    ln -s "$cwd/hyper/_hyper_plugins" "$Home/.hyper_plugins"
-  fi
-
-  return 0
-}
 
 # Alacritty is my current terminal emulator for all platforms. It is
 # very fast, easy to configure, and has all the options I need. When it starts
@@ -378,7 +286,10 @@ main() {
   # configure_osx
 
   # Install as many of the packages I need as I can
-  install_homebrew
+  apt-get update
+  install_packages
+  apt-get purge
+  apt-get autoremove
 
   # Setup my terminals
   configure_alacritty
