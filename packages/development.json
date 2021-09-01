@@ -1,0 +1,537 @@
+{
+  "packages": [
+    {
+      "jq": [
+        {
+          "osx": "jq"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "chruby": [
+        {
+          "osx": "chruby"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "coreutils": [
+        {
+          "osx": "coreutils"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "diffutils": [
+        {
+          "osx": "diffutils"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "findutils": [
+        {
+          "osx": "findutils"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    },
+    {
+      "fzf": [
+        {
+          "osx": "fzf"
+        },
+        {
+          "deb": null
+        },
+        {
+          "centos": null
+        }
+      ]
+    }
+  ]
+}
