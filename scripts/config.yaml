@@ -1,0 +1,12 @@
+
+build_masscan: true
+enable_zsh: true
+configure_vm_share: true
+share_path: /mnt
+share_name: sharefs
+install_blackarch: true
+install_base_pentest_tools: true
+install_development_pkgs: true
+install_vmware_pkgs: true
+install_gui: true
+overwrite_existing_configs: true

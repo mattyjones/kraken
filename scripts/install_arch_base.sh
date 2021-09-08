@@ -44,53 +44,6 @@
 # 13. `groupadd -a -G wheel`
 # 14. log out and login in as $USER
 
-##--------------------------- Utility Functions ------------------------##
-
-# install will install a package or group of packages using a common set of options.
-# All packages should be installed using this function to ensure testability and
-# uniformity.
-package_install() {
-  local pkgs=("$@")
-  for t in "${pkgs[@]}"; do
-    if [ ! "$(sudo pacman -S --noconfirm "$t")" ]; then
-      echo "Package install failed"
-      exit 1
-    fi
-  done
-
-  return 0
-}
-
-system_upgrade() {
-  if [ ! "$(sudo pacman -S --sysupgrade --refresh --noconfirm)" ]; then
-      echo "System update failed"
-      exit 1
-  fi
-
-    return 0
-}
-
-# This provides a consistent way to create any necessary paths. This should not run
-# with elevated privileges. You should instead create the path with sudo. If you
-# really know what you are doing, then run this function as sudo.
-create_path() {
-    local paths=("$@")
-
-    for p in "${paths[@]}"; do
-        if [[ -d "$p" ]]; then
-             echo "Path already exists"
-        else
-            if [ ! "$(mkdir -p "$p")" ]; then
-                echo "Failed to create path."
-                echo "This function does not run as a privilaged user. Check your permissions"
-
-                exit 1
-            fi
-        fi
-    done
-
-    return 0
-}
 
 ##----------------------- Initialize config script ---------------------##
 
@@ -110,9 +63,9 @@ initialize() {
     sudo -n true
     sleep 60
     kill -0 "$$" || exit
-  done 2> /dev/null &
+  done 2>/dev/null &
 
-      system_upgrade
+  system_upgrade
 
   if [ -n "$(curl -v)" ]; then
     echo "Installing curl"
@@ -127,155 +80,41 @@ initialize() {
   return 0
 }
 
-##----------------------- VMWare ---------------------##
+##---------------------- Neovim Configuration --------------------##
 
-# The vmware section will install the tools and then setup the folder sharing and
-# permissions. Cut and paste capability between the host and the server will also
-# be setup.
+# Configure Neovim
+configure_nvim() {
+  # TODO we should be installing this, not just copying it over but hey
+  # if the shoe fits
 
-install_vmware_tools() {
-  echo "Installing vmware the tools"
-
-    local pkgs=("open-vm-tools zsh" "xorg-init" )
-}
-
-configure_vmware() {
-  echo "setting up cut and paste"
-}
-
-create_shared_drive() {
-  echo "create the shared folder"
-}
-
-##----------------------- XORG ---------------------##
-
-# The vmware section will install the tools and then setup the folder sharing and
-# permissions. Cut and paste capability between the host and the server will also
-# be setup.
-
-install_xorg() {
-  local pkgs=("xorg-server" "xorg-init" )
-
-}
-
-
-
-lxdm-gtk3
-xfce4
-xfce4-goodies
-
-neovim
-fontconfig
-ttf-firacode
-tmux
-alacritty
-python-pipenv
-
-#this is done after the fonts are installed
-sudo - `sudo fc-cache`
-
-sudo - `pacman -S  git starship wget base-devel`
-
-sudo mkinitcpio -P
-
-pacman -S xorg-xkill more-utils
-
-sudo mkdir -p /mnt/VM_Data
-
-wget -O ruby-install-0.8.2.tar.gz https://github.com/postmodern/ruby-install/archive/v0.8.2.tar.gz
-tar -xzvf ruby-install-0.8.2.tar.gz
-cd ruby-install-0.8.2/
-sudo make install
-
-ruby-install ruby (latest stable)
-
-wget -O chruby-0.3.9.tar.gz https://github.com/postmodern/chruby/archive/v0.3.9.tar.gz
-tar -xzvf chruby-0.3.9.tar.gz
-cd chruby-0.3.9/
-sudo scripts/setup.sh
-
-# sudo vmhgfs-fuse -o allow_other -o auto_unmount .host:/<shared_folder> <shared folders root directory>
-/etc/fstab
-.host:/<shared_folder> <shared folders root directory> fuse.vmhgfs-fuse nofail,allow_other 0 0
-
-echo ".host:VM_Data /mnt/sharefs fuse.vmhgfs-fuse allow_other 0 0" >> /etc/fstab
-
-# remind me to install binary ninja by hand by openning a browser at the end with some tabs??
-
-/etc/systemd/system/<shared folders root directory>-<shared_folder>.service
-[Unit]
-Description=Load VMware shared folders
-Requires=vmware-vmblock-fuse.service
-After=vmware-vmblock-fuse.service
-ConditionPathExists=.host:/<shared_folder>
-ConditionVirtualization=vmware
-
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/bin/vmhgfs-fuse -o allow_other -o auto_unmount .host:/<shared_folder> <shared folders root directory>
-
-[Install]
-WantedBy=multi-user.target
-
-systemctl enable VM_Data.service
-
-need cut and paste from host to vm
-
-
-# bash profile to startx x at login
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  exec startx
-fi
-
-# add vmware-user for cut/paste
-
-# I prefer this to any other program, including conky. That is mostly from
-# a performance point of view. There is nothing stopping you from running both
-# as conky is cool eye candy.
-#setup_polybar() {
-#local polybar_config_dir="/home/$script_user/.config/polybar"
-#local i3_config_dir="/home/$script_user/.config/i3"
-#
-## pull in the fonts for the example
-#
-#  # copy the example
-#  mkdir $polybar_config_dir # TODO check to see if this is there
-#  cp /usr/share/doc/polybar/config $polybar_config_dir
-#  apt-get install -y unifont
-#  # TODO make sure we are in /tmp
-#  git clone https://github.com/stark/siji && cd siji
-#  su "$script_user" -c "./install.sh"
-#  dpkg-reconfigure fontconfig-config # TODO can this be automated?
-#  chmod +x $polybar_config_dir/launch.sh
-#  rm -rf /tmp/siji # Always hardcode this to be safe
-#}
-#
-#setup_rofi() {
-#  mkdir /home/"$script_user"/.config/rofi
-#  # need to set the theme and configuration
-#  #----------START HERE------------#
-#
-#}
-
-
-
-
-
-##---------------------- Configure TMUX --------------------##
-
-# I use tmux as my primary terminal inface and run
-# it on terminal startup so it is always ready for me.
-configure_tmux() {
-
-  echo "Configuring tmux..."
-  ln -s "$cwd/tmux/_tmux" "$HOME/.tmux"
-  ln -s "$cwd/tmux/_tmux.conf" "$HOME/.tmux.conf"
-
+  # Check to see if it is already installed
+  if [ -f "$HOME/.config/nvim/" ]; then
+    echo "Neovim is already configured."
+  else
+    # Make sure an existing config is gone to avoid pollution
+    rm -rf "$HOME/.config/nvim/"
+    ln -s "$cwd/nvim/nvim" "$HOME/.config/"
+  fi
   return 0
 }
 
-##---------------------- Shell Configuration --------------------##
+install_editors() {
+  local pkgs=("neovim")
+}
+
+
+##---------------------- Terminal Configurations --------------------##
+
+# Alacritty is my current terminal emulator for all platforms. It is
+# very fast, easy to configure, and has all the options I need. When it starts
+# I launch tmux automagically to allow me the flexibility I need. See the
+# config file for more details.
+configure_alacritty() {
+    local pkgs=("alacritty")
+  ln -s "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
+
+  return 0
+}
 
 # Set the colors I want. Not always necessary to do this, it is very terminal
 # and OS specific. I am just in the habit of doing it.
@@ -289,10 +128,15 @@ install_dircolors() {
   return 0
 }
 
+
+##---------------------- Shell Configuration --------------------##
+
+
 # Install and provide a baseline configuration for oh-my-zsh that a user can then configure
 # to my hearts content for the next four hours. I don't bother with installing zsh and setting
 # it as the default terminal as that is the standard shell in MacOS.
 configure_oh_my_zsh() {
+    local pkgs=("zsh")
   # TODO remove the config backup when we are done
 
   # Check to see if it is already installed
@@ -305,7 +149,7 @@ configure_oh_my_zsh() {
     rm -rf "$HOME/.oh-my-zsh/"
     curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
     rm "$HOME/.zshrc.pre*" # Remove any backup files that were created
-    rm "$HOME/.zshrc" # Remove the stock zshrc file so we can link the custom one
+    rm "$HOME/.zshrc"      # Remove the stock zshrc file so we can link the custom one
   fi
 
   # Add any updated themes, plugins, etc that are needed
@@ -331,109 +175,69 @@ configure_shell_env() {
   return 0
 }
 
-# Configure Starship for my development prompt
-configure_starship() {
-  ln -s "$cwd/starship/starship.toml" "$HOME/.config/starship.toml"
+# Install and provide a baseline configuration for oh-my-zsh that a user can then configure
+# to their hearts content for the next four hours.
+install_oh_my_zsh() {
+  local ans=""
 
-  return 0
-}
-
-# Install the root  editorconfig file
-install_editorconfig() {
-  ln -s "$cwd/editorconfig/_editorconfig" "$HOME/.editorconfig"
-
-  return 0
-}
-
-##---------------------- Neovim Configuration --------------------##
-
-# Configure Neovim
-configure_nvim() {
-  # TODO we should be installing this, not just copying it over but hey
-  # if the shoe fits
-
-  # Check to see if it is already installed
-  if [ -f "$HOME/.config/nvim/" ]; then
-    echo "Neovim is already configured."
-  else
-    # Make sure an existing config is gone to avoid pollution
-    rm -rf "$HOME/.config/nvim/"
-    ln -s "$cwd/nvim/nvim" "$HOME/.config/"
-  fi
-  return 0
-}
-
-##---------------------- Terminal Configurations --------------------##
-
-# Configure hyper as a terminal if I am installing it. This is a Node.js based
-# terminal configured via js and css. It is fancy but I have seen perf issues and
-# something about it just bugs me so it is only here for legacy reasons.
-configure_hyper() {
-  if [[ "$(which hyper)" ]]; then
-
-    # Removing the default setup
-    rm -rf ~/.hyper*
-
-    echo "Configuring the hyper.js environment"
-    ln -s "$cwd/hyper/_hyper.js" "$HOME/.hyper.js"
-    ln -s "$cwd/hyper/_hyper_plugins" "$Home/.hyper_plugins"
+  # Check to see if ZSH is already installed
+  if [ ! "$(which "zsh")" ]; then
+    echo "ZSH is already installed. Do you wish to install it? This will backup and replace your current configuration [Y/n]"
+    read -r ans
+    if [[ $ans == "n" ]]; then
+      echo "Skipping ZSH installation"
+    else
+      echo "Installing ZSH"
+      su "$script_user" -c "bash -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) "" --unattended"
+    fi
   fi
 
-  return 0
-}
+  # Do we want to set it as the default shell
+  local ans=""
+  echo "Do you want to activate ZSH now and make it your default shell? [Y/n] A reboot should be done when this script is complete"
 
-# Alacritty is my current terminal emulator for all platforms. It is
-# very fast, easy to configure, and has all the options I need. When it starts
-# I launch tmux automagically to allow me the flexibility I need. See the
-# config file for more details.
-configure_alacritty() {
-  ln -s "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
-
-  return 0
-}
-
-##---------------------- Git Configuration --------------------##
-
-# Configure my git environment. Do not enable this unless you really know what
-# you are doing. No, I'm serious. I have a lot of tweaks and touches in here
-# due to having multiple profiles and working on many different projects.
-configure_git() {
-
-  if [ ! -f "$HOME/.gitconfig" ]; then
-    echo "Installing a global git configuration file to my home directory."
-    ln -s "$cwd/git/_gitconfig" "$HOME/.gitconfig"
+  read -r ans
+  if [[ $ans == "" ]] || [[ $ans == "Y" ]]; then
+    enable_zsh
   fi
-
-  return 0
 }
 
-##---------------------- Ruby Installation --------------------##
+enable_zsh() {
+  # Set ZSH as the default shell
+  # There is a lot of pam noise and sed going on in here. It is simply due to the fact we are running
+  # the script as the root user yet we want to change the shell of the user that invoked it.
 
-# Install a known good version of 3.x ruby. This does not replace the system ruby
-# and uses ruby-install for the installation and chruby for auto-switching. Both of these
-# are installed via Homebrew.
-# If you change the version of Ruby you install ensure that you also update
-# the zshrc file and tell chruby which one to use as your default.
-# TODO Check to see if it is already installed and if so delete it
-install_ruby() {
+  # TODO notifications about this and that it worked
+  # TODO is it already the shell
 
-  if [[ "$(which ruby-install)" ]]; then
-    echo "Installing the latest 3.x Ruby with ruby-install. This may take about 5m"
-    ruby-install ruby 3
-  else
-    echo "You need to have 'ruby-install' installed or modify this function"
-  fi
+  sed -i.bak '/auth       required   pam_shells.so/a auth       sufficient   pam_wheel.so trust group=chsh' /etc/pam.d/chsh
+  groupadd chsh
+  usermod -a -G chsh "$script_user"
+  su "$script_user" -c "chsh -s $(which zsh)"
+  gpasswd -d "$script_user" chsh
+  groupdel chsh
+  sed -i.bak '/auth       sufficient   pam_wheel.so trust group=chsh/d' /etc/pam.d/chsh
 
-# TODO Install default rubocop file
-# https://raw.githubusercontent.com/rubocop/rubocop/master/config/default.yml
+  reboot=true
+}
 
-# TODO Create a general gemfile for bundler
 
-make sure it is in the path
-~/.rubies/ruby-*/bin/bundle install
 
-# pry does not work
 
+
+
+
+
+##---------------------- Configure TMUX --------------------##
+
+# I use tmux as my primary terminal inface and run
+# it on terminal startup so it is always ready for me.
+configure_tmux() {
+    local pkgs=("tmux")
+
+  echo "Configuring tmux..."
+  ln -s "$cwd/tmux/_tmux" "$HOME/.tmux"
+  ln -s "$cwd/tmux/_tmux.conf" "$HOME/.tmux.conf"
 
   return 0
 }
@@ -484,94 +288,7 @@ main() {
 
 main
 
-# Install and provide a baseline configuration for oh-my-zsh that a user can then configure
-# to their hearts content for the next four hours.
-install_oh_my_zsh() {
-  local ans=""
 
-  # Check to see if ZSH is already installed
-  if [ ! "$(which "zsh")" ]; then
-    echo "ZSH is already installed. Do you wish to install it? This will backup and replace your current configuration [Y/n]"
-    read -r ans
-    if [[ $ans == "n" ]]; then
-      echo "Skipping ZSH installation"
-    else
-      echo "Installing ZSH"
-      su "$script_user" -c "bash -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) "" --unattended"
-    fi
-  fi
-
-# Do we want to set it as the default shell
-  local ans=""
-  echo "Do you want to activate ZSH now and make it your default shell? [Y/n] A reboot should be done when this script is complete"
-
-  read -r ans
-  if [[ $ans == "" ]] || [[ $ans == "Y" ]]; then
-    enable_zsh
-  fi
-}
-
-enable_zsh() {
-# Set ZSH as the default shell
-# There is a lot of pam noise and sed going on in here. It is simply due to the fact we are running
-# the script as the root user yet we want to change the shell of the user that invoked it.
-
-# TODO notifications about this and that it worked
-# TODO is it already the shell
-
-sed -i.bak '/auth       required   pam_shells.so/a auth       sufficient   pam_wheel.so trust group=chsh' /etc/pam.d/chsh
-groupadd chsh
-usermod -a -G chsh "$script_user"
-su "$script_user" -c "chsh -s $(which zsh)"
-gpasswd -d "$script_user" chsh
-groupdel chsh
-sed -i.bak '/auth       sufficient   pam_wheel.so trust group=chsh/d' /etc/pam.d/chsh
-
-reboot=true
-}
-
-
-create_share() {
-# Create the filesystem
-
-  local ans=""
-  echo "Would you like to setup sharing and cut/paste between the host and this vm? [Y/n]"
-
-  read -r ans
-  if [[ $ans == "" ]] || [[ $ans == "Y" ]]; then
-
-    # check if the dir already exists
-    if [ -d "$share_dir" ]
-    then
-       echo "$share_dir does not exist, creating it"
-       mkdir /mnt/$share_dir
-    else
-       echo "The directory already exists"
-    fi
-
-    # make sure the mount point exists
-    # Mount the filesystem for usage in this current session
-    if grep -qs '/mnt/sharefs ' /proc/mounts; then
-        echo "The share has already been mounted"
-    else
-        mount -t fuse.vmhgfs-fuse .host:/ /mnt/sharefs -o allow_other
-    fi
-
-    # Add to /etc/fstab for persistence check if it already exists
-    local share=""
-    share=$(grep "/mnt/$share_dir" /etc/fstab)
-
-    if [[ $share == "" ]]; then
-        echo ".host:/ /mnt/sharefs fuse.vmhgfs-fuse allow_other 0 0" >> /etc/fstab
-    else
-        echo "This has already been set to auto mount"
-    fi
-    return 0
-  else
-    echo "Sharing not configured"
-    return 0
-  fi
-}
 
 cleanup() {
 
@@ -587,124 +304,6 @@ cleanup() {
   fi
 }
 
-# I prefer this to any other program, including conky. That is mostly from
-# a performance point of view. There is nothing stopping you from running both
-# as conky is cool eye candy.
-#setup_polybar() {
-#local polybar_config_dir="/home/$script_user/.config/polybar"
-#local i3_config_dir="/home/$script_user/.config/i3"
-#
-## pull in the fonts for the example
-#
-#  # copy the example
-#  mkdir $polybar_config_dir # TODO check to see if this is there
-#  cp /usr/share/doc/polybar/config $polybar_config_dir
-#  apt-get install -y unifont
-#  # TODO make sure we are in /tmp
-#  git clone https://github.com/stark/siji && cd siji
-#  su "$script_user" -c "./install.sh"
-#  dpkg-reconfigure fontconfig-config # TODO can this be automated?
-#  chmod +x $polybar_config_dir/launch.sh
-#  rm -rf /tmp/siji # Always hardcode this to be safe
-#}
-#
-#setup_rofi() {
-#  mkdir /home/"$script_user"/.config/rofi
-#  # need to set the theme and configuration
-#  #----------START HERE------------#
-#
-#}
-#
-#setup_i3() {
-#  # remove te existing config so we can start off clean
-#
-#  config_dir="/home/"$script_user"/.config/i3/config"
-#  rm "$config_dir"/config
-#  echo "exec --no-startup-id vmware-user-suid-wrapper" >> "$config_dir"/config
-#
-#  # set up an example polybar. A parrot specific one is out of scope
-#  # for stage 1
-#  setup_polybar()
-#
-#}
-
-
-main() {
-###--------------------------------System Updates--------------------------------------###
-
-  # TODO Check for sudo before we do anything
-
-  if [[ $(id) -ne 0 ]]; then
-    echo "Sudo is required"
-  fi
-
-  # prep work
-  apt-get update
-  check_tools "${required_tools[@]}"
-  cd /tmp || echo "The update failed" | exit
-
-  echo "Do you want to upgrade the system (this may take a while)? [Y/n]"
-  read -r ans
-
-  if [[ $ans == "Y" ]]; then
-    apt-get full-upgrade
-  else
-    echo "The system will not be upgraded"
-  fi
-
-###--------------------------------Package Installation--------------------------------------###
-
-  # Install Package Groups
-  # The counter is here and reset everytime to provide a short circuit in the event
-  # a user gets stuck in a loop of listing packages or trying to install them
-  counter=0
-  install_pkg_grps "Development" "${development_pkgs[@]}"
-
-  counter=0
-  install_pkg_grps "Windows" "${windows_pkgs[@]}"
-
-  counter=0
-  install_pkg_grps "Web" "${web_pkgs[@]}"
-
-  counter=0
-  install_pkg_grps "Tool" "${tools_pkgs[@]}"
-
-  counter=0
-  install_pkg_grps "Host/VM Sharing" "${share_pkgs[@]}"
-
-  counter=0
-  install_pkg_grps "Pentest" "${pentest_pkgs[@]}"
-
-  counter=0
-  install_pkg_grps "i3" "${i3_pkgs[@]}"
-
-  # counter=0
-  # install_pkg_grps "Security" "${security_pkgs[@]}"
-
-  counter=0
-  install_pkg_grps "Network" "${network_pkgs[@]}"
-
-  install_bat
-
-# TODO check to make sure the version < 1.0.6
-  install_masscan
-
-###--------------------------------Shell Installation and Configuration--------------------------------------###
-
-
-  install_oh_my_zsh
-
-
-###--------------------------------System Configurations-------------------------------------###
-
-  create_share
-
-}
-
-main
-
-cleanup
-
 
 # TODO fix masscan build error
 # TODO Fix masscan directory error
@@ -714,9 +313,6 @@ cleanup
 # TODO make secure
 # TODO quit output
 # TODO capture error output and STDERR
-# TODO make secure
-# TODO quit output
-# TODO install oh my zsh
 # TODO install airline for vim and terminal
 # TODO install nord
 # TODO install nord tmux theme
@@ -725,45 +321,13 @@ cleanup
 # TODO install nord for nvim
 # TODO configure nvim
 
-# Editors (these are optional)
-development_pkgs=("neovim" "vscodium")
-
 # Various tools I find useful and helpful (these are optional)
-tools_pkgs=("jq" "lnav" "tmux" "zsh" "bat")
+tools_pkgs=("jq" "bat" "rsync" "gvfs")
 
-# packages to allow sharing data, including cut/paste with the host OS (these are optional)
-share_pkgs=("open-vm-tools" "open-vm-tools-desktop")
-
-# i3 specific packages needed to bring up a simple i3 setup
-i3_pkgs=( "lightdm" "xfce4-terminal"  "i3" "feh" "polybar" "dunst" "rofi" "ranger" "irssi")
-
-# When removing Gnome and Mate networking packages are removed as well, these will be needed
-# for basic connections
 network_pkgs=("network-manager" "openconnect")
-
-# pks to remove from a mate install (these are optional)
-#remove_pkgs=("gnome*" "mate*")
 
 # The VM share dir
 share_dir="sharefs"
 
-# Tools required to run the script. These should already be installed
-required_tools=("curl" "wget")
-
 # Set this to true if we need to do a reboot, specifically for the shell change
 reboot=false
-
-sudo systemctl enable lightdm.service
-
-sudo pacman -S lightdm-gtk-greeter
-
-init=/bin/bash (single user)
-systemd.unit=multi-user.target (runlevel 3)
-systemd.unit=rescue.target (runkevel 1)
-
-pacman -Syyu
-
-do something cool with the login screen greeter
-
-rsync
-gvfs
