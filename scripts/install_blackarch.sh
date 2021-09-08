@@ -11,7 +11,16 @@ main "$@"
 
 #! /bin/bash
 
-sudo pacman -S firefox ranger ttf-droid
+blackarch-config-bash
+blackarch-config-cursor
+blackarch-config-gtk
+blackarch-config-icons
+blackarch-config-lxdm
+blackarch-config-xfce
+blackarch-config-x11
+blackarch-config-zsh
+
+sudo pacman -S firefox dirbuster ttf-droid
 
 // Add in the bits from parrothtb and kracken that give me a pentest install
 

@@ -20,8 +20,7 @@
 #    bash
 #
 # USAGE:
-#    scripts/install_arch_base
-#    scripts/install_blackarch
+#    scripts/install_arch_base.sh
 #
 # NOTES:
 #
@@ -30,6 +29,7 @@
 #
 
 ##--------------------------- Prework ----------------------------------##
+
 # 1. https://gitlab.archlinux.org/archlinux/arch-boxes/-/jobs/32554/artifacts/browse/output
 # 2. `tar -xf <image>
 # 3. Import the box into vmware fusion
@@ -47,12 +47,12 @@
 ##--------------------------- Utility Functions ------------------------##
 
 # install will install a package or group of packages using a common set of options.
-# All packages should be installed using this script to ensure testability and
+# All packages should be installed using this function to ensure testability and
 # uniformity.
-install() {
+package_install() {
   local pkgs=("$@")
   for t in "${pkgs[@]}"; do
-    if [ ! "$(sudo pacman -S --noconfirm "$1")" ]; then
+    if [ ! "$(sudo pacman -S --noconfirm "$t")" ]; then
       echo "Package install failed"
       exit 1
     fi
@@ -61,9 +61,40 @@ install() {
   return 0
 }
 
+system_upgrade() {
+  if [ ! "$(sudo pacman -S --sysupgrade --refresh --noconfirm)" ]; then
+      echo "System update failed"
+      exit 1
+  fi
+
+    return 0
+}
+
+# This provides a consistent way to create any necessary paths. This should not run
+# with elevated privileges. You should instead create the path with sudo. If you
+# really know what you are doing, then run this function as sudo.
+create_path() {
+    local paths=("$@")
+
+    for p in "${paths[@]}"; do
+        if [[ -d "$p" ]]; then
+             echo "Path already exists"
+        else
+            if [ ! "$(mkdir -p "$p")" ]; then
+                echo "Failed to create path."
+                echo "This function does not run as a privilaged user. Check your permissions"
+
+                exit 1
+            fi
+        fi
+    done
+
+    return 0
+}
+
 ##----------------------- Initialize config script ---------------------##
 
-# initialize gathers basic info, performs any setup configurations and makes
+# Initialize gathers basic info, performs any setup configurations and makes
 # sure any script dependencies are met. It will not check to see what it is
 # running as or if the user is setup correctly. Don't be lazy, don't run
 # this as root.
@@ -79,71 +110,73 @@ initialize() {
     sudo -n true
     sleep 60
     kill -0 "$$" || exit
-  done 2>/dev/null &
+  done 2> /dev/null &
+
+      system_upgrade
 
   if [ -n "$(curl -v)" ]; then
     echo "Installing curl"
-    install curl
+    package_install curl
   fi
 
   if [ -n "$(wget -v)" ]; then
     echo "Installing wget"
-    install wget
-  fi
-
-  # Make sure the necessary directories exist and if not create them.
-  if [[ -d "$HOME/.config" ]]; then
-    echo "Creating the user .config directory"
-    mkdir "$HOME/.config"
+    package_install wget
   fi
 
   return 0
 }
 
-install_updates() {
-  if ! [ "$(sudo pacman -Syu --noconfirm)" ]; then
-    echo "Software updates failed to be installed"
-    exit 1
-  fi
+##----------------------- VMWare ---------------------##
 
-  return 0
+# The vmware section will install the tools and then setup the folder sharing and
+# permissions. Cut and paste capability between the host and the server will also
+# be setup.
+
+install_vmware_tools() {
+  echo "Installing vmware the tools"
+
+    local pkgs=("open-vm-tools zsh" "xorg-init" )
 }
 
-# install_awesome will install the xorg components and baseline configurations
-# to get a graphical desktop running.
-install_awesomewm() {
-  echo "Installing awesomewm..."
-  install "awesome xorg-server xorg-init"
+configure_vmware() {
+  echo "setting up cut and paste"
+}
 
+create_shared_drive() {
+  echo "create the shared folder"
+}
+
+##----------------------- XORG ---------------------##
+
+# The vmware section will install the tools and then setup the folder sharing and
+# permissions. Cut and paste capability between the host and the server will also
+# be setup.
+
+install_xorg() {
+  local pkgs=("xorg-server" "xorg-init" )
 
 }
+
 
 
 lxdm-gtk3
-xfce4 xfce4-goodies 
-blackarch-config-bash
-blackarch-config-cursor
-blackarch-config-gtk
-blackarch-config-icons
-blackarch-config-lxdm
-blackarch-config-xfce
-blackarch-config-x11
-blackarch-config-zsh
+xfce4
+xfce4-goodies
 
+neovim
+fontconfig
+ttf-firacode
+tmux
+alacritty
+python-pipenv
 
-- `pacman -S lightdm awesome xorg-server org-xinit`
-
-sudo  `pacman -S lightdm awesome xorg-server org-xinit`
-sudo - `cp /etc/X11/xinit/xinitrc /home/<USER>/.xinitrc`
-sudo - `pacman -S neovim`
-sudo - `pacman -S fontconfig ttf-firacode`
+#this is done after the fonts are installed
 sudo - `sudo fc-cache`
-sudo - `pacman alacritty tmux`
-sudo - `pacman -S open-vm-tools zsh git starship wget base-devel`
-sudo - `systemctl enable vmtoolsd.service`
-sudo - `systemctl enable vmware-vmblock-fuse.service python-pipenv gtkmm3`
+
+sudo - `pacman -S  git starship wget base-devel`
+
 sudo mkinitcpio -P
-sudo pacman -Syyu
 
 pacman -S xorg-xkill more-utils
 
