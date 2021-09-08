@@ -1,49 +1,29 @@
 #! /bin/env bash
 # shellcheck disable=SC1091
 
-
-## THEMES ##
-export ZSH_THEME="robbyrussell"
+autoload -U colors && colors
+PS1="%{$fg[blue]%}%B[%b%{$fg[cyan]%}%n%{$fg[grey]%}%B@%b%{$fg[cyan]%}%m%{$fg[blue]%}%B]-%b%{$fg[blue]%}%B[%b%{$fg[white]%}%~%{$fg[blue]%}%B]%b
+%{$fg[cyan]%}%B>>>%b%{$reset_color%} "
 
 ## PLUGINS ##
 # shellcheck disable=SC2034
 plugins=()
 
-## SHH AGENT CONFIG ##
-# export key_file=~/.ssh/id_rsa
-ssh-add >/dev/null 2>&1
-
-## EDITOR CONFIG ##
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='nvim'
-else
-  export EDITOR='vim'
-fi
-
-## USER CONFIG ##
-export COMPLETION_WAITING_DOTS="true"
-
-## OH-MY-ZSH ##
-# Tell oh-my-zsh to auto update and not to bother prompting me
-export DISABLE_UPDATE_PROMPT=true
-
 ulimit -S -n 8192
 
-## INCLUDES ##
-source "$HOME/.alias"   # alias functions
-source "$HOME/.exports"  # env exports
-source "$HOME/.secrets"   # env secrets
-source "$HOME/.functions" # env functions
-source "$HOME/.grep" # env grep
-
-source "$ZSH/oh-my-zsh.sh"
+source "$HOME/.oh-my-zsh/oh-my-zsh.sh"
 
 ## RUBY ENVIRONMENT ##
 source /usr/local/share/chruby/chruby.sh # load chruby
 source /usr/local/share/chruby/auto.sh # enable auto-switching
 chruby ruby-3 # set the default ruby for my environment
 
-source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
 # https://starship.rs
-eval "$(starship init zsh)"
+# Enabled by default but disabled for blackarch
+# eval "$(starship init zsh)"
+
+source $HOME/.alias
+source $HOME/.exports
+source $HOME/.functions
+source $HOME/.secrets
+source $HOME/.grep
