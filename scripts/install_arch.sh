@@ -47,7 +47,10 @@
 # 13. `groupadd -a -G wheel`
 # 14. log out and login in as $USER
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> bb12368 (Initial breakup of files)
 ##----------------------- Initialization ---------------------##
 
 # Set the path to include the libraries. These are searched for in the same directory or within the path. We capture
@@ -120,7 +123,10 @@ initialize() {
   return 0
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> bb12368 (Initial breakup of files)
 ##--------------------------- Main -------------------------##
 main() {
 
