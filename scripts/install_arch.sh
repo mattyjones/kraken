@@ -47,29 +47,26 @@
 # 13. `groupadd -a -G wheel`
 # 14. log out and login in as $USER
 
-<<<<<<< HEAD
-
-=======
->>>>>>> bb12368 (Initial breakup of files)
 ##----------------------- Initialization ---------------------##
 
 # Set the path to include the libraries. These are searched for in the same directory or within the path. We capture
 # the original path statement and then prepend the library directory. Once we have sourced all the functions we drop
 # back to the original path to minimize possible mangling.
-library_import() {
+load_library() {
 
   local ORIG_PATH="$PATH"
-  export PATH="lib:$PATH"
+  export PATH="scripts/lib:$PATH"
 
-  source blackarch
-  source development
-  source editor
-  source gui
-  source networking
-  source shell
-  source terminal
-  source util
-  source vmware
+#  source blackarch.sh
+#  source development.sh
+#  source editor.sh
+#  source gui.sh
+#  source networking.sh
+#  source shell.sh
+#  source terminal.sh
+  source util.sh
+#  source vmware.sh
+  source yaml.sh
 
   export PATH="$ORIG_PATH"
 
@@ -81,15 +78,19 @@ library_import() {
 # running as or if the user is setup correctly. Don't be lazy, don't run
 # this as root.
 initialize() {
-  echo "Starting installation..."
-
-  # Bring in all necessary libraries and external functions
-  library_import
+  echo -e "\e[$cyan Initializing..."
+  # echo "Starting initization..."
 
   # Get the current working directory for reference. Do use pwd
   # in the script as the current directory could be different
   # from the base directory and screw up any relative paths
   cwd=$(pwd)
+
+  # Bring in all necessary libraries and external functions
+  load_library
+
+  # Load in the yaml config file
+  create_variables "$cwd/scripts/config.yml"
 
   # Ask for the administrator password upfront. Do run the script as root.
   # This should always be run as the user whose account will be used. Sudo
@@ -109,30 +110,47 @@ initialize() {
   system_upgrade
 
   # Install curl if it is not already present
-  if [ -n "$(curl -v)" ]; then
+  if [ ! "$(which curl)" ]; then
     echo "Installing curl"
     package_install curl
   fi
 
   # Install wget if it is not already present
-  if [ -n "$(wget -v)" ]; then
+  if [ ! "$(which wget)" ]; then
     echo "Installing wget"
     package_install wget
   fi
 
+  echo "Initilization complete"
   return 0
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> bb12368 (Initial breakup of files)
 ##--------------------------- Main -------------------------##
 main() {
 
+  local VERSION="0.0.1"
+
+
+  red="0;31m"
+  green="0;32m"
+  orange="0;33m"
+  blue="0;34m"
+  purple="0;35m"
+  cyan="0;36m"
+  white="1;37m"
+  yellow="1;33m"
+  default="0m"
+
+  echo -e "\n\e[$blue#########################################################\e[$default"
+  echo -e "\n\e[$cyan Kracken - Automated Arch Linux Pentesting Environment"
+  echo -e "\e[$cyan @mattyjones | github.com/mattyjones"
+  echo -e "\e[$cyan Version: $VERSION"
+  echo -e "\n\e[$blue#########################################################\e[$default"
+  printf "\n\n\n"
+
   # Initialize the script and ensure we have a correct baseline image
   if ! initialize; then
-    echo "Initialization failed"
+    echo -e "\n\e[$red Initialization failed\e[$default"
     exit 1
   fi
 
@@ -167,7 +185,10 @@ main() {
   # Misc bits and pieces
   # configure_gpg
 
-  echo "All done. Go be a creepy human"
+  echo -e "\n\e[$blue#########################################################\e[$default"
+  echo -e "\n\e[$orange All done. Go be a creepy human\e[$default"
+  echo -e "\n\e[$blue#########################################################\e[$default"
+
   exit 0
 
 }
