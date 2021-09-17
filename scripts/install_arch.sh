@@ -166,6 +166,7 @@ main() {
 
 }
 
+main 
 # TODO tests?
 
 #main
