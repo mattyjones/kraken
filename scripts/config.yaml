@@ -10,3 +10,5 @@ install_development_pkgs: true
 install_vmware_pkgs: true
 install_gui: true
 overwrite_existing_configs: true
+
+# break out by library and have a selection for all
