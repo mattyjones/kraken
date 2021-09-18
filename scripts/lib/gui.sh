@@ -1,37 +1,34 @@
-#! /bin/env bash
+#! /bin/bash
 
 ##----------------------- XORG ---------------------##
 
-# The vmware section will install the tools and then setup the folder sharing and
-# permissions. Cut and paste capability between the host and the server will also
-# be setup.
 
 install_xorg() {
   local pkgs=("xorg-server" "xorg-init" "xorg-xkill" "more-utils")
+  package_install pkgs
 
 }
 
 install_xfce() {
-  local pkgs=("lxdm-gtk3" "xfce4" "xfce4-goodies")
+  local pkgs=("lxdm-gtk3" "xfce4" "xfce4-goodies" "lightdm-gtk-greeter")
+  package_install pkgs
+
+  sudo systemctl enable lightdm.service
 }
 
 install_fonts() {
   local pkgs=("fontconfig" "ttf-firacode")
+  package_install pkgs
 
   #this is done after the fonts are installed
-  sudo - $(sudo fc-cache)
+  sudo fc-cache
 }
 
 # bash profile to startx x at login
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  exec startx
-fi
+# if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+  # exec startx
+# fi
 
-
-sudo systemctl enable lightdm.service
-
-sudo pacman -S lightdm-gtk-greeter
-
-init=/bin/bash                 #(single user)
-systemd.unit=multi-user.target #(runlevel 3)
-systemd.unit=rescue.target     #(runkevel 1)
+# init=/bin/bash                 #(single user)
+# systemd.unit=multi-user.target #(runlevel 3)
+# systemd.unit=rescue.target     #(runkevel 1)

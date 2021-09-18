@@ -31,21 +31,28 @@
 ##--------------------------- Prework ----------------------------------##
 
 # You will need to download and unpack a vagrant image. This is the smallest pre-built
-# imange availabe that I am aware of. Once this is complete log in and setup a few things.
+# image availabe that I am aware of. Once this is complete log in and setup a few things.
+# There are a lot of steps here just to be clear on the process. In reality, once you log
+# in with the vagrant user and install git, the rest can be scripted easily. I may do it myself 
+# at some point, for now I just rollback snapshots.
 
 # 1. https://app.vagrantup.com/archlinux/boxes/archlinux
-# 2. Download the virtualbox image
-# 2. `tar -xf <image>
+# 2. Download the virtualbox image above or an Arch iso
+# 2. `tar -xf <image>`
 # 3. Import the box into vmware fusion using the box.ovf file
 # 4. Customize the virtual machines settings to match your hardware
 # 5. Boot the box and login w/ vagrant:vagrant
 # 6. `sudo su -`
 # 7. `useradd -d /home/$USER -G wheel -m $USER`
 # 8. `passwd $USER`
-# 9. `pacman -Syu`
-# 11. pacman -S --noconfirm vi curl wget
-# 12. Enable the wheel group in sudoers, do not enable NOPASSWD: ALL
-# 14. Reboot
+# 9. `pacman -Syu vi curl wget git`
+# 10. Enable the wheel group in sudoers, do not enable NOPASSWD: ALL
+# 11. Reboot
+# 12. Login with $USER
+# 13. `git clone https://github.com/mattyjones/kraken.git`
+# 14. `cd kraken`
+# 15. `git checkout blackarch`
+# 16. See README for details on using kraken
 
 ##----------------------- Initialization ---------------------##
 
@@ -60,7 +67,7 @@ load_library() {
   #  source blackarch.sh
   #  source development.sh
   #  source editor.sh
-  #  source gui.sh
+  source gui.sh
   #  source networking.sh
   #  source shell.sh
   #  source terminal.sh
@@ -154,6 +161,10 @@ main() {
     echo -e "\n\e[$red Initialization failed\e[$default"
     exit 1
   fi
+
+  install_xorg
+  install_xfce
+  install_fonts
 
   # When installing only specific pieces you may need to modify the
   # script to ensure tools are available as needed. This may not be
