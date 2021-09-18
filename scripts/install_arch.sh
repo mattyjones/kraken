@@ -197,6 +197,7 @@ main() {
   # Misc bits and pieces
   # configure_gpg
 
+# sudo pacman -S -cc (cleanup)
   echo -e "\n\e[$blue#########################################################\e[$default"
   echo -e "\n\e[$orange All done. Go be a creepy human\e[$default"
   echo -e "\n\e[$blue#########################################################\e[$default"

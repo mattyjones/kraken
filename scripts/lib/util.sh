@@ -7,14 +7,12 @@
 # uniformity.
 package_install() {
   local pkgs=("$@")
-  # local pkg_list=("pacman -Qe")
 
   for t in "${pkgs[@]}"; do
-    # if find . | grep -q 'IMG[0-9]'
     # shellcheck disable=2143
     if [ ! "$(pacman -Q | grep "$t")" ]; then
 
-      if [ ! "$(sudo pacman -S --noconfirm -q "$t")" ]; then
+      if [ ! "$(sudo pacman -S --noconfirm --needed -q "$t")" ]; then
         # shellcheck disable=SC2154
         echo -e "\n\e[$red Package $t failed to install\e[$default"
         exit 1
@@ -26,7 +24,7 @@ package_install() {
 }
 
 system_upgrade() {
-  if [ ! "$(sudo pacman -S --sysupgrade --refresh --noconfirm)" ]; then
+  if [ ! "$(sudo pacman -S --sysupgrade --refresh --noconfirm  > /dev/null 2>&1)" ]; then
     echo -e "\n\e[$red System upgrade failed\e[$default"
     exit 1
   else
