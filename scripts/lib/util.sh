@@ -15,7 +15,8 @@ package_install() {
     if [ ! "$(pacman -Q | grep "$t")" ]; then
 
       if [ ! "$(sudo pacman -S --noconfirm -q "$t")" ]; then
-        echo "Package install failed"
+        # shellcheck disable=SC2154
+        echo -e "\n\e[$red Package $t failed to install\e[$default"
         exit 1
       fi
     fi
@@ -26,10 +27,12 @@ package_install() {
 
 system_upgrade() {
   if [ ! "$(sudo pacman -S --sysupgrade --refresh --noconfirm)" ]; then
-    echo "System update failed"
+    echo -e "\n\e[$red System upgrade failed\e[$default"
     exit 1
   else
-    echo "System update complete"
+    # shellcheck disable=SC2154
+    echo -e "\n\e[$cyan System update complete\e[$default"
+    echo ""
   fi
 
   return 0
@@ -46,9 +49,8 @@ create_path() {
       echo "Path already exists"
     else
       if [ ! "$(mkdir -p "$p")" ]; then
-        echo "Failed to create path."
-        echo "This function develes not run as a privilaged user. Check your permissions"
-
+        echo -e "\n\e[$red Failed to create path\e[$default"
+        echo -e "\n\e[$red This function should not run as a privilaged user. Check your permissions\e[$default"
         exit 1
       fi
     fi

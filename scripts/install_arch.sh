@@ -33,19 +33,19 @@
 # You will need to download and unpack a vagrant image. This is the smallest pre-built
 # imange availabe that I am aware of. Once this is complete log in and setup a few things.
 
-# 1. https://gitlab.archlinux.org/archlinux/arch-boxes/-/jobs/32554/artifacts/browse/output
+# 1. https://app.vagrantup.com/archlinux/boxes/archlinux
+# 2. Download the virtualbox image
 # 2. `tar -xf <image>
-# 3. Import the box into vmware fusion
-# 4. Boot the box and login w/ vagrant:vagrant
-# 5. `sudo su -`
-# 6. `adduser -d /home/$USER -G wheel -m $USER`
-# 8. `passwd $USER $PASSWORD`
-# 9. `cp -R /home/vagrant/ .* /home/$USER/`
-# 10. `chown -R $USER:$USER /home/$USER`
+# 3. Import the box into vmware fusion using the box.ovf file
+# 4. Customize the virtual machines settings to match your hardware
+# 5. Boot the box and login w/ vagrant:vagrant
+# 6. `sudo su -`
+# 7. `useradd -d /home/$USER -G wheel -m $USER`
+# 8. `passwd $USER`
+# 9. `pacman -Syu`
 # 11. pacman -S --noconfirm vi curl wget
-# 12. Enable the wheel group in sudoers
-# 13. `groupadd -a -G wheel`
-# 14. log out and login in as $USER
+# 12. Enable the wheel group in sudoers, do not enable NOPASSWD: ALL
+# 14. Reboot
 
 ##----------------------- Initialization ---------------------##
 
@@ -57,15 +57,15 @@ load_library() {
   local ORIG_PATH="$PATH"
   export PATH="scripts/lib:$PATH"
 
-#  source blackarch.sh
-#  source development.sh
-#  source editor.sh
-#  source gui.sh
-#  source networking.sh
-#  source shell.sh
-#  source terminal.sh
+  #  source blackarch.sh
+  #  source development.sh
+  #  source editor.sh
+  #  source gui.sh
+  #  source networking.sh
+  #  source shell.sh
+  #  source terminal.sh
   source util.sh
-#  source vmware.sh
+  #  source vmware.sh
   source yaml.sh
 
   export PATH="$ORIG_PATH"
@@ -90,7 +90,7 @@ initialize() {
   load_library
 
   # Load in the yaml config file
-  create_variables "$cwd/scripts/config.yml"
+  load_yaml "$cwd/scripts/config.yml"
 
   # Ask for the administrator password upfront. Do run the script as root.
   # This should always be run as the user whose account will be used. Sudo
@@ -110,13 +110,13 @@ initialize() {
   system_upgrade
 
   # Install curl if it is not already present
-  if [ ! "$(which curl)" ]; then
+  if [ ! "$(which curl >/dev/null 2>&1)" ]; then
     echo "Installing curl"
     package_install curl
   fi
 
   # Install wget if it is not already present
-  if [ ! "$(which wget)" ]; then
+  if [ ! "$(which wget >/dev/null 2>&1)" ]; then
     echo "Installing wget"
     package_install wget
   fi
@@ -130,7 +130,7 @@ main() {
 
   local VERSION="0.0.1"
 
-
+  # Colors
   red="0;31m"
   green="0;32m"
   orange="0;33m"
@@ -141,6 +141,7 @@ main() {
   yellow="1;33m"
   default="0m"
 
+  # Script header
   echo -e "\n\e[$blue#########################################################\e[$default"
   echo -e "\n\e[$cyan Kracken - Automated Arch Linux Pentesting Environment"
   echo -e "\e[$cyan @mattyjones | github.com/mattyjones"
@@ -193,7 +194,7 @@ main() {
 
 }
 
-main 
+main
 # TODO tests?
 
 #main

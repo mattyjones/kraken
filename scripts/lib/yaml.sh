@@ -62,7 +62,7 @@ unset_variables() {
     done
 }
 
-create_variables() {
+load_yaml() {
     local yaml_file="$1"
     local prefix="$2"
     local yaml_string
