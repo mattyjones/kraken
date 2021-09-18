@@ -24,7 +24,7 @@ package_install() {
 }
 
 system_upgrade() {
-  if [ ! "$(sudo pacman -S --sysupgrade --refresh --noconfirm  > /dev/null 2>&1)" ]; then
+  if [ ! "$(sudo pacman -S --sysupgrade --refresh --noconfirm)" ]; then
     echo -e "\n\e[$red System upgrade failed\e[$default"
     exit 1
   else

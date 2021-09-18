@@ -23,12 +23,3 @@ install_fonts() {
   #this is done after the fonts are installed
   sudo fc-cache
 }
-
-# bash profile to startx x at login
-# if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  # exec startx
-# fi
-
-# init=/bin/bash                 #(single user)
-# systemd.unit=multi-user.target #(runlevel 3)
-# systemd.unit=rescue.target     #(runkevel 1)
