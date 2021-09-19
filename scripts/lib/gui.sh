@@ -1,12 +1,13 @@
 #! /bin/bash
 
-##----------------------- XORG ---------------------##
+##----------------------- GUI ---------------------##
 
-
+# 
 install_xorg() {
   local pkgs=("xorg-server" "xorg-xinit" "xorg-xkill" "moreutils")
   package_install "${pkgs[@]}"
 
+  return 0
 }
 
 install_xfce() {
@@ -14,6 +15,8 @@ install_xfce() {
   package_install "${pkgs[@]}"
 
   sudo systemctl enable lightdm.service
+
+  return 0
 }
 
 install_fonts() {
@@ -22,4 +25,14 @@ install_fonts() {
 
   #this is done after the fonts are installed
   sudo fc-cache
+
+  return 0
+}
+
+gui_main() {
+    install_xorg
+    install_xfce
+    install_fonts
+
+    return 0
 }
