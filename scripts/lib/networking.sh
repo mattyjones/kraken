@@ -3,6 +3,8 @@
 install_browsers() {
   local pkgs=("firefox" "chrome")
   package_install "${pkgs[@]}"
+
+  return 0
   
 }
 
@@ -10,6 +12,15 @@ install_network_tools() {
 local pkgs=("openconnect")
 package_install "${pkgs[@]}"
 
+return 0
+
+}
+
+networking_main() {
+    install_browsers
+    install_network_tools
+
+    return 0
 }
 
 # configure firefox

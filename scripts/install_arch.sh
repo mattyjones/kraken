@@ -33,7 +33,7 @@
 # You will need to download and unpack a vagrant image. This is the smallest pre-built
 # image availabe that I am aware of. Once this is complete log in and setup a few things.
 # There are a lot of steps here just to be clear on the process. In reality, once you log
-# in with the vagrant user and install git, the rest can be scripted easily. I may do it myself 
+# in with the vagrant user and install git, the rest can be scripted easily. I may do it myself
 # at some point, for now I just rollback snapshots.
 
 # 1. https://app.vagrantup.com/archlinux/boxes/archlinux
@@ -162,15 +162,23 @@ main() {
     exit 1
   fi
 
-  if [[ $packages_gui == "true" ]]; then
-    
+  if [[ $packages_gui_install == "true" ]]; then
+
     if ! gui_main; then
-    echo -e "\n\e[$red Gui installation failed\e[$default"
-    exit 1
+      echo -e "\n\e[$red Gui installation failed\e[$default"
+      exit 1
     fi
 
   fi
 
+  if [[ $packages_networking_install == "true" ]]; then
+
+    if ! networking_main; then
+      echo -e "\n\e[$red Browsers and networking tools installation failed\e[$default"
+      exit 1
+    fi
+
+  fi
   # When installing only specific pieces you may need to modify the
   # script to ensure tools are available as needed. This may not be
   # called out and the tool will break if certain build tools and headers
@@ -202,7 +210,7 @@ main() {
   # Misc bits and pieces
   # configure_gpg
 
-# sudo pacman -S -cc (cleanup)
+  # sudo pacman -S -cc (cleanup)
   echo -e "\n\e[$blue#########################################################\e[$default"
   echo -e "\n\e[$orange All done. Go be a creepy human\e[$default"
   echo -e "\n\e[$blue#########################################################\e[$default"
