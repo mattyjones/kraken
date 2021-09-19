@@ -4,6 +4,7 @@
 
 install_vscode() {
   local pkgs=("vscode")
+  package_install "${pkgs[@]}"
 }
 
 install_neovim() {
@@ -37,7 +38,7 @@ install_patched_powerline_fonts() {
   git clone https://aur.archlinux.org/powerline-fonts-git.git /tmp/powerline
   cd /tmp/powerline || return 1
   makepkg 
-  sudo pacman -U ./*.zst
+  sudo pacman -U --noconfirm ./*.zst
 
   rm -rf /tmp/powerline
 
