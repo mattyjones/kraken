@@ -20,7 +20,7 @@ install_dircolors() {
   if [ -f "$HOME/.dir_colors" ]; then
     echo "dir_colors already installed. Skipping."
   else
-    ln -s "$cwd/shell/_dir_colors" "$HOME/.dir_colors"
+    cp "$cwd/shell/_dir_colors" "$HOME/.dir_colors"
   fi
 
   return 0

@@ -13,10 +13,10 @@ install_neovim() {
 
   install_patched_powerline_fonts
 
-if ! [[ -d "$HOME/.config/nvim" ]]; then
-   
-git clone https://github.com/vim-airline/vim-airline "$HOME/.config/nvim"
-  cp "$cwd/nvim/init.vim" "$HOME/.config/nvim/"
+  if ! [[ -d "$HOME/.config/nvim" ]]; then
+
+    git clone https://github.com/vim-airline/vim-airline "$HOME/.config/nvim"
+    cp "$cwd/nvim/init.vim" "$HOME/.config/nvim/"
   fi
 
   # git clone https://github.com/vim-airline/vim-airline "$HOME/.config/nvim"
@@ -33,17 +33,17 @@ git clone https://github.com/vim-airline/vim-airline "$HOME/.config/nvim"
 
   # rm -rf /tmp/onedark
 
-return 0  
+  return 0
 }
 
 install_patched_powerline_fonts() {
 
-  local pkgs=("base-devel" "xorg-mkfontscale"  "powerline")
+  local pkgs=("base-devel" "xorg-mkfontscale" "powerline")
   package_install "${pkgs[@]}"
 
   git clone https://aur.archlinux.org/powerline-fonts-git.git /tmp/powerline
   cd /tmp/powerline || return 1
-  makepkg 
+  makepkg
   sudo pacman -U --noconfirm ./*.zst
 
   # rm -rf /tmp/powerline

@@ -22,8 +22,10 @@ chruby ruby-3 # set the default ruby for my environment
 # Enabled by default but disabled for blackarch
 # eval "$(starship init zsh)"
 
-source $HOME/.alias
-source $HOME/.exports
-source $HOME/.functions
-source $HOME/.secrets
-source $HOME/.grep
+eval "dircolors $HOME/dircolors"
+
+source "$HOME/.alias"
+source "$HOME/.exports"
+source "$HOME/.functions"
+source "$HOME/.secrets"
+source "$HOME/.grep"
