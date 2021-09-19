@@ -8,8 +8,15 @@ install_browsers() {
   
 }
 
+install_chat_programs() {
+local pkgs=("irssi")
+package_install "${pkgs[@]}"
+
+return 0  
+}
+
 install_network_tools() {
-local pkgs=("openconnect")
+local pkgs=("openconnect" "inetutils")
 package_install "${pkgs[@]}"
 
 return 0

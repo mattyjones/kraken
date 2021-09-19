@@ -8,6 +8,9 @@ packages:
     install: true
   networking:
     install : true
+  editors:
+    install : true
+
 
 
 # can I do something here with meta packages

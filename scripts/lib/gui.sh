@@ -29,10 +29,18 @@ install_fonts() {
   return 0
 }
 
+install_media_tools() {
+  local pkgs=("vlc")
+  package_install "${pkgs[@]}"
+
+  return 0
+}
+
 gui_main() {
     install_xorg
     install_xfce
     install_fonts
+    install_media_tools
 
     return 0
 }
