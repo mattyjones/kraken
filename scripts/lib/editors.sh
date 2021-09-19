@@ -13,10 +13,8 @@ install_neovim() {
 
   install_patched_powerline_fonts
 
-if [[ -d "$HOME/.config/nvim" ]]; then
-    echo "Directory exists"
-    # mkdir "$HOME/.config"
-  else
+if ! [[ -d "$HOME/.config/nvim" ]]; then
+   
 git clone https://github.com/vim-airline/vim-airline "$HOME/.config/nvim"
   cp "$cwd/nvim/init.vim" "$HOME/.config/nvim/"
   fi
@@ -24,7 +22,8 @@ git clone https://github.com/vim-airline/vim-airline "$HOME/.config/nvim"
   # git clone https://github.com/vim-airline/vim-airline "$HOME/.config/nvim"
   # cp "$cwd/nvim/init.vim" "$HOME/.config/nvim/"
 
-  git clone https://joshdick/onedark.vim /tmp/onedark
+  git clone https://github.com/joshdick/onedark.vim /tmp/onedark
+  git clone 
 
   cp -r /tmp/onedark/colors "$HOME/.config/nvim/"
   cp -r /tmp/onedark/autoload/onedark.vim "$HOME/.config/nvim/autoload/"
