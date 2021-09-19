@@ -1,19 +1,14 @@
 
 global:
-  build_masscan: true
-  enable_zsh: true
-  configure_vm_share: true
-  share_path: /mnt
-  share_name: sharefs
-  install_base_pentest_tools: true
-  install_development_pkgs: true
-  install_vmware_pkgs: true
-  install_gui: true
-  overwrite_existing_configs: true
 
 packages:  
   blackarch:
     install: true
   gui:
-    install: false
-# break out by library and have a selection for all
+    install: true
+  networking:
+    install : true
+
+
+# can I do something here with meta packages
+# https://disconnected.systems/blog/archlinux-meta-packages/

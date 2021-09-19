@@ -2,7 +2,7 @@
 
 ##--------------------------- Utility Functions ------------------------##
 
-# install will install a package or group of packages using a common set of options.
+# Install will install a package or group of packages using a common set of options.
 # All packages should be installed using this function to ensure testability and
 # uniformity.
 package_install() {
@@ -23,6 +23,8 @@ package_install() {
   return 0
 }
 
+# This will update the package lists and any packages that are already installed to 
+# the latest versions.
 system_upgrade() {
   if [ ! "$(sudo pacman -S --sysupgrade --refresh --noconfirm)" ]; then
     echo -e "\n\e[$red System upgrade failed\e[$default"

@@ -162,9 +162,14 @@ main() {
     exit 1
   fi
 
-  install_xorg
-  install_xfce
-  install_fonts
+  if [[ $packages_gui == "true" ]]; then
+    
+    if ! gui_main; then
+    echo -e "\n\e[$red Gui installation failed\e[$default"
+    exit 1
+    fi
+
+  fi
 
   # When installing only specific pieces you may need to modify the
   # script to ensure tools are available as needed. This may not be
