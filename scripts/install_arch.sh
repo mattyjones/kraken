@@ -54,6 +54,11 @@
 # 15. `git checkout blackarch`
 # 16. See README for details on using kraken
 
+  # Get the current working directory for reference. Do use pwd
+  # in the script as the current directory could be different
+  # from the base directory and screw up any relative paths
+  cwd=$(pwd)
+  
 ##----------------------- Initialization ---------------------##
 
 # Set the path to include the libraries. These are searched for in the same directory or within the path. We capture
@@ -88,10 +93,10 @@ initialize() {
   echo -e "\e[$cyan Initializing..."
   # echo "Starting initization..."
 
-  # Get the current working directory for reference. Do use pwd
-  # in the script as the current directory could be different
-  # from the base directory and screw up any relative paths
-  cwd=$(pwd)
+  # # Get the current working directory for reference. Do use pwd
+  # # in the script as the current directory could be different
+  # # from the base directory and screw up any relative paths
+  # cwd=$(pwd)
 
   # Bring in all necessary libraries and external functions
   load_library
