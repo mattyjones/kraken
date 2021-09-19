@@ -1,7 +1,7 @@
 #!/bin/bash
 
 install_browsers() {
-  local pkgs=("firefox" "chrome")
+  local pkgs=("firefox" "chromium")
   package_install "${pkgs[@]}"
 
   return 0

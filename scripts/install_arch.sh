@@ -68,7 +68,7 @@ load_library() {
   #  source development.sh
   #  source editor.sh
   source gui.sh
-  #  source networking.sh
+  source networking.sh
   #  source shell.sh
   #  source terminal.sh
   source util.sh
