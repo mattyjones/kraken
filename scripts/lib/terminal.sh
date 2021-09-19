@@ -6,9 +6,10 @@
 # very fast, easy to configure, and has all the options I need. When it starts
 # I launch tmux automagically to allow me the flexibility I need. See the
 # config file for more details.
-configure_alacritty() {
-    local pkgs=("alacritty")
-  ln -s "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
+install_alacritty() {
+  local pkgs=("alacritty")
+  package_install "${pkgs[@]}"
+  cp "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
 
   return 0
 }
@@ -21,6 +22,13 @@ install_dircolors() {
   else
     ln -s "$cwd/shell/_dir_colors" "$HOME/.dir_colors"
   fi
+
+  return 0
+}
+
+terminal_main() {
+  install_alacritty
+  install_dircolors
 
   return 0
 }

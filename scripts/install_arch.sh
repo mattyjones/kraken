@@ -66,11 +66,11 @@ load_library() {
 
   #  source blackarch.sh
   #  source development.sh
-  #  source editor.sh
+  source editors.sh
   source gui.sh
   source networking.sh
   #  source shell.sh
-  #  source terminal.sh
+  source terminal.sh
   source util.sh
   #  source vmware.sh
   source yaml.sh
@@ -175,6 +175,24 @@ main() {
 
     if ! networking_main; then
       echo -e "\n\e[$red Browsers and networking tools installation failed\e[$default"
+      exit 1
+    fi
+
+  fi
+
+    if [[ $packages_editors_install == "true" ]]; then
+
+    if ! editors_main; then
+      echo -e "\n\e[$red Browsers and networking tools installation failed\e[$default"
+      exit 1
+    fi
+
+  fi
+
+      if [[ $packages_terminal_install == "true" ]]; then
+
+    if ! terminal_main; then
+      echo -e "\n\e[$red Terminal tools installation failed\e[$default"
       exit 1
     fi
 
