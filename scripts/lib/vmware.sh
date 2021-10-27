@@ -12,45 +12,55 @@ install_vmware_tools() {
   local pkgs=("open-vm-tools")
 }
 
-configure_vmware() {
-  echo "setting up cut and paste"
+configure_shared_folders() {
+  sudo echo ".host:/VM_Data /mnt/VM_Data fuse.vmhgfs-fuse nofail,allow_other 0 0" >> /etc/fstab
+  sudo echo ".host:/Downloads /mnt/Downloads fuse.vmhgfs-fuse nofail,allow_other 0 0" >> /etc/fstab
 }
 
-create_shared_drive() {
-  echo "create the shared folder"
-}
+#configure_vmware() {
+#  echo "setting up cut and paste"
+#}
 
-sudo mkinitcpio -P
+#create_shared_drive() {
+#  echo "create the shared folder"
+#}
 
-sudo mkdir -p /mnt/VM_Data
+#sudo mkinitcpio -P
+
+#sudo mkdir -p /mnt/VM_Data
+
+
+
+#add the following two lines to /etc/fstab
+
 
 # sudo vmhgfs-fuse -o allow_other -o auto_unmount .host:/<shared_folder> <shared folders root directory>
-/etc/fstab
-.host:/$shared_folder $shared_folders_root_directory fuse.vmhgfs-fuse nofail,allow_other 0 0
+#/etc/fstab
+#.host:/$shared_folder $shared_folders_root_directory fuse.vmhgfs-fuse nofail,allow_other 0 0
 
-echo ".host:VM_Data /mnt/sharefs fuse.vmhgfs-fuse allow_other 0 0" >>/etc/fstab
+#echo ".host:VM_Data /mnt/sharefs fuse.vmhgfs-fuse allow_other 0 0" >>/etc/fstab
 
 # remind me to install binary ninja by hand by openning a browser at the end with some tabs??
 
-/etc/systemd/system/ <shared folders root directory >- <shared_folder >.service
-[Unit]
-Description=Load VMware shared folders
-Requires=vmware-vmblock-fuse.service
-After=vmware-vmblock-fuse.service
-ConditionPathExists=.host:/$shared_folder
-ConditionVirtualization=vmware
+#/etc/systemd/system/ <shared folders root directory >- <shared_folder >.service
+#[Unit]
+#Description=Load VMware shared folders
+#Requires=vmware-vmblock-fuse.service
+#After=vmware-vmblock-fuse.service
+#ConditionPathExists=.host:/$shared_folder
+#ConditionVirtualization=vmware
 
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/bin/vmhgfs-fuse -o allow_other -o auto_unmount .host:/$shared_folder $shared_folders_root_directory
+#[Service]
+#Type=oneshot
+#RemainAfterExit=yes
+#ExecStart=/usr/bin/vmhgfs-fuse -o allow_other -o auto_unmount .host:/$shared_folder $shared_folders_root_directory
 
-[Install]
-WantedBy=multi-user.target
+#[Install]
+#WantedBy=multi-user.target
 
-systemctl enable VM_Data.service
+#systemctl enable VM_Data.service
 
-need cut and paste from host to vm
+#need cut and paste from host to vm
 
 create_share() {
   # Create the filesystem

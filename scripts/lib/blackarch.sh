@@ -8,8 +8,13 @@ blackarch-config-lxdm
 blackarch-config-xfce
 blackarch-config-x11
 blackarch-config-zsh
-
+burpsuite
+cifs-utils 
+remmina (rdp, etc)
 sudo pacman -S firefox dirbuster ttf-droid
+
+can we setup burpsuiteinstall foxy proxy and configure it
+export the burp cert and import it to firefox
 
 # Run https://blackarch.org/strap.sh as root and follow the instructions.
 $ curl -O https://blackarch.org/strap.sh
