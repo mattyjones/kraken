@@ -7,14 +7,14 @@ tap 'homebrew/core'
 # brew 'ansible'
 # brew 'awscli'
 # brew 'bat'
-brew 'binutils'
-brew 'cherrytree'
-brew 'chruby'
-brew 'coreutils'
+# brew 'binutils'
+# brew 'cherrytree'
+# brew 'chruby'
+# brew 'coreutils'
 # brew 'cpanminus'
 # brew 'dep'
-brew 'diffutils'
-brew 'findutils'
+# brew 'diffutils'
+# brew 'findutils'
 # brew 'fzf'
 brew 'gawk'
 # brew 'gdb'
@@ -22,16 +22,16 @@ brew 'git'
 brew 'gnu-sed'
 brew 'gnu-tar'
 brew 'go'
-brew 'gnupg'
+# brew 'gnupg'
 # brew 'graphviz'
 brew 'grep'
-brew 'grip'
-brew 'hub'
+# brew 'grip'
+# brew 'hub'
 # brew 'hugo'
 # brew 'imagemagick'
-brew 'jq'
+# brew 'jq'
 # brew 'lua'
-brew 'make'
+# brew 'make'
 brew 'mas'
 # brew 'mu-editor'
 # brew 'neofetch'
@@ -47,7 +47,7 @@ brew 'pipenv'
 brew 'python3'
 brew 'rsync'
 # brew 'ruby-build'
-brew 'ruby-install'
+# brew 'ruby-install'
 # brew 'rust' # do not install both rust and rustup
 brew 'rustup'
 brew 'shellcheck'
@@ -57,8 +57,8 @@ brew 'starship'
 brew 'tmux'
 # brew 'tor'
 # brew 'transmission-cli'
-brew 'trash' # Manage the Trash bin
-brew 'tree' # List directories in a tree structure
+# brew 'trash' # Manage the Trash bin
+# brew 'tree' # List directories in a tree structure
 # brew 'unrar'
 # brew 'upx'
 # brew 'vim', args: ['with-lua']
@@ -69,7 +69,7 @@ brew 'zsh'
 brew 'zsh-syntax-highlighting'
 
 cask 'alacritty'
-# cask 'alfred'
+cask 'alfred'
 # cask 'amazon-workspaces'
 # cask 'calibre'
 # cask 'dashlane'
@@ -86,14 +86,14 @@ cask 'jetbrains-toolbox'
 cask 'keepassxc'
 # cask 'kindle'
 # cask 'mactex'
-cask 'onedrive'
+# cask 'onedrive'
 # cask 'osxfuse'
 cask 'signal'
 cask 'slack'
 cask 'spotify'
 # cask 'steam'
 # cask 'sublime-text'
-cask 'telegram-desktop'
+# cask 'telegram-desktop'
 cask 'transmission'
 # cask 'vagrant'
 # cask 'veracrypt'
@@ -102,16 +102,16 @@ cask 'visual-studio-code'
 cask 'vmware-fusion'
 cask 'vlc'
 cask 'xmind'
-# cask 'zoom'
+cask 'zoom'
 
 # Mac App Store
 mas 'Grammerly for Safari', id: 1462114288
-mas 'Keeper', id: 414781829
+# mas 'Keeper', id: 414781829
 # mas 'Keynote', id: 409183694
-# mas 'Numbers', id: 409203825
-mas 'OmniFocus 3', id: 1346203938
+mas 'Numbers', id: 409203825
+# mas 'OmniFocus 3', id: 1346203938
 # mas 'OmniOutliner 5', id: 1142578772
-# mas 'Pages', id: 409201541
+mas 'Pages', id: 409201541
 # mas 'Telegram Light', id: 946399090
 # mas 'Transmit 5', id: 1436522307
 mas 'Ulysses', id: 1225570693
