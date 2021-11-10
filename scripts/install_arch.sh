@@ -155,7 +155,7 @@ main() {
 
   # Script header
   echo -e "\n\e[$blue#########################################################\e[$default"
-  echo -e "\n\e[$cyan Kracken - Automated Arch Linux Pentesting Environment"
+  echo -e "\n\e[$cyan Kracken - Automated Linux Pentesting Environment"
   echo -e "\e[$cyan @mattyjones | github.com/mattyjones"
   echo -e "\e[$cyan Version: $VERSION"
   echo -e "\n\e[$blue#########################################################\e[$default"
