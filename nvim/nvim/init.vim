@@ -9,10 +9,10 @@ set number
 set background = "dark"
 
 "Call the theme
-colorscheme nord
+colorscheme onedark
 
 " Set the airline theme
-let g:airline_theme="nord"
+let g:airline_theme="onedark"
 let g:airline#extensions#tabline#enabled=1
 let g:airline_powerline_fonts=1
 
