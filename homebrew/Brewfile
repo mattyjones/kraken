@@ -108,6 +108,7 @@ cask 'zoom'
 mas 'Grammerly for Safari', id: 1462114288
 # mas 'Keeper', id: 414781829
 # mas 'Keynote', id: 409183694
+mas 'Magnet', id: 441258766
 mas 'Numbers', id: 409203825
 mas 'OmniFocus 3', id: 1346203938
 # mas 'OmniOutliner 5', id: 1142578772
