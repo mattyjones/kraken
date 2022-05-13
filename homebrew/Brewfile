@@ -117,10 +117,6 @@ mas 'Pages', id: 409201541
 # mas 'Plottr', id: 1533079725 # MacOS version not available
 # mas 'Scrivener', id: 972387337 # Cannot download from the app store
 mas 'Streaks', id: 963034692
-=======
-mas 'Plottr', id: 1533079725
-mas 'Scrivener', id 972387337
->>>>>>> Stashed changes
 # mas 'Telegram Light', id: 946399090
 # mas 'Transmit 5', id: 1436522307
 mas 'Ulysses', id: 1225570693
