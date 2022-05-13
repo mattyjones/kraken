@@ -147,7 +147,7 @@ install_brewfile() {
     exit 1
   fi
 
-  echo "Installing homebrew packages"
+  echo "Installing new homebrew packages"
   if brew bundle install --file "$brew_file" >/dev/null; then
     echo "All Homebrew packages were installed successfully"
   else
@@ -190,6 +190,7 @@ install_cpan() {
   sudo cpan App::cpanminus
 
   return 0
+}
 
 ##---------------------- Shell Configuration --------------------##
 
@@ -227,11 +228,15 @@ configure_oh_my_zsh() {
   # Add any updated themes, plugins, etc that are needed
   echo "Installing zsh plugins..."
 
+  # Drop shell configuration files
+  configure_shell_env
+
   return 0
 }
 
 # Drop my specific dotfiles onto the box
 configure_shell_env() {
+  echo "Installing dotfiles"
   ln -s "$cwd/shell/_alias" "$HOME/.alias"
   ln -s "$cwd/shell/_exports" "$HOME/.exports"
   ln -s "$cwd/shell/_zshrc" "$HOME/.zshrc"
@@ -241,6 +246,7 @@ configure_shell_env() {
   if [ -f "$HOME/.secrets" ]; then
     echo "Base secrets file is already installed. Skipping"
   else
+    echo "Installing generic secrets file. This is not linked and will not be updated if already existing."
     cp "$cwd/shell/_secrets" "$HOME/.secrets"
   fi
 
@@ -310,7 +316,7 @@ configure_hyper() {
 
     echo "Configuring the hyper.js environment"
     ln -s "$cwd/hyper/_hyper.js" "$HOME/.hyper.js"
-    ln -s "$cwd/hyper/_hyper_plugins" "$Home/.hyper_plugins"
+    ln -s "$cwd/hyper/_hyper_plugins" "$HOME/.hyper_plugins"
   fi
 
   return 0
@@ -386,7 +392,6 @@ main() {
 
   # Setup my shell environment
   configure_oh_my_zsh
-  configure_shell_env
   install_dircolors
 
   # Setup development specific bits

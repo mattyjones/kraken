@@ -32,6 +32,8 @@ window:
   dimensions:
     columns: 100
     lines: 50
+  
+  opacity: 0.9
 
   # Window position (changes require restart)
   #
@@ -357,7 +359,7 @@ bell:
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 0.9
+# background_opacity: 0.9
 
   #selection:
   # This string contains all characters that are used as separators for
@@ -420,11 +422,11 @@ live_config_reload: true
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
 shell:
-  program: /usr/local/bin/zsh
-  args:
-    - -l
-    - -c
-    - "tmux attach || tmux"
+  program: /opt/homebrew/bin/zsh
+  # args:
+  #   - -l
+  #   - -c
+  #   - "tmux attach || tmux"
 
 # Startup directory
 #
