@@ -368,7 +368,7 @@ install_golang() {
   if [[ "$(go version)" ]]; then
     echo "Golang is already installed"
   else
-    echo "Add golang to your brewfile and run `brew bundle install`"
+    echo "Add go to your brewfile and run `brew bundle install`"
   fi
 
   if [ ! -d "$HOME/Projects/Go" ]; then
