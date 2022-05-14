@@ -14,7 +14,10 @@
 #    plain-text
 #
 # PLATFORMS:
-#    OSX, MacOS
+#    x86_64, ARM
+#
+# OPERATING SYSTEMS:
+#    OSX, MacOS, Arch, ParrotOS, Kali
 #
 # DEPENDENCIES:
 #    bash
@@ -31,7 +34,7 @@
 # TODO Need to check all the links to see if they exist and are pointing to the right place
 # TODO Some kind of a user menu
 # TODO Respect 80 character limit when possible
-# TODO can we add the jetbrains toolbox, alfred, keeper, to the brew file
+# TODO can we add alfred to the brew file
 # TODO list of vscode extensions
 # TODO some sort of jetbrains configs, beyond the cloud
 
@@ -185,6 +188,14 @@ configure_tmux() {
 
 # Install and configure cpan. I need Perl some some specific projects. 
 install_cpan() {
+
+  if [[ "$(which cpan)" ]]; then
+    echo "Cpan is already installed"
+  else
+    echo "Add cpan to your brewfile and run `brew bundle install`"
+  fi
+
+
 
   echo "configuring cpan"
   sudo cpan App::cpanminus
@@ -347,6 +358,78 @@ configure_git() {
   return 0
 }
 
+##---------------------- Golang Installation --------------------##
+
+# Install Golang and set the GOPATH. This is my way of doing things and a little against
+# the traditional way but it makes for a cleaner multi-language dev environment.
+install_golang() {
+  echo "Installing Golang"
+
+  if [[ "$(go version)" ]]; then
+    echo "Golang is already installed"
+  else
+    echo "Add golang to your brewfile and run `brew bundle install`"
+  fi
+
+  if [ ! -d "$HOME/Projects/Go" ]; then
+    echo "Creating GOPATH"
+    mkdir -p "$HOME/Projects/Go/{src,pkg,bin}"
+  fi
+
+  return 0
+}
+
+##---------------------- General Development --------------------##
+
+# Install a general development environment. Currently this is a place holder as
+# the specific tools I want are installed on there own. 
+#
+install_development_env() {
+
+  echo "Creating base project directory"
+
+  if [ ! -d "$HOME/Projects" ]; then
+    echo "Creating project directory"
+    mkdir -p "$HOME/Projects"
+  fi
+
+  return 0
+
+}
+
+create_ssh_keys() {
+  echo "Create SSH keys for use with github"
+
+  ssh-keygen
+}
+
+##---------------------- Python Installation --------------------##
+
+# Install Python3 and create the project directory if it does not already exist. Along with
+# python3 you should also install pipenv and some other basic packages.
+install_python() {
+  echo "Installing Python3"
+
+  if [[ "$(python3 --version)" ]]; then
+    echo "Python3 is already installed"
+  else
+    echo "Add python3 to your brewfile and run `brew bundle install`"
+  fi
+
+  if [[ "$(pipenv -h)" ]]; then
+    echo "Pipenv is already installed"
+  else
+    echo "Add pipenv to your brewfile and run `brew bundle install`"
+  fi
+
+  if [ ! -d "$HOME/Projects" ]; then
+    echo "Creating project directory"
+    mkdir -p "$HOME/Projects"
+  fi
+
+  return 0
+}
+
 ##---------------------- Ruby Installation --------------------##
 
 # Install a known good version of 3.x ruby. This does not replace the system ruby
@@ -370,6 +453,16 @@ install_ruby() {
 # TODO Create a general gemfile for bundler
 
   return 0
+}
+
+##----------------------Desktop App Installation --------------------##
+
+# Install alfred. This will not install scripts or activate the Powerpack by default.
+install_alfred() {
+
+  ## Need to parse the page to get the correct version dynamically
+  curl --output Alfred https://cachefly.alfredapp.com/Alfred_4.6.5_1299.dmg
+
 }
 
 ##--------------------------- Main -------------------------##
@@ -401,6 +494,10 @@ main() {
   install_ruby
   install_editorconfig
   configure_wraith
+  install_python
+  install_golang
+  install_development_env
+  create_ssh_keys
 
   # Configure my editors
   configure_nvim
