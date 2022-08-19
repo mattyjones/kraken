@@ -10,8 +10,9 @@ export EDITOR
 
 # Set paths
 # export CPAN_HOME=/usr/local/Cellar/cpanminus/<version>
-export CPAN_HOME="" # Perl Placeholder
+# export CPAN_HOME="" # Perl Placeholder
 export GOPATH="$PROJECTDIR/Go"
+export GOBIN="$PROJECTDIR/Go/bin"
 export PATH="$CPAN_HOME/bin:$HOME/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:/opt/homebrew/bin"
 export ZSH=$HOME/.oh-my-zsh
 
