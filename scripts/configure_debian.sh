@@ -71,106 +71,6 @@ initalize() {
   return 0
 }
 
-# Bring in XCode tools if needed
-#install_dev_tools() {
-#  echo "Installing Apple XCode cli tools..."
-#  if [ -n "$(sudo xcode-select -v)" ]; then
-#    if ! [ "$(sudo xcode-select --install)" ]; then
-#      echo "Developer tools install failed"
-#    fi
-#  else
-#    echo "XCode developer tools already installed"
-#  fi
-#
-#  return 0
-
-#}
-
-##---------------------- MacOS Specific Configuration --------------------##
-
-# TODO Need to capture the return status. Do not run this without some additional
-# checks so things don't get borked.
-
-# Install any software updates necessary. Does not work
-# for OS updates for some reason.
-#install_updates() {
-#  if ! [ "$(sudo softwareupdate --install -all)" ]; then
-#    echo "Software updates failed to be installed"
-#  fi
-#
-#  return 0
-#}
-
-##---------------------- Install Homebrew --------------------##
-
-# We check to see if homebrew is installed and if not then we install it. After it completes
-# we install the brewfile and install all programs contained in it.
-#install_homebrew() {
-#
-#  echo "Checking homebrew"
-#  if [ -n "$(brew -v)" ]; then
-#    echo "Installing Homebrew..."
-#    sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-#  else
-#    echo "Homebrew is already installed"
-#  fi
-#
-#  install_brewfile
-#
-#  return 0
-#}
-
-# Link the Brewfile and install all packages. We also run cleanup after
-# to generate a list of debis that should be removed, the actual removal
-# is a manual process to provide for a sanity check.
-#install_brewfile() {
-#  brew_file="$HOME/Brewfile"
-#
-#  if [ ! -f "$brew_file" ]; then
-#    echo "Linking brewfile"
-#   ln -s "$cwd/homebrew/Brewfile" "$brew_file"
-#  else
-#    echo "Brewfile already linked"
-#  fi
-#
-#  echo "Updating Homebrew package list"
-#  if brew update --force >/dev/null; then
-#    echo "Homebrew was updated successfully"
-#  else
-#    echo "'brew update' failed"
-#    exit 1
-#
-#  fi
-#
-#  echo "Upgrading Homebrew package list"
-#  if brew upgrade >/dev/null; then
-#    echo "Homebrew was upgraded successfully"
-#  else
-#    echo "'brew upgrade' failed"
-#    exit 1
-#  fi
-#
-#  echo "Installing new homebrew packages"
-#  if brew bundle install --file "$brew_file" >/dev/null; then
-#    echo "All Homebrew packages were installed successfully"
-#  else
-#    echo "'brew bundle install' failed"
-#    exit 1
-#  fi
-#
-#  echo "Running a cleanup of Homebrew"
-#  if brew cleanup > "$HOME/Desktop/brew_cleanup"; then
-#    echo "Homebrew cleanup list was created successfully"
-#  else
-#    echo "'brew cleanup' failed"
-#    exit 1
-#  fi
-#
-#  echo "Homebrew Installation Complete"
-#
-#  return 0
-#}
-
 ##---------------------- Configure TMUX --------------------##
 
 # I use tmux as my primary terminal inface and run
@@ -316,25 +216,6 @@ configure_wraith() {
 
 ##---------------------- Terminal Configurations --------------------##
 
-# Configure hyper as a terminal if I am installing it. This is a Node.js based
-# terminal configured via js and css. It is fancy but I have seen perf issues and
-# something about it just bugs me so it is only here for legacy reasons.
-#configure_hyper() {
-#  if [[ "$(which hyper)" ]]; then
-#
-#    # Removing the default setup
-#    rm -rf ~/.hyper*
-#
-#    echo "Configuring the hyper.js environment"
-#    ln -s "$cwd/hyper/_hyper.js" "$HOME/.hyper.js"
-#    ln -s "$cwd/hyper/_hyper_plugins" "$HOME/.hyper_plugins"
-#  fi
-#
-#  return 0
-#}
-
-# Alacritty is my current terminal emulator for all platforms. It is
-# very fast, easy to configure, and has all the options I need. When it starts
 # I launch tmux automagically to allow me the flexibility I need. See the
 # config file for more details.
 configure_alacritty() {
@@ -457,14 +338,6 @@ install_ruby() {
 
 ##----------------------Desktop App Installation --------------------##
 
-# Install alfred. This will not install scripts or activate the Powerpack by default.
-install_alfred() {
-
-  ## Need to parse the page to get the correct version dynamically
-  curl --output Alfred https://cachefly.alfredapp.com/Alfred_4.6.5_1299.dmg
-
-}
-
 ##--------------------------- Main -------------------------##
 main() {
 
@@ -496,7 +369,7 @@ main() {
   #configure_wraith
   #install_python
   #install_golang
-  install_development_env
+  #install_development_env
   #create_ssh_keys
 
   # Configure my editors
