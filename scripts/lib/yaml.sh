@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1003
 
 # Based on https://gist.github.com/pkuczynski/8665367
 # Original https://github.com/jasperes/bash-yaml/blob/master/script/yaml.sh
@@ -70,8 +69,6 @@ load_yaml() {
     unset_variables "${yaml_string}"
     eval "${yaml_string}"
 }
-
-# Execute parse_yaml() direct from command line
 
 if [ "x" != "x${1}" ] && [ "x--debug" != "x${1}" ]; then
     parse_yaml "${1}" "${2}"

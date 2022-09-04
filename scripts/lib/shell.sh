@@ -1,5 +1,12 @@
 #! /bin/env bash
 
+
+  # Setup my shell environment
+  #  configure_oh_my_zsh
+  #  configure_shell_env
+  #  install_dircolors
+
+
 ##---------------------- Shell Configuration --------------------##
 
 

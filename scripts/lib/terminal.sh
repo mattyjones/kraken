@@ -1,5 +1,10 @@
 #! /bin/env bash
 
+  # Setup my terminals
+  #configure_alacritty
+  # configure_tmux
+
+
 ##---------------------- Terminal Configurations --------------------##
 
 # Alacritty is my current terminal emulator for all platforms. It is

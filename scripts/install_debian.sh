@@ -20,7 +20,7 @@
 #    bash
 #
 # USAGE:
-#    scripts/install_arch.sh
+#    scripts/install_debian.sh
 #
 # NOTES:
 #
@@ -30,35 +30,37 @@
 
 ##--------------------------- Prework ----------------------------------##
 
-# You will need to download and unpack a vagrant image. This is the smallest pre-built
-# image availabe that I am aware of. Once this is complete log in and setup a few things.
-# There are a lot of steps here just to be clear on the process. In reality, once you log
-# in with the vagrant user and install git, the rest can be scripted easily. I may do it myself
-# at some point, for now I just rollback snapshots.
+# You will need a base installation of Debian 11+. It can be as minimal as you
+# want. There are only a few opinionated decisions left in this tool. Once
+# this is complete log in and setup a few things. This could be automated as
+# well in the future.
+#
+# There are a lot of steps here just to be clear on the process. In reality,
+# once you log in with the default user and install git, the rest can be
+# scripted less verbose. I may do it myself at some point, for now I just
+# roll back snapshots for testing.
+#
+# There may be additional steps or different steps depending on the final
+# installation. How and for what purpose kraken is used is up to you.
 
-# 1. https://app.vagrantup.com/archlinux/boxes/archlinux
-# 2. Download the virtualbox image above or an Arch iso
-# 2. `tar -xf <image>`
-# 3. Import the box into vmware fusion using the box.ovf file
-# 4. Customize the virtual machines settings to match your hardware
-# 5. Boot the box and login w/ vagrant:vagrant
+# 1. Install a base image of Debian
+# 5. Boot the box and log in
 # 6. `sudo su -`
-# 7. `useradd -d /home/$USER -G wheel -m $USER`
+# 7. `useradd -d /home/$USER -G sudo -m $USER`
 # 8. `passwd $USER`
-# 9. `pacman -Syu vi curl wget git`
-# 10. Enable the wheel group in sudoers, do not enable NOPASSWD: ALL
-# 11. Reboot
-# 12. Login with $USER
-# 13. `git clone https://github.com/mattyjones/kraken.git`
-# 14. `cd kraken`
-# 15. `git checkout blackarch`
-# 16. See README for details on using kraken
+# 9. `apt install neovim curl wget git`
+# 10. Reboot
+# 11. Login with $USER
+# 12. `git clone https://github.com/mattyjones/kraken.git`
+# 13. `cd kraken`
+# 14. `git checkout blackarch`
+# 15. See README for details on using kraken
 
-  # Get the current working directory for reference. Do use pwd
-  # in the script as the current directory could be different
-  # from the base directory and screw up any relative paths
-  cwd=$(pwd)
-  
+# Get the current working directory for reference. Do not use pwd
+# in the script as the current directory could be different
+# from the base directory and screw up any relative paths
+cwd=$(pwd)
+
 ##----------------------- Initialization ---------------------##
 
 # Set the path to include the libraries. These are searched for in the same directory or within the path. We capture
@@ -69,15 +71,15 @@ load_library() {
   local ORIG_PATH="$PATH"
   export PATH="scripts/lib:$PATH"
 
-  #  source blackarch.sh
-  #  source development.sh
-  source editors.sh
-  source gui.sh
-  source networking.sh
-  #  source shell.sh
-  source terminal.sh
+  # source blackarch.sh
+  # source development.sh
+  # source editors.sh
+  # source gui.sh
+  # source networking.sh
+  # source shell.sh
+  # source terminal.sh
   source util.sh
-  #  source vmware.sh
+  # source virtualization.sh
   source yaml.sh
 
   export PATH="$ORIG_PATH"
@@ -87,16 +89,10 @@ load_library() {
 
 # Initialize gathers basic info, performs any setup configurations and makes
 # sure any script dependencies are met. It will not check to see what it is
-# running as or if the user is setup correctly. Don't be lazy, don't run
+# running as or if the user is set up correctly. Don't be lazy, don't run
 # this as root.
 initialize() {
   echo -e "\e[$cyan Initializing..."
-  # echo "Starting initization..."
-
-  # # Get the current working directory for reference. Do use pwd
-  # # in the script as the current directory could be different
-  # # from the base directory and screw up any relative paths
-  # cwd=$(pwd)
 
   # Bring in all necessary libraries and external functions
   load_library
@@ -104,7 +100,7 @@ initialize() {
   # Load in the yaml config file
   load_yaml "$cwd/scripts/config.yml"
 
-  # Ask for the administrator password upfront. Do run the script as root.
+  # Ask for the administrator password upfront. Do not run the script as root.
   # This should always be run as the user whose account will be used. Sudo
   # may be needed for specific actions so that is called up front so automation
   # does not break.
@@ -123,25 +119,25 @@ initialize() {
 
   # Install curl if it is not already present
   if [ ! "$(which curl >/dev/null 2>&1)" ]; then
-    echo "Installing curl"
     package_install curl
   fi
 
   # Install wget if it is not already present
   if [ ! "$(which wget >/dev/null 2>&1)" ]; then
-    echo "Installing wget"
     package_install wget
   fi
 
-  echo "Initilization complete"
+  echo "Initialization complete"
   return 0
 }
 
 ##--------------------------- Main -------------------------##
 main() {
 
+  # TODO set all these as global variables in the install script
   local VERSION="0.0.1"
 
+  # FIXME fix the colors with the same number (orange and yellow)
   # Colors
   red="0;31m"
   green="0;32m"
@@ -154,8 +150,9 @@ main() {
   default="0m"
 
   # Script header
+  # TODO break this out into a seprate function
   echo -e "\n\e[$blue#########################################################\e[$default"
-  echo -e "\n\e[$cyan Kracken - Automated Arch Linux Pentesting Environment"
+  echo -e "\n\e[$cyan Kracken - Automated Debian Linux Pentesting Environment"
   echo -e "\e[$cyan @mattyjones | github.com/mattyjones"
   echo -e "\e[$cyan Version: $VERSION"
   echo -e "\n\e[$blue#########################################################\e[$default"
@@ -167,73 +164,68 @@ main() {
     exit 1
   fi
 
-  if [[ $packages_gui_install == "true" ]]; then
-
-    if ! gui_main; then
-      echo -e "\n\e[$red Gui installation failed\e[$default"
-      exit 1
-    fi
-
-  fi
-
-  if [[ $packages_networking_install == "true" ]]; then
-
-    if ! networking_main; then
-      echo -e "\n\e[$red Browsers and networking tools installation failed\e[$default"
-      exit 1
-    fi
-
-  fi
-
-    if [[ $packages_editors_install == "true" ]]; then
-
-    if ! editors_main; then
-      echo -e "\n\e[$red Browsers and networking tools installation failed\e[$default"
-      exit 1
-    fi
-
-  fi
-
-      if [[ $packages_terminal_install == "true" ]]; then
-
-    if ! terminal_main; then
-      echo -e "\n\e[$red Terminal tools installation failed\e[$default"
-      exit 1
-    fi
-
-  fi
   # When installing only specific pieces you may need to modify the
   # script to ensure tools are available as needed. This may not be
   # called out and the tool will break if certain build tools and headers
   # are not present as dependencies.
+  # TODO break this out into a separate function
+  if [[ $packages_gui_install == "true" ]]; then
+    if ! gui_main; then
+      echo -e "\n\e[$red Gui installation failed\e[$default"
+      exit 1
+    fi
+  fi
 
-  # Install as many of the packages I need as I can
-  # install_homebrew
+  if [[ $packages_networking_install == "true" ]]; then
+    if ! networking_main; then
+      echo -e "\n\e[$red Browsers and networking tools installation failed\e[$default"
+      exit 1
+    fi
+  fi
 
-  # Setup my terminals
-  #configure_alacritty
-  # configure_tmux
+  if [[ $packages_editors_install == "true" ]]; then
+    if ! editors_main; then
+      echo -e "\n\e[$red Editing tools installation failed\e[$default"
+      exit 1
+    fi
+  fi
 
-  # Setup my shell environment
-  #  configure_oh_my_zsh
-  #  configure_shell_env
-  #  install_dircolors
+  if [[ $packages_terminal_install == "true" ]]; then
+    if ! terminal_main; then
+      echo -e "\n\e[$red Terminal tools installation failed\e[$default"
+      exit 1
+    fi
+  fi
 
-  # Setup development specific bits
-  #  configure_starship
-  #  configure_git
-  # install_cpan
-  #  install_ruby
-  #  install_editorconfig
-  #  configure_wraith
+    if [[ $packages_development_install == "true" ]]; then
+      if ! development_main; then
+        echo -e "\n\e[$red Development tools installation failed\e[$default"
+        exit 1
+      fi
+  fi
 
-  # Configure my editors
-  #  configure_nvim
+  if [[ $packages_shell_install == "true" ]]; then
+    if ! shell_main; then
+      echo -e "\n\e[$red Shell tools and configs installation failed\e[$default"
+      exit 1
+    fi
+  fi
+
+  if [[ $packages_virtualization_install == "true" ]]; then
+
+    if ! virtualization_main; then
+      echo -e "\n\e[$red Virtualization tools and configs installation failed\e[$default"
+      exit 1
+    fi
+  fi
 
   # Misc bits and pieces
   # configure_gpg
+  #  configure_wraith
 
-  # sudo pacman -S -cc (cleanup)
+ # TODO create some sort of a cleanup script to clean the tmp directory, cache, etc
+ #  at the end of the run. This would also be called during a failed state to ensure
+ #  the environment was left as stable as possible
   echo -e "\n\e[$blue#########################################################\e[$default"
   echo -e "\n\e[$orange All done. Go be a creepy human\e[$default"
   echo -e "\n\e[$blue#########################################################\e[$default"
@@ -245,34 +237,3 @@ main() {
 main
 # TODO tests?
 
-#main
-#
-#
-#
-#cleanup() {
-#
-#  if [[ $reboot == true ]]; then
-#    echo "Do you want to reboot now? [Y/n]"
-#    reqd -r ans
-#
-#    if [[ $ans == "Y" ]]; then
-#      init 6
-#    fi
-#  else
-#    echo "It is always a good idea to reboot after configuring a new shell"
-#  fi
-#}
-#
-#
-#
-#
-## Various tools I find useful and helpful (these are optional)
-#tools_pkgs=("jq" "bat" "rsync" "gvfs")
-#
-#network_pkgs=("network-manager" "openconnect")
-#
-## The VM share dir
-#share_dir="sharefs"
-#
-## Set this to true if we need to do a reboot, specifically for the shell change
-#reboot=false

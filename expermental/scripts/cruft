@@ -1,0 +1,79 @@
+: 1605410438:0;sudo apt install fonts-powerline
+: 1605471049:0;sudo apt install python-pip
+
+Nord icons
+https://github.com/zayronxio/Zafiro-icons
+
+Foxy proxy
+
+https://github.com/ParrotSec/parrot-wallpapers
+
+Debian
+
+Sudo apt install fonts-firacode
+Sudo apt install xfce4 xfce4-goodies
+
+Ssh rsync wget
+
+Sudo apt upgrade
+
+
+#cleanup() {
+#
+#  if [[ $reboot == true ]]; then
+#    echo "Do you want to reboot now? [Y/n]"
+#    reqd -r ans
+#
+#    if [[ $ans == "Y" ]]; then
+#      init 6
+#    fi
+#  else
+#    echo "It is always a good idea to reboot after configuring a new shell"
+#  fi
+#}
+#
+#
+#
+#
+## Various tools I find useful and helpful (these are optional)
+#tools_pkgs=("jq" "bat" "rsync" "gvfs")
+#
+#network_pkgs=("network-manager" "openconnect")
+#
+## The VM share dir
+#share_dir="sharefs"
+#
+## Set this to true if we need to do a reboot, specifically for the shell change
+#reboot=false
+
+
+
+# can I do something here with meta packages
+# https://disconnected.systems/blog/archlinux-meta-packages/
+
+: 1662183993:0;sudo apt install curl git cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+: 1662184019:0;curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+: 1662184068:0;source $HOME/.cargo/env
+: 1662184087:0;rustup override set stable
+: 1662184097:0;rustup update stable
+
+: 1662184171:0;cd /tmp
+: 1662184177:0;git clone https://github.com/alacritty/alacritty.git
+: 1662184203:0;cargo build --release
+: 1662184437:0;cd target/release
+: 1662184484:0;sudo  mv alacritty /usr/local/bin
+
+
+sudo apt install gnupg2 software-properties-common apt-transport-https curl
+curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+sudo apt update
+
+
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo install -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft-archive-keyring.gpg
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+sudo apt-get install apt-transport-https
+Sudo apt update
+
+wget https://code.visualstudio.com/sha/download\?build\=stable\&os\=linux-deb-arm64 -O linux-arm64.deb

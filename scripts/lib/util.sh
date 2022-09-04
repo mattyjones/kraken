@@ -5,32 +5,30 @@
 # Install will install a package or group of packages using a common set of options.
 # All packages should be installed using this function to ensure testability and
 # uniformity.
+# TODO use color in the output
+# TODO check to make sure package installed correctly
 package_install() {
   local pkgs=("$@")
 
-  for t in "${pkgs[@]}"; do
-    # shellcheck disable=2143
-    if [ ! "$(pacman -Q | grep "$t")" ]; then
-
-      if [ ! "$(sudo pacman -S --noconfirm --needed -q "$t")" ]; then
-        # shellcheck disable=SC2154
-        echo -e "\n\e[$red Package $t failed to install\e[$default"
-        exit 1
-      fi
+  for p in "${pkgs[@]}"; do
+    if [ ! "$(dpkg -l "$p")" ]; then
+      echo "Installing $p"
+      apt-get install -y $p
+    else
+      echo "$p is already installed"
     fi
   done
 
   return 0
 }
 
-# This will update the package lists and any packages that are already installed to 
+# This will update the package lists and any packages that are already installed to
 # the latest versions.
 system_upgrade() {
-  if [ ! "$(sudo pacman -S --sysupgrade --refresh --noconfirm)" ]; then
+  if [ ! "$(sudo apt update && apt upgrade)" ]; then
     echo -e "\n\e[$red System upgrade failed\e[$default"
     exit 1
   else
-    # shellcheck disable=SC2154
     echo -e "\n\e[$cyan System update complete\e[$default"
     echo ""
   fi

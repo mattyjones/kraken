@@ -1,0 +1,26 @@
+
+global:
+
+packages:
+  blackarch:
+    install: false
+  gui:
+    install: false
+  networking:
+    install : false
+  editors:
+    install : false
+  development:
+    install : false
+  shell:
+    install: false
+  terminal:
+    install: false
+  util:
+    install: false
+  yaml:
+    install: false
+  vmware:
+    install: false
+
+

@@ -1,5 +1,9 @@
 #! /bin/env bash
 
+  # Configure my editors
+  #  configure_nvim
+  # TODO can we do some dynamic install/config of neovim instead
+  #  of carrying around the entire folder
 ##---------------------- Neovim Configuration --------------------##
 
 install_vscode() {

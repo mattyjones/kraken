@@ -1,5 +1,17 @@
 #! /bin/env bash
 
+# all packages for that lang should be installed here
+# rust will be needed in order to compile alactritty
+# Setup development specific bits
+  #  configure_starship
+  #  configure_git # TODO different package
+  # install_cpan # TODO different package
+  #  install_ruby # TODO different package
+  #  install_editorconfig
+  # python # TODO different package
+  # golang # TODO different package
+  # rust # TODO different package
+
 install_base_dev() {
   local pkgs=("git" "starship" "base_devel" "shfmt")
 }
