@@ -1,0 +1,17 @@
+
+global:
+
+packages:  
+  blackarch:
+    install: true
+  gui:
+    install: true
+  networking:
+    install : true
+  editors:
+    install : true
+
+
+
+# can I do something here with meta packages
+# https://disconnected.systems/blog/archlinux-meta-packages/

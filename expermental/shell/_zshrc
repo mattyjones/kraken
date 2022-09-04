@@ -1,0 +1,31 @@
+#! /bin/env bash
+# shellcheck disable=SC1091
+
+autoload -U colors && colors
+PS1="%{$fg[blue]%}%B[%b%{$fg[cyan]%}%n%{$fg[grey]%}%B@%b%{$fg[cyan]%}%m%{$fg[blue]%}%B]-%b%{$fg[blue]%}%B[%b%{$fg[white]%}%~%{$fg[blue]%}%B]%b
+%{$fg[cyan]%}%B>>>%b%{$reset_color%} "
+
+## PLUGINS ##
+# shellcheck disable=SC2034
+plugins=()
+
+ulimit -S -n 8192
+
+source "$HOME/.oh-my-zsh/oh-my-zsh.sh"
+
+## RUBY ENVIRONMENT ##
+source /usr/local/share/chruby/chruby.sh # load chruby
+source /usr/local/share/chruby/auto.sh # enable auto-switching
+chruby ruby-3 # set the default ruby for my environment
+
+# https://starship.rs
+# Enabled by default but disabled for blackarch
+# eval "$(starship init zsh)"
+
+eval "dircolors $HOME/dircolors"
+
+source "$HOME/.alias"
+source "$HOME/.exports"
+source "$HOME/.functions"
+source "$HOME/.secrets"
+source "$HOME/.grep"
