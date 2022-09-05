@@ -12,6 +12,43 @@
   # golang # TODO different package
   # rust # TODO different package
 
+##---------------------- Golang Installation --------------------##
+
+# Install Golang and set the GOPATH. This is my way of doing things and a little against
+# the traditional way but it makes for a cleaner multi-language dev environment.
+install_golang() {
+  echo "Installing Golang"
+
+  if [[ "$(go version)" ]]; then
+    echo "Golang is already installed"
+  else
+    echo "Add go to your brewfile and run `brew bundle install`"
+  fi
+
+  if [ ! -d "$HOME/Projects/Go" ]; then
+    echo "Creating GOPATH"
+    mkdir -p "$HOME/Projects/Go/{src,pkg,bin}"
+  fi
+
+  return 0
+}
+
+# Install a general development environment. Currently this is a place holder as
+# the specific tools I want are installed on there own.
+#
+install_development_env() {
+
+  echo "Creating base project directory"
+
+  if [ ! -d "$HOME/Projects" ]; then
+    echo "Creating project directory"
+    mkdir -p "$HOME/Projects"
+  fi
+
+  return 0
+
+}
+
 install_base_dev() {
   local pkgs=("git" "starship" "base_devel" "shfmt")
 }
@@ -22,6 +59,25 @@ install_base_dev() {
 
 install_python_devel() {
   local pkgs=("python_pipenv")
+}
+
+##---------------------- Install CPAN --------------------##
+
+# Install and configure cpan. I need Perl some some specific projects.
+install_cpan() {
+
+  if [[ "$(which cpan)" ]]; then
+    echo "Cpan is already installed"
+  else
+    echo "Add cpan to your brewfile and run `brew bundle install`"
+  fi
+
+
+
+  echo "configuring cpan"
+  sudo cpan App::cpanminus
+
+  return 0
 }
 
 # Configure Starship for my development prompt
@@ -91,6 +147,33 @@ install_ruby() {
   tar -xzvf chruby-0.3.9.tar.gz
   cd chruby-0.3.9/
   sudo scripts/setup.sh
+
+  return 0
+}
+
+##---------------------- Python Installation --------------------##
+
+# Install Python3 and create the project directory if it does not already exist. Along with
+# python3 you should also install pipenv and some other basic packages.
+install_python() {
+  echo "Installing Python3"
+
+  if [[ "$(python3 --version)" ]]; then
+    echo "Python3 is already installed"
+  else
+    echo "Add python3 to your brewfile and run `brew bundle install`"
+  fi
+
+  if [[ "$(pipenv -h)" ]]; then
+    echo "Pipenv is already installed"
+  else
+    echo "Add pipenv to your brewfile and run `brew bundle install`"
+  fi
+
+  if [ ! -d "$HOME/Projects" ]; then
+    echo "Creating project directory"
+    mkdir -p "$HOME/Projects"
+  fi
 
   return 0
 }

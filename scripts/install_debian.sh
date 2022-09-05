@@ -87,11 +87,28 @@ load_library() {
   return 0
 }
 
+# prep work
+check_tools "${required_tools[@]}"
+apt-get update
+cd /tmp
+#apt-get full-upgrade
+
+# Check and installl needed packages
+check_apt "${i3_pkgs[@]}"
+check_apt "${general_pkgs[@]}"
+check_apt "${security_pkgs[@]}"
+
 # Initialize gathers basic info, performs any setup configurations and makes
 # sure any script dependencies are met. It will not check to see what it is
 # running as or if the user is set up correctly. Don't be lazy, don't run
 # this as root.
 initialize() {
+
+  script_user="$(logname)"
+# TODO Check for sudo before we do anything
+
+required_tools=("curl" "wget" "zsh")
+
   echo -e "\e[$cyan Initializing..."
 
   # Bring in all necessary libraries and external functions
@@ -236,4 +253,13 @@ main() {
 
 main
 # TODO tests?
+# reboot so things can take effect
+# should ask to do this
+#init 6
+# do we want to set zsh as the shell
+# quit output
+# capture error output and STDERR
+# catch warnings
+# colored output
+
 

@@ -2,7 +2,7 @@
 
 ##----------------------- GUI ---------------------##
 
-# 
+#
 install_xorg() {
   local pkgs=("xorg-server" "xorg-xinit" "xorg-xkill" "moreutils")
   package_install "${pkgs[@]}"
@@ -44,3 +44,10 @@ gui_main() {
 
     return 0
 }
+
+# general packages
+general_pkgs=( "jq" "lnav" "firefox" "tmux" "neovim" "zsh" "ranger" "wine" "irssi" "openconnect" "vscodium" "open-vm-tools" "open-vm-tools-desktop")
+
+
+# packages to install after stripping everything else away
+i3_pkgs=("network-manager" "lightdm" "xfce4-terminal"  "i3" "feh" "polybar" "dunst" "rofi")

@@ -4,6 +4,19 @@
   #configure_alacritty
   # configure_tmux
 
+##---------------------- Configure TMUX --------------------##
+
+# I use tmux as my primary terminal inface and run
+# it on terminal startup so it is always ready for me.
+configure_tmux() {
+
+  echo "Configuring tmux..."
+  ln -s "$cwd/tmux/_tmux" "$HOME/.tmux"
+  ln -s "$cwd/tmux/_tmux.conf" "$HOME/.tmux.conf"
+
+  return 0
+}
+
 
 ##---------------------- Terminal Configurations --------------------##
 

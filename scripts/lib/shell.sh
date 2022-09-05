@@ -30,6 +30,9 @@ configure_oh_my_zsh() {
     rm "$HOME/.zshrc"      # Remove the stock zshrc file so we can link the custom one
   fi
 
+# su $script_user -c "bash -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) "" --unattended"
+
+  # FIXME the .zshrc file is borked when we do a re-install
   # Add any updated themes, plugins, etc that are needed
   echo "Installing zsh plugins..."
 
@@ -224,4 +227,21 @@ configure_tmux() {
   ln -s "$cwd/tmux/_tmux.conf" "$HOME/.tmux.conf"
 
   return 0
+}
+
+install_oh_my_zsh() {
+# Install oh-my-zsh and configure it
+# if the want to change the shell and switch to it now
+$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) "" --unattended
+}
+
+enable_zsh() {
+# Enable zsh as the default shell
+sed -i.bak '/auth       required   pam_shells.so/a auth       sufficient   pam_wheel.so trust group=chsh' /etc/pam.d/chsh
+groupadd chsh
+usermod -a -G chsh $script_user
+su $script_user -c "chsh -s $(which zsh)"
+gpasswd -d $script_user chsh
+groupdel chsh
+sed -i.bak '/auth       sufficient   pam_wheel.so trust group=chsh/d' /etc/pam.d/chsh
 }

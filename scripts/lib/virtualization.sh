@@ -6,6 +6,44 @@
 # permissions. Cut and paste capability between the host and the server will also
 # be setup.
 
+# vm share dir
+share_dir="sharefs"
+
+# Create the filesystem
+# check if the dir already exists
+if [ -d "$share_dir" ]
+then
+   echo "$share_dir does not exist, creating it"
+   mkdir /mnt/$share_dir
+else
+   echo "The directory already exists"
+fi
+
+
+
+# make sure the mount point exists
+# Mount the filesystem for usage in this current session
+if grep -qs "/mnt/$share_dir " /proc/mounts; then
+    echo "The share has already been mounted"
+else
+    sudo mount -t fuse.vmhgfs-fuse .host:/ "/mnt/$share_dir" -o allow_other
+fi
+
+
+
+# Add to /etc/fstab for persistence
+# check if it already exists
+share=$(grep "/mnt/$share_dir" /etc/fstab)
+
+if [[ $share == "" ]]; then
+    echo ".host:/ "/mnt/$share_dir" fuse.vmhgfs-fuse allow_other 0 0" >> /etc/fstab
+else
+    echo "This has already been set to auto mount"
+fi
+
+
+
+
 install_vmware_tools() {
   echo "Installing vmware the tools"
 

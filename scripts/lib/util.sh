@@ -22,6 +22,35 @@ package_install() {
   return 0
 }
 
+check_tools() {
+tools=("$@")
+for t in "${tools[@]}";
+do
+if [ ! "$(which $t)" ]
+then
+        echo "$t is not installed."
+        # TODO we should ask if they want to install this
+        echo "Installing $t"
+        apt-get install -y $t
+fi
+done
+}
+
+
+check_apt() {
+pkgs=("$@")
+for p in "${pkgs[@]}";
+do
+if [ ! "$(dpkg -l "$p")" ]
+then
+        echo "$p is not installed."
+        # TODO we should ask if they want to install this
+        echo "Installing $p"
+        apt-get install -y $p
+fi
+done
+}
+
 # This will update the package lists and any packages that are already installed to
 # the latest versions.
 system_upgrade() {
