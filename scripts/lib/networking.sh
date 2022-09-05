@@ -1,18 +1,20 @@
 #!/bin/bash
 
+# TODO Complete the networking file
+
 install_browsers() {
   local pkgs=("firefox" "chromium")
   package_install "${pkgs[@]}"
 
   return 0
-  
+
 }
 
 install_chat_programs() {
 local pkgs=("irssi")
 package_install "${pkgs[@]}"
 
-return 0  
+return 0
 }
 
 install_network_tools() {

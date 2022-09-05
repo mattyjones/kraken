@@ -1,5 +1,6 @@
 #! /bin/env bash
 
+#TODO Complete the shell file
 
   # Setup my shell environment
   #  configure_oh_my_zsh

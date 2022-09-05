@@ -1,5 +1,7 @@
 #! /bin/env bash
 
+# TODO Complete the editors file
+
   # Configure my editors
   #  configure_nvim
   # TODO can we do some dynamic install/config of neovim instead

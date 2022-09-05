@@ -1,5 +1,7 @@
 #! /bin/env bash
 
+# TODO Complete the terminal file
+
   # Setup my terminals
   #configure_alacritty
   # configure_tmux

@@ -1,28 +1,79 @@
 #! /bin/env bash
 
-# all packages for that lang should be installed here
-# rust will be needed in order to compile alactritty
-# Setup development specific bits
-  #  configure_starship
-  #  configure_git # TODO different package
-  # install_cpan # TODO different package
-  #  install_ruby # TODO different package
-  #  install_editorconfig
-  # python # TODO different package
-  # golang # TODO different package
-  # rust # TODO different package
+#
+# This installs an opinionated development environment and the common languages
+# I use. If you don't want specific languages you can remove the functions from
+# the main() function at the bottom of the file.
+# Some of these langagues may be installed as dependencies for other programs
+#
+# TODO Complete the development file
+# TODO Add colors
 
-##---------------------- Golang Installation --------------------##
+  #  [ ] install_git # TODO different package
+  #  [ ] install_ruby # TODO different package
+  #  [ ] install_python # TODO different package
+  #  [ ] Install_rust # TODO different package
+
+source util.sh
+source ../install_debian.sh
+
+##------------------------------ Editorconfig ---------------------------##
+
+# Install the root  editorconfig file
+# https://editorconfig.org
+# TODO Add debugging to include the version installed and the version to be installed
+# TODO Check for errors
+# TODO Test install_cpan function
+install_editorconfig() {
+  ln -s "$cwd/editorconfig/_editorconfig" "$HOME/.editorconfig"
+
+  return 0
+}
+
+##------------------------------ Starship ---------------------------##
+
+# Configure Starship for my development prompt
+configure_starship() {
+  ln -s "$cwd/starship/starship.toml" "$HOME/.config/starship.toml"
+
+  return 0
+}
+
+# Configure Starship for my development prompt
+# https://starship.rs
+# TODO Add debugging to include the version installed and the version to be installed
+# TODO Check for errors
+# TODO Test install_starship function
+install_starship() {
+
+  # Rust is need to build Starship
+  install_rust
+
+  curl -sS https://starship.rs/install.sh | sh
+  # TODO Check for errors
+  # TODO Add debug functionality
+
+  # Bring in my opinionated config file
+  configure_starship
+
+  return 0
+}
+
+##---------------------- Golang --------------------##
 
 # Install Golang and set the GOPATH. This is my way of doing things and a little against
-# the traditional way but it makes for a cleaner multi-language dev environment.
+# the traditional way, but it makes for a cleaner multi-language dev environment.
+
+# TODO Add debugging to include the version installed and the version to be installed
+# TODO Check for errors
+# TODO Test install_golang function
 install_golang() {
   echo "Installing Golang"
 
   if [[ "$(go version)" ]]; then
     echo "Golang is already installed"
   else
-    echo "Add go to your brewfile and run `brew bundle install`"
+    check_tools "golang"
   fi
 
   if [ ! -d "$HOME/Projects/Go" ]; then
@@ -31,22 +82,6 @@ install_golang() {
   fi
 
   return 0
-}
-
-# Install a general development environment. Currently this is a place holder as
-# the specific tools I want are installed on there own.
-#
-install_development_env() {
-
-  echo "Creating base project directory"
-
-  if [ ! -d "$HOME/Projects" ]; then
-    echo "Creating project directory"
-    mkdir -p "$HOME/Projects"
-  fi
-
-  return 0
-
 }
 
 install_base_dev() {
@@ -61,38 +96,33 @@ install_python_devel() {
   local pkgs=("python_pipenv")
 }
 
-##---------------------- Install CPAN --------------------##
+##---------------------- Install Perl --------------------##
 
-# Install and configure cpan. I need Perl some some specific projects.
+# TODO Add debugging to include the version installed and the version to be installed
+# TODO Check for errors
+# TODO Test install_perl function
+install_perl() {
+  echo "" # TODO how do we install Perl
+}
+
+# Install and configure cpan. I need Perl some specific projects.
+# TODO Add debugging to include the version installed and the version to be installed
+# TODO Check for errors
+# TODO Test install_cpan function
 install_cpan() {
 
   if [[ "$(which cpan)" ]]; then
     echo "Cpan is already installed"
   else
-    echo "Add cpan to your brewfile and run `brew bundle install`"
+    echo "" # TODO how do we install cpan
   fi
 
-
-
-  echo "configuring cpan"
+  echo "Configuring cpan"
   sudo cpan App::cpanminus
 
   return 0
 }
 
-# Configure Starship for my development prompt
-configure_starship() {
-  ln -s "$cwd/starship/starship.toml" "$HOME/.config/starship.toml"
-
-  return 0
-}
-
-# Install the root  editorconfig file
-install_editorconfig() {
-  ln -s "$cwd/editorconfig/_editorconfig" "$HOME/.editorconfig"
-
-  return 0
-}
 
 ##---------------------- Git Configuration --------------------##
 
@@ -176,4 +206,25 @@ install_python() {
   fi
 
   return 0
+}
+
+
+# Install a general development environment. Currently, this is a placeholder as
+# the specific tools I want are installed on their own.
+install_development_env() {
+
+  echo "Creating base project directory"
+
+  if [ ! -d "$HOME/Projects" ]; then
+    echo "Creating project directory"
+    mkdir -p "$HOME/Projects"
+  fi
+
+  install_golang          # Go language
+  install_starship        # Starship prompt
+  install_perl            # Perl + CPAN
+  install_editorconfig    # Editorconfig
+
+  return 0
+
 }

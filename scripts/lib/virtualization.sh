@@ -1,5 +1,7 @@
 #! /bin/env bash
 
+# TODO Complete the virt functionality
+
 ##----------------------- VMWare ---------------------##
 
 # The vmware section will install the tools and then setup the folder sharing and
@@ -41,13 +43,10 @@ else
     echo "This has already been set to auto mount"
 fi
 
-
-
-
 install_vmware_tools() {
   echo "Installing vmware the tools"
 
-  local pkgs=("open-vm-tools")
+  local pkgs=("open-vm-tools" "open-vm-tools-desktop")
 }
 
 configure_shared_folders() {

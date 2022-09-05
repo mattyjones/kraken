@@ -61,6 +61,9 @@
 # from the base directory and screw up any relative paths
 cwd=$(pwd)
 
+# TODO Create an option for an unattended install
+# TODO Create an option for debug statements
+# TODO Create a menu for interactive installs
 ##----------------------- Initialization ---------------------##
 
 # Set the path to include the libraries. These are searched for in the same directory or within the path. We capture

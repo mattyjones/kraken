@@ -1,5 +1,7 @@
 #! /bin/bash
 
+#TODO Complete the GUI file
+
 ##----------------------- GUI ---------------------##
 
 #

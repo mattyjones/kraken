@@ -1,9 +1,33 @@
 #!/usr/bin/env bash
 
+#
+# This file contains functionality allowing for the parsing of yaml with a bash
+# environment. In this case we set all major configuration details using yaml.
+#
 # Based on https://gist.github.com/pkuczynski/8665367
+# Based on https://stackoverflow.com/questions/5014632/how-can-i-parse-a-yaml-file-from-a-linux-shell-script
 # Original https://github.com/jasperes/bash-yaml/blob/master/script/yaml.sh
-# https://stackoverflow.com/questions/5014632/how-can-i-parse-a-yaml-file-from-a-linux-shell-script
+#
 
+# unset_variables pulls out the variable names and unsets them.
+unset_variables() {
+    #shellcheck disable=SC2048,SC2206 #Permit variables without quotes
+    local variable_string=($*)
+    unset variables
+    variables=()
+    for variable in "${variable_string[@]}"; do
+        tmpvar=$(echo "$variable" | grep '=' | sed 's/=.*//' | sed 's/+.*//')
+        variables+=("$tmpvar")
+    done
+    for variable in "${variables[@]}"; do
+        if [ -n "$variable" ]; then
+            unset "$variable"
+        fi
+    done
+}
+
+# parse yaml will take a yaml file and convert it to a string for easy usage
+# within a shell script
 parse_yaml() {
     local yaml_file=$1
     local prefix=$2
@@ -44,23 +68,7 @@ parse_yaml() {
     ) <"$yaml_file"
 }
 
-unset_variables() {
-    # Pulls out the variable names and unsets them.
-    #shellcheck disable=SC2048,SC2206 #Permit variables without quotes
-    local variable_string=($*)
-    unset variables
-    variables=()
-    for variable in "${variable_string[@]}"; do
-        tmpvar=$(echo "$variable" | grep '=' | sed 's/=.*//' | sed 's/+.*//')
-        variables+=("$tmpvar")
-    done
-    for variable in "${variables[@]}"; do
-        if [ -n "$variable" ]; then
-            unset "$variable"
-        fi
-    done
-}
-
+# load_yaml will load a file and create a string that can then be used in a shell script
 load_yaml() {
     local yaml_file="$1"
     local prefix="$2"

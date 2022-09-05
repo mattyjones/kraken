@@ -1,5 +1,7 @@
 #! /bin/env bash
 
+# TODO complete the util file
+
 ##--------------------------- Utility Functions ------------------------##
 
 # Install will install a package or group of packages using a common set of options.
@@ -7,6 +9,7 @@
 # uniformity.
 # TODO use color in the output
 # TODO check to make sure package installed correctly
+# NOTE do we need this function or should be always use the check function to install
 package_install() {
   local pkgs=("$@")
 
@@ -22,6 +25,8 @@ package_install() {
   return 0
 }
 
+# TODO use color in the output
+# TODO check to make sure package installed correctly
 check_tools() {
 tools=("$@")
 for t in "${tools[@]}";
@@ -51,6 +56,8 @@ fi
 done
 }
 
+# TODO change the sources to testing after asking
+# TODO perform a dist-upgrade
 # This will update the package lists and any packages that are already installed to
 # the latest versions.
 system_upgrade() {
