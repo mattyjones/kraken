@@ -136,7 +136,7 @@ main() {
   clear
 
   # Print the script header
-  script_header
+  print_header
 
   # Initialize the script and ensure we have a correct baseline image
   if ! initialize; then
