@@ -45,8 +45,11 @@ set_debian_source() {
   if [ "$current_branch" != "$new_branch" ]; then
     echo -e "\n\e[$red Changing release branch failed\e[$default"
     return 1
+  else
+    return 0
   fi
 
-  return 0
+  # Return 1 by default as a defensive measure of an unknown failure
+  return 1
 }
 

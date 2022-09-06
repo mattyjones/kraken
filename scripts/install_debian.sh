@@ -106,12 +106,14 @@ initialize() {
   load_yaml "$cwd/scripts/config.yml"
 
   # Allow the user to set the debian source branch to track
-  local return_me=set_debian_source "bullseye"
-  echo "return: $?"
-  echo "return: $return_me"
+  set_debian_source "bullseye"
+  check_error "$?"
+
+
 
   # Upgrade the entire system to ensure we have a stable platform
   system_upgrade
+  check_error "$?"
 
   # FIXME This is supper ugly and needs to be cleaner with the functions
   # Install curl if it is not already present

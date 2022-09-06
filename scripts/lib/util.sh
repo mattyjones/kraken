@@ -97,3 +97,17 @@ create_path() {
 
   return 0
 }
+
+check_error() {
+  exit_code="$1"
+
+  if [ $exit_code -ne 0 ]; then
+    echo -e "\n\e[$red Script exiting due to errors\n\e[$default"
+    exit 1
+  fi
+}
+
+  if [ "$?" -ne 0 ]; then
+    echo -e "\n\e[$red Script exiting due to errors\n\e[$default"
+    exit 1
+  fi
