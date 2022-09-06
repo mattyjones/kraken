@@ -28,6 +28,7 @@
 #    MIT
 #
 
+# shellcheck disable=SC2155
 ##--------------------------- Prework ----------------------------------##
 
 # You will need a base installation of Debian Bullseye. It can be as minimal as you
@@ -149,58 +150,18 @@ main() {
   # script to ensure tools are available as needed. This may not be
   # called out and the tool will break if certain build tools and headers
   # are not present as dependencies.
-
-  # FIXME This looks like shit and smells worse. Do some kind of a for loop here with a known package name pattern
-  if [[ $packages_gui_install == "true" ]]; then
-    if ! gui_main; then
-      echo -e "\n\e[$red Gui installation failed\e[$default"
-      exit 1
-    fi
-  fi
-
-  if [[ $packages_networking_install == "true" ]]; then
-    if ! networking_main; then
-      echo -e "\n\e[$red Browsers and networking tools installation failed\e[$default"
-      exit 1
-    fi
-  fi
-
-  if [[ $packages_editors_install == "true" ]]; then
-    if ! editors_main; then
-      echo -e "\n\e[$red Editing tools installation failed\e[$default"
-      exit 1
-    fi
-  fi
-
-  if [[ $packages_terminal_install == "true" ]]; then
-    if ! terminal_main; then
-      echo -e "\n\e[$red Terminal tools installation failed\e[$default"
-      exit 1
-    fi
-  fi
-
-    if [[ $packages_development_install == "true" ]]; then
-      if ! development_main; then
-        echo -e "\n\e[$red Development tools installation failed\e[$default"
+  local pkg_list="$(set -o posix; set | grep 'packages_' | awk -F= '{ print $1 }' | grep packages)"
+  for p in $pkg_list; do
+    local pkg_selector="$(echo $p | awk -F'_' '{ print $2 }')"
+           local install_func="$pkg_selector'_main'"
+    if [[ $p == "true" ]]; then
+      if ! "$install_func"; then
+        echo -e "\n\e[$red Gui installation failed\e[$default"
         exit 1
       fi
-  fi
-
-  if [[ $packages_shell_install == "true" ]]; then
-    if ! shell_main; then
-      echo -e "\n\e[$red Shell tools and configs installation failed\e[$default"
-      exit 1
     fi
-  fi
-
-  if [[ $packages_virtualization_install == "true" ]]; then
-
-    if ! virtualization_main; then
-      echo -e "\n\e[$red Virtualization tools and configs installation failed\e[$default"
-      exit 1
-    fi
-  fi
-
+  done
+# TODO ^^^ does this damn thing work
 # Print the footer for the script
 print_footer
 
