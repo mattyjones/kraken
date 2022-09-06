@@ -106,7 +106,9 @@ initialize() {
   load_yaml "$cwd/scripts/config.yml"
 
   # Allow the user to set the debian source branch to track
-  set_debian_source "bullseye"
+  local return_me=set_debian_source "bullseye"
+  echo "return: $?"
+  echo "return: $return_me"
 
   # Upgrade the entire system to ensure we have a stable platform
   system_upgrade
