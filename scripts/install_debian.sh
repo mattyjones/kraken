@@ -30,9 +30,9 @@
 
 ##--------------------------- Prework ----------------------------------##
 
-# You will need a base installation of Debian 11+. It can be as minimal as you
+# You will need a base installation of Debian Bullseye. It can be as minimal as you
 # want. There are only a few opinionated decisions left in this tool. Once
-# this is complete log in and setup a few things. This could be automated as
+# this is complete log in and set up a few things including a non-priv user with sudo. This could be automated as
 # well in the future.
 #
 # There are a lot of steps here just to be clear on the process. In reality,
@@ -43,24 +43,6 @@
 # There may be additional steps or different steps depending on the final
 # installation. How and for what purpose kraken is used is up to you.
 
-# 1. Install a base image of Debian
-# 5. Boot the box and log in
-# 6. `sudo su -`
-# 7. `useradd -d /home/$USER -G sudo -m $USER`
-# 8. `passwd $USER`
-# 9. `apt install neovim curl wget git`
-# 10. Reboot
-# 11. Login with $USER
-# 12. `git clone https://github.com/mattyjones/kraken.git`
-# 13. `cd kraken`
-# 14. `git checkout blackarch`
-# 15. See README for details on using kraken
-
-# Get the current working directory for reference. Do not use pwd
-# in the script as the current directory could be different
-# from the base directory and screw up any relative paths
-cwd=$(pwd)
-
 # TODO Create an option for an unattended install
 # TODO Create an option for debug statements
 # TODO Create a menu for interactive installs
@@ -68,7 +50,7 @@ cwd=$(pwd)
 
 # Set the path to include the libraries. These are searched for in the same directory or within the path. We capture
 # the original path statement and then prepend the library directory. Once we have sourced all the functions we drop
-# back to the original path to minimize possible mangling.
+# back to the original path to minimize path mangling.
 load_library() {
 
   local ORIG_PATH="$PATH"
@@ -84,22 +66,12 @@ load_library() {
   source util.sh
   # source virtualization.sh
   source yaml.sh
+  source system.sh
 
   export PATH="$ORIG_PATH"
 
   return 0
 }
-
-# prep work
-check_tools "${required_tools[@]}"
-apt-get update
-cd /tmp
-#apt-get full-upgrade
-
-# Check and installl needed packages
-check_apt "${i3_pkgs[@]}"
-check_apt "${general_pkgs[@]}"
-check_apt "${security_pkgs[@]}"
 
 # Initialize gathers basic info, performs any setup configurations and makes
 # sure any script dependencies are met. It will not check to see what it is
@@ -108,17 +80,8 @@ check_apt "${security_pkgs[@]}"
 initialize() {
 
   script_user="$(logname)"
-# TODO Check for sudo before we do anything
 
-required_tools=("curl" "wget" "zsh")
-
-  echo -e "\e[$cyan Initializing..."
-
-  # Bring in all necessary libraries and external functions
-  load_library
-
-  # Load in the yaml config file
-  load_yaml "$cwd/scripts/config.yml"
+  required_tools=("curl" "wget" "git")
 
   # Ask for the administrator password upfront. Do not run the script as root.
   # This should always be run as the user whose account will be used. Sudo
@@ -134,40 +97,46 @@ required_tools=("curl" "wget" "zsh")
     kill -0 "$$" || exit
   done 2>/dev/null &
 
+  echo -e "\n\e[$cyan Initializing...\n\e[$default"
+
+#  # Bring in all necessary libraries and external functions
+#  load_library
+
+  # Load in the yaml config file
+  load_yaml "$cwd/scripts/config.yml"
+
+  # Allow the user to set the debian source branch to track
+  set_debian_source "bullseye"
+
   # Upgrade the entire system to ensure we have a stable platform
   system_upgrade
 
+  # FIXME This is supper ugly and needs to be cleaner with the functions
   # Install curl if it is not already present
   if [ ! "$(which curl >/dev/null 2>&1)" ]; then
     package_install curl
   fi
 
+  # FIXME This is supper ugly and needs to be cleaner with the functions
   # Install wget if it is not already present
   if [ ! "$(which wget >/dev/null 2>&1)" ]; then
     package_install wget
   fi
 
+  # FIXME This is supper ugly and needs to be cleaner with the functions
+ # Install git if it is not already present
+  if [ ! "$(which git >/dev/null 2>&1)" ]; then
+    package_install git
+  fi
   echo "Initialization complete"
   return 0
 }
 
+# Bring in all necessary libraries and external functions
+load_library
+
 ##--------------------------- Main -------------------------##
 main() {
-
-  # TODO set all these as global variables in the install script
-  local VERSION="0.0.1"
-
-  # FIXME fix the colors with the same number (orange and yellow)
-  # Colors
-  red="0;31m"
-  green="0;32m"
-  orange="0;33m"
-  blue="0;34m"
-  purple="0;35m"
-  cyan="0;36m"
-  white="1;37m"
-  yellow="1;33m"
-  default="0m"
 
   # Script header
   # TODO break this out into a seprate function
@@ -263,6 +232,5 @@ main
 # quit output
 # capture error output and STDERR
 # catch warnings
-# colored output
 
 

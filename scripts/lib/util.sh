@@ -2,6 +2,27 @@
 
 # TODO complete the util file
 
+##--------------------------- Global Variables ------------------------##
+  # FIXME fix the colors with the same number (orange and yellow)
+  # Colors
+  red="0;31m"
+  green="0;32m"
+  orange="0;33m"
+  blue="0;34m"
+  purple="0;35m"
+  cyan="0;36m"
+  white="1;37m"
+  yellow="1;33m"
+  default="0m"
+
+# Get the current working directory for reference. Do not use pwd
+# in the script as the current directory could be different
+# from the base directory and screw up any relative paths
+cwd=$(pwd)
+
+# The current version of the script. This follows semver
+VERSION="0.0.1"
+
 ##--------------------------- Utility Functions ------------------------##
 
 # Install will install a package or group of packages using a common set of options.
@@ -54,22 +75,6 @@ then
         apt-get install -y $p
 fi
 done
-}
-
-# TODO change the sources to testing after asking
-# TODO perform a dist-upgrade
-# This will update the package lists and any packages that are already installed to
-# the latest versions.
-system_upgrade() {
-  if [ ! "$(sudo apt update && apt upgrade)" ]; then
-    echo -e "\n\e[$red System upgrade failed\e[$default"
-    exit 1
-  else
-    echo -e "\n\e[$cyan System update complete\e[$default"
-    echo ""
-  fi
-
-  return 0
 }
 
 # This provides a consistent way to create any necessary paths. This should not run

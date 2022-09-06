@@ -2,12 +2,18 @@
 global:
 
 packages:
-  blackarch:
+  eye_candy:
     install: false
   gui:
     install: false
   networking:
     install : false
+  pentest_tools:
+    install: false
+  security:
+    install: false
+  system:
+    install: false
   editors:
     install : false
   development:
@@ -16,11 +22,9 @@ packages:
     install: false
   terminal:
     install: false
-  util:
-    install: false
-  yaml:
-    install: false
   vmware:
     install: false
 
+system:
+  release_branch: "testing"
 
