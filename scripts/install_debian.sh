@@ -56,17 +56,19 @@ load_library() {
   local ORIG_PATH="$PATH"
   export PATH="scripts/lib:$PATH"
 
-  # source blackarch.sh
   # source development.sh
   # source editors.sh
+  # source eye_candy.sh
   # source gui.sh
   # source networking.sh
+  # source pentest_tools.sh
+  # source security.sh
   # source shell.sh
+  source system.sh
   # source terminal.sh
   source util.sh
   # source virtualization.sh
   source yaml.sh
-  source system.sh
 
   export PATH="$ORIG_PATH"
 
@@ -80,8 +82,6 @@ load_library() {
 initialize() {
 
   script_user="$(logname)"
-
-  required_tools=("curl" "wget" "git")
 
   # Ask for the administrator password upfront. Do not run the script as root.
   # This should always be run as the user whose account will be used. Sudo
@@ -109,47 +109,34 @@ initialize() {
   set_debian_source "bullseye"
   check_error "$?"
 
-
-
   # Upgrade the entire system to ensure we have a stable platform
   system_upgrade
   check_error "$?"
 
-  # FIXME This is supper ugly and needs to be cleaner with the functions
-  # Install curl if it is not already present
-  if [ ! "$(which curl >/dev/null 2>&1)" ]; then
-    package_install curl
-  fi
+  # Install the required tools for the script to run
+  required_tools=("curl" "wget" "git")
+  package_install "${required_tools[@]}"
+  check_error "$?"
 
-  # FIXME This is supper ugly and needs to be cleaner with the functions
-  # Install wget if it is not already present
-  if [ ! "$(which wget >/dev/null 2>&1)" ]; then
-    package_install wget
-  fi
-
-  # FIXME This is supper ugly and needs to be cleaner with the functions
- # Install git if it is not already present
-  if [ ! "$(which git >/dev/null 2>&1)" ]; then
-    package_install git
-  fi
   echo "Initialization complete"
   return 0
 }
 
-# Bring in all necessary libraries and external functions
-load_library
-
 ##--------------------------- Main -------------------------##
+
+# Bring in all necessary libraries and external functions
+if ! load_library; then
+  echo "Loading the library failed"
+  exit 1
+fi
+
 main() {
 
-  # Script header
-  # TODO break this out into a seprate function
-  echo -e "\n\e[$blue#########################################################\e[$default"
-  echo -e "\n\e[$cyan Kracken - Automated Debian Linux Pentesting Environment"
-  echo -e "\e[$cyan @mattyjones | github.com/mattyjones"
-  echo -e "\e[$cyan Version: $VERSION"
-  echo -e "\n\e[$blue#########################################################\e[$default"
-  printf "\n\n\n"
+  # clear the screen
+  clear
+
+  # Print the script header
+  script_header
 
   # Initialize the script and ensure we have a correct baseline image
   if ! initialize; then
@@ -161,7 +148,8 @@ main() {
   # script to ensure tools are available as needed. This may not be
   # called out and the tool will break if certain build tools and headers
   # are not present as dependencies.
-  # TODO break this out into a separate function
+
+  # FIXME This looks like shit and smells worse. Do some kind of a for loop here with a known package name pattern
   if [[ $packages_gui_install == "true" ]]; then
     if ! gui_main; then
       echo -e "\n\e[$red Gui installation failed\e[$default"
@@ -212,29 +200,15 @@ main() {
     fi
   fi
 
-  # Misc bits and pieces
-  # configure_gpg
-  #  configure_wraith
+# Print the footer for the script
+print_footer
 
- # TODO create some sort of a cleanup script to clean the tmp directory, cache, etc
- #  at the end of the run. This would also be called during a failed state to ensure
- #  the environment was left as stable as possible
-  echo -e "\n\e[$blue#########################################################\e[$default"
-  echo -e "\n\e[$orange All done. Go be a creepy human\e[$default"
-  echo -e "\n\e[$blue#########################################################\e[$default"
-
-  exit 0
-
+# Cleanup and debris and reboot if requested
+cleanup
+exit 0
 }
 
 main
-# TODO tests?
-# reboot so things can take effect
-# should ask to do this
-#init 6
-# do we want to set zsh as the shell
-# quit output
-# capture error output and STDERR
-# catch warnings
+
 
 

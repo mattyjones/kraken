@@ -27,4 +27,5 @@ packages:
 
 system:
   release_branch: "testing"
+  reboot_on_finish: false
 
