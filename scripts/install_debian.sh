@@ -88,6 +88,7 @@ initialize() {
   # may be needed for specific actions so that is called up front so automation
   # does not break.
   sudo -v
+  check_error "$?"
 
   # Keep-alive: update existing `sudo` time stamp until we have finished. This
   # ensures that sudo does not expire before the script completes.
