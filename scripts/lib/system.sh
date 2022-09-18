@@ -40,13 +40,13 @@ set_debian_source() {
   else
     echo "Setting release branch to $new_branch"
     sudo sed -i "s/$current_branch/$new_branch/g" /etc/apt/sources.list
-  fi
 
-  if [ "$current_branch" != "$new_branch" ]; then
-    echo -e "\n\e[$red Changing release branch failed\e[$default"
-    return 1
-  else
-    return 0
+    if [ "$current_branch" != "$new_branch" ]; then
+      echo -e "\n\e[$red Changing release branch failed\e[$default"
+      return 1
+    else
+      return 0
+    fi
   fi
 
   # Return 1 by default as a defensive measure of an unknown failure

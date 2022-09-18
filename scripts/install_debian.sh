@@ -60,7 +60,7 @@ load_library() {
   # source development.sh
   # source editors.sh
   # source eye_candy.sh
-  # source gui.sh
+  source gui.sh
   # source networking.sh
   # source pentest_tools.sh
   # source security.sh

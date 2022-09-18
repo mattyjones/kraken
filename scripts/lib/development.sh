@@ -1,5 +1,6 @@
 #! /bin/env bash
 
+source util.sh
 #
 # This installs an opinionated development environment and the common languages
 # I use. If you don't want specific languages you can remove the functions from
@@ -33,13 +34,6 @@ install_editorconfig() {
 ##------------------------------ Starship ---------------------------##
 
 # Configure Starship for my development prompt
-configure_starship() {
-  ln -s "$cwd/starship/starship.toml" "$HOME/.config/starship.toml"
-
-  return 0
-}
-
-# Configure Starship for my development prompt
 # https://starship.rs
 # TODO Add debugging to include the version installed and the version to be installed
 # TODO Check for errors
@@ -55,6 +49,13 @@ install_starship() {
 
   # Bring in my opinionated config file
   configure_starship
+
+  return 0
+}
+
+# Configure Starship for my development prompt
+configure_starship() {
+  ln -s "$cwd/starship/starship.toml" "$HOME/.config/starship.toml"
 
   return 0
 }
@@ -228,3 +229,11 @@ install_development_env() {
   return 0
 
 }
+
+install_general_pkgs(){
+
+  local pkgs=( "jq" "lnav")
+  package_install "${pkgs[@]}"
+  check_error $?
+}
+

@@ -35,7 +35,6 @@ package_install() {
   for p in "${pkgs[@]}"; do
     if [[ ("$(dpkg -l "$p")") || ( "$(which "$p")") ]]; then
       echo "$p is already installed"
-      return 0
     elif [[ ( ! "$(dpkg -l "$p")") && ( ! "$(which "$p")") ]]; then
       echo "Installing $p"
       if ! apt-get install -y $p; then
@@ -43,13 +42,11 @@ package_install() {
         return 1
       else
         echo "$p installed successfully"
-        return 0
       fi
     fi
   done
 
-  # Return 1 by default as a defensive measure of an unknown failure
-  return 1
+  return 0
 }
 
 # create_path provides a consistent way to create any necessary paths. This should not run
@@ -70,8 +67,8 @@ create_path() {
     fi
   done
 
-  # Return 1 by default as a defensive measure of an unknown failure
-  return 1
+
+  return 0
 }
 
 # check_error is a generic error handling function to clean up and reuse any code possible
@@ -88,7 +85,7 @@ check_error() {
 print_header() {
 
   echo -e "\n\e[$blue#########################################################\e[$default"
-  echo -e "\n\e[$cyan Kracken - Automated Debian Linux Pentesting Environment"
+  echo -e "\n\e[$cyan Kracken - Automated Debian Linux Environment"
   echo -e "\e[$cyan @mattyjones | github.com/mattyjones"
   echo -e "\e[$cyan Version: $VERSION"
   echo -e "\n\e[$blue#########################################################\e[$default"
@@ -113,7 +110,6 @@ cleanup() {
 
     if [[ ( "$ans" == "Y" ) || ( "$ans" == "y" ) ]]; then
       init 6
-      check_error $?
     fi
   else
     echo "It is always a good idea to reboot after configuring a new shell. Especially given

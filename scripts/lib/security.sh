@@ -16,6 +16,13 @@ create_ssh_keys() {
   ssh-keygen
 }
 
+# install_tor will install the tor package. It will not enable/start it by default, that will need to be
+# done on a manual basis. Browsers will not be configured automatically, only the tor service will be configured.
+install_tor() {
 
+  # placeholder
+
+  return 0
+}
 
 # TODO where do I put the dir creation bits security, development, main, ??

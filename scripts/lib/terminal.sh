@@ -1,16 +1,20 @@
 #! /bin/env bash
 
+source util.sh
 # TODO Complete the terminal file
 
   # Setup my terminals
-  #configure_alacritty
-  # configure_tmux
+  # configure_alacritty
 
 ##---------------------- Configure TMUX --------------------##
 
 # I use tmux as my primary terminal inface and run
 # it on terminal startup so it is always ready for me.
-configure_tmux() {
+install_tmux() {
+
+  local pkgs=("tmux")
+  package_install "${pkgs[@]}"
+  check_error $?
 
   echo "Configuring tmux..."
   ln -s "$cwd/tmux/_tmux" "$HOME/.tmux"
