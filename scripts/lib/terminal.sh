@@ -6,10 +6,10 @@ source util.sh
   # Setup my terminals
   # configure_alacritty
 
-##---------------------- Configure TMUX --------------------##
+##--------------------------- TMUX -------------------------##
 
-# I use tmux as my primary terminal inface and run
-# it on terminal startup so it is always ready for me.
+# I use tmux as my primary terminal interface and run
+# it on terminal startup.
 install_tmux() {
 
   local pkgs=("tmux")
@@ -24,21 +24,24 @@ install_tmux() {
 }
 
 
-##---------------------- Terminal Configurations --------------------##
+##-------------------------- Terminal ----------------------##
 
-# Alacritty is my current terminal emulator for all platforms. It is
-# very fast, easy to configure, and has all the options I need. When it starts
-# I launch tmux automagically to allow me the flexibility I need. See the
-# config file for more details.
+# install_alacritty installs and drops the configuration file for alacritty. Alacritty is my current
+# terminal emulator for all platforms. It's very fast, easy to configure, and has all the options I need.
+# When it starts I launch tmux automagically to allow me the flexibility I need. See the config file for more details.
 install_alacritty() {
+
+  # need to properly install this, building from source I believe
   local pkgs=("alacritty")
   package_install "${pkgs[@]}"
+
+  # Need to link the config file, not copy it
   cp "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
 
   return 0
 }
 
-# Set the colors I want. Not always necessary to do this, it is very terminal
+# install_dircolors sets the colors I want. Not always necessary to do this, it's very terminal
 # and OS specific. I am just in the habit of doing it.
 install_dircolors() {
   if [ -f "$HOME/.dir_colors" ]; then
@@ -50,7 +53,11 @@ install_dircolors() {
   return 0
 }
 
+# main is the main entry point for the gui module. Functions should only be called from here and can be
+# created or commented out as needed. Calling specific functions from the debian install script
+# could cause dependency issues or create unresolved errors.
 terminal_main() {
+  install_tmux
   install_alacritty
   install_dircolors
 

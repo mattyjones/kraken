@@ -9,9 +9,6 @@ source util.sh
 
   # Setup my shell environment
   #  configure_oh_my_zsh
-  #  configure_shell_env
-  #  install_dircolors
-
 
 ##---------------------- Shell Configuration --------------------##
 
@@ -84,21 +81,6 @@ enable_zsh() {
   reboot=true
 }
 
-##---------------------- Configure TMUX --------------------##
-
-# I use tmux as my primary terminal inface and run
-# it on terminal startup so it is always ready for me.
-install_tmux() {
-  local pkgs=("tmux")
-
-  echo "Configuring tmux..."
-  ln -s "$cwd/tmux/_tmux" "$HOME/.tmux"
-  ln -s "$cwd/tmux/_tmux.conf" "$HOME/.tmux.conf"
-
-  return 0
-}
-#! /bin/env bash
-
 ##---------------------- Shell Configuration --------------------##
 
 enable_zsh() {
@@ -118,20 +100,6 @@ enable_zsh() {
   sed -i.bak '/auth       sufficient   pam_wheel.so trust group=chsh/d' /etc/pam.d/chsh
 
   reboot=true
-}
-
-##---------------------- Configure TMUX --------------------##
-
-# I use tmux as my primary terminal inface and run
-# it on terminal startup so it is always ready for me.
-configure_tmux() {
-    local pkgs=("tmux")
-
-  echo "Configuring tmux..."
-  ln -s "$cwd/tmux/_tmux" "$HOME/.tmux"
-  ln -s "$cwd/tmux/_tmux.conf" "$HOME/.tmux.conf"
-
-  return 0
 }
 
 install_oh_my_zsh() {
