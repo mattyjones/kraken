@@ -58,7 +58,7 @@ load_library() {
   export PATH="scripts/lib:$PATH"
 
   # source development.sh
-  # source editors.sh
+  source editors.sh
   # source eye_candy.sh
   source gui.sh
   # source networking.sh

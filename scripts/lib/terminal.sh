@@ -1,6 +1,7 @@
 #! /bin/env bash
 
 source util.sh
+source development.sh
 # TODO Complete the terminal file
 
   # Setup my terminals
@@ -31,9 +32,14 @@ install_tmux() {
 # When it starts I launch tmux automagically to allow me the flexibility I need. See the config file for more details.
 install_alacritty() {
 
-  # need to properly install this, building from source I believe
-  local pkgs=("alacritty")
-  package_install "${pkgs[@]}"
+  install_rust
+
+  cd /tmp
+  git clone https://github.com/alacritty/alacritty.git
+  cargo build --release
+  cd target/release
+  sudo  mv alacritty /usr/local/bin
+  sudo rm -rf /tmp/alacritty
 
   # Need to link the config file, not copy it
   cp "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"

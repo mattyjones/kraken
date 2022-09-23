@@ -124,6 +124,13 @@ install_cpan() {
   return 0
 }
 
+install_rust() {
+sudo apt install curl git cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
+rustup override set stable
+rustup update stable
+}
 
 ##---------------------- Git Configuration --------------------##
 
@@ -225,6 +232,7 @@ install_development_env() {
   install_starship        # Starship prompt
   install_perl            # Perl + CPAN
   install_editorconfig    # Editorconfig
+  install_rust
 
   return 0
 
