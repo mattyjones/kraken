@@ -32,17 +32,18 @@ install_tmux() {
 # When it starts I launch tmux automagically to allow me the flexibility I need. See the config file for more details.
 install_alacritty() {
 
+  # all installation methods currently require rust to be installed
   install_rust
 
-  cd /tmp
-  git clone https://github.com/alacritty/alacritty.git
+  git clone https://github.com/alacritty/alacritty.git /tmp/alacritty
+  cd /tmp/alacritty || return 1
   cargo build --release
-  cd target/release
+  cd target/release || return 1
   sudo  mv alacritty /usr/local/bin
   sudo rm -rf /tmp/alacritty
 
   # Need to link the config file, not copy it
-  cp "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
+  ln -s "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
 
   return 0
 }
@@ -59,7 +60,7 @@ install_dircolors() {
   return 0
 }
 
-# main is the main entry point for the gui module. Functions should only be called from here and can be
+# main is the main entry point for the terminal module. Functions should only be called from here and can be
 # created or commented out as needed. Calling specific functions from the debian install script
 # could cause dependency issues or create unresolved errors.
 terminal_main() {

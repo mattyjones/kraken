@@ -19,7 +19,7 @@
 # Get the current working directory for reference. Do not use pwd
 # in the script as the current directory could be different
 # from the base directory and screw up any relative paths
-cwd=$(pwd)
+cwd="../../$(pwd)"
 
 # The current version of the script. This follows semver
 VERSION="0.0.1"
