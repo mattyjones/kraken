@@ -1,4 +1,11 @@
-#! /bin/bash
+# /bin/bash
+
+# Search through a tree for specific terms using specific options
+search() {
+  terms="$1"
+  grep_options=" -r -i "
+  ls -Al | grep "$grep_options" "$terms"
+}
 
 # Linux specific aliases, work on both MacOS and Linux.
 pbcopy() {
