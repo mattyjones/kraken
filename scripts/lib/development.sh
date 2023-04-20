@@ -37,7 +37,6 @@ install_editorconfig() {
 # https://starship.rs
 # TODO Add debugging to include the version installed and the version to be installed
 # TODO Check for errors
-# TODO Test install_starship function
 install_starship() {
 
   # Rust is need to build Starship
@@ -67,7 +66,6 @@ configure_starship() {
 
 # TODO Add debugging to include the version installed and the version to be installed
 # TODO Check for errors
-# TODO Test install_golang function
 install_golang() {
   echo "Installing Golang"
 
@@ -86,22 +84,13 @@ install_golang() {
 }
 
 install_base_dev() {
-  local pkgs=("git" "starship" "base_devel" "shfmt")
-}
-
-install_base_dev() {
-  local pkgs=("shfmt")
-}
-
-install_python_devel() {
-  local pkgs=("python_pipenv")
+  local pkgs=("git" "base_devel" "shfmt")
 }
 
 ##---------------------- Install Perl --------------------##
 
 # TODO Add debugging to include the version installed and the version to be installed
 # TODO Check for errors
-# TODO Test install_perl function
 install_perl() {
   echo "" # TODO how do we install Perl
 }
@@ -161,30 +150,36 @@ install_ruby() {
     echo "Installing the latest 3.x Ruby with ruby-install. This may take about 5m"
     ruby-install ruby 3
   else
+    # TODO make this pull a specific version or the latest version
     echo "You need to have 'ruby-install' installed or modify this function"
+    wget -O ruby-install-0.8.2.tar.gz https://github.com/postmodern/ruby-install/archive/v0.8.2.tar.gz
+    tar -xzvf ruby-install-0.8.2.tar.gz
+    cd ruby-install-0.8.2/ || return 1
+    sudo make install
   fi
+
+  if [[ "$(which chruby)" ]]; then
+    echo "chruby is already installed"
+  else
+    wget -O chruby-0.3.9.tar.gz https://github.com/postmodern/chruby/archive/v0.3.9.tar.gz
+    tar -xzvf chruby-0.3.9.tar.gz
+    cd chruby-0.3.9/ || return 1
+    sudo scripts/setup.sh
+  fi
+
+
 
   # TODO Install default rubocop file
   # https://raw.githubusercontent.com/rubocop/rubocop/master/config/default.yml
 
   # TODO Create a general gemfile for bundler
 
-  make sure it is in the path
-  ~/.rubies/ruby-*/bin/bundle install
+  # make sure it is in the path
+  # $HOME/.rubies/ruby-*/bin/bundle install
 
   # pry does not work
 
-  wget -O ruby-install-0.8.2.tar.gz https://github.com/postmodern/ruby-install/archive/v0.8.2.tar.gz
-  tar -xzvf ruby-install-0.8.2.tar.gz
-  cd ruby-install-0.8.2/
-  sudo make install
-
-  ruby-install ruby #(latest stable)
-
-  wget -O chruby-0.3.9.tar.gz https://github.com/postmodern/chruby/archive/v0.3.9.tar.gz
-  tar -xzvf chruby-0.3.9.tar.gz
-  cd chruby-0.3.9/
-  sudo scripts/setup.sh
+#  ruby-install ruby #(latest stable)
 
   return 0
 }
@@ -199,19 +194,21 @@ install_python() {
   if [[ "$(python3 --version)" ]]; then
     echo "Python3 is already installed"
   else
-    echo "Add python3 to your brewfile and run `brew bundle install`"
+    local pkgs=("python3_pipenv" "python3")
+    package_install "${pkgs[@]}"
+    check_error $?
   fi
 
-  if [[ "$(pipenv -h)" ]]; then
-    echo "Pipenv is already installed"
-  else
-    echo "Add pipenv to your brewfile and run `brew bundle install`"
-  fi
+#  if [[ "$(pipenv -h)" ]]; then
+#    echo "Pipenv is already installed"
+#  else
+#    echo "Add pipenv to your brewfile and run `brew bundle install`"
+#  fi
 
-  if [ ! -d "$HOME/Projects" ]; then
-    echo "Creating project directory"
-    mkdir -p "$HOME/Projects"
-  fi
+#  if [ ! -d "$HOME/Projects" ]; then
+#    echo "Creating project directory"
+#    mkdir -p "$HOME/Projects"
+#  fi
 
   return 0
 }

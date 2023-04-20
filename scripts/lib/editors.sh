@@ -16,6 +16,7 @@ install_vscode() {
 }
 
 # install_vim_airline installs the airline status bar
+# https://github.com/vim-airline/vim-airline
 install_vim_airline() {
 
   git clone https://github.com/vim-airline/vim-airline.git /tmp/airline
@@ -27,6 +28,7 @@ install_vim_airline() {
 }
 
 # install_vim_nord installs the nord vim theme
+# https://github.com/arcticicestudio/nord-vim
 install_vim_nord() {
 
   git clone https://github.com/arcticicestudio/nord-vim.git /tmp/nord-vim
