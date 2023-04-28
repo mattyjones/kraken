@@ -114,6 +114,7 @@ install_cpan() {
 }
 
 install_rust() {
+  # TODO need to add logging and error checking for deps in case they were not installed
 sudo apt install curl git cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env

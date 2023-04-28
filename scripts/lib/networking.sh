@@ -18,7 +18,7 @@ return 0
 }
 
 install_network_tools() {
-local pkgs=("openconnect" "inetutils")
+local pkgs=("openconnect" "inetutils" "tcpdump" "xfreerdp2-x11")
 package_install "${pkgs[@]}"
 
 return 0

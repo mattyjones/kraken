@@ -38,12 +38,16 @@ source "$HOME/.grep" # env grep
 
 source "$ZSH/oh-my-zsh.sh"
 
+# Enable syntax highlighting
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 ## RUBY ENVIRONMENT ##
 # source /usr/local/share/chruby/chruby.sh # load chruby
 # source /usr/local/share/chruby/auto.sh # enable auto-switching
 # chruby ruby-3 # set the default ruby for my environment
 
-source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# TODO check to see if this is present before calling it
+# If it is not ask to install it, if no write something to the file to prevent future asks
 
 # https://starship.rs
 eval "$(starship init zsh)"

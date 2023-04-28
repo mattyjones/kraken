@@ -35,6 +35,11 @@ install_alacritty() {
   # all installation methods currently require rust to be installed
   install_rust
 
+  # ensure dependencies are present for building
+  local pkgs=("cmake" "libfontconfig-dev")
+  package_install "${pkgs[@]}"
+  check_error $?
+
   git clone https://github.com/alacritty/alacritty.git /tmp/alacritty
   cd /tmp/alacritty || return 1
   cargo build --release
@@ -44,6 +49,8 @@ install_alacritty() {
 
   # Need to link the config file, not copy it
   ln -s "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
+  
+  # TODO need to set it as the default terminal program in the GUI
 
   return 0
 }

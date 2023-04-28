@@ -119,6 +119,12 @@ groupdel chsh
 sed -i.bak '/auth       sufficient   pam_wheel.so trust group=chsh/d' /etc/pam.d/chsh
 }
 
+install_zsh_syntax_highlighting() {
+  local pkgs=( "zsh-syntax-highlighting")
+  package_install "${pkgs[@]}"
+  check_error $?
+}
+
 # main is the main entry point for the gui module. Functions should only be called from here and can be
 # created or commented out as needed. Calling specific functions from the debian install script
 # could cause dependency issues or create unresolved errors.

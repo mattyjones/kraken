@@ -9,7 +9,7 @@ source util.sh
 
 # install_vscode installs an Apple M1 specific version of vscode
 install_vscode() {
-  wget https://code.visualstudio.com/sha/download\?build\=stable\&os\=linux-deb-armhf -O linux-armhf.deb
+  wget https://code.visualstudio.com/sha/download\?build\=stable\&os\=linux-deb-arm64 -O linux-arm64.deb
   sudo dpkg -i linux-armhf.deb
 
   return 0
@@ -56,6 +56,9 @@ install_patched_powerline_fonts() {
   local pkgs=("fonts-powerline")
   package_install "${pkgs[@]}"
 
+  # Rebuild the font cache. The terminal will need to be restarted before this will take effect
+  fc-cache -vf
+
   return 0
 }
 
@@ -93,11 +96,19 @@ install_sublime() {
   package_install "${pkgs[@]}"
 }
 
+install_editor_pkgs(){
+
+  local pkgs=( "bless")
+  package_install "${pkgs[@]}"
+  check_error $?
+}
+
 # editors_main will install my prefered editors and drop their specific configuration files
 editors_main() {
   install_vscode
   install_neovim
   install_sublime
+  install_editor_pkgs
 
   return 0
 }
