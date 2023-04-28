@@ -31,12 +31,12 @@
 #    MIT
 #
 
-# TODO Need to check all the links to see if they exist and are pointing to the right place
-# TODO Some kind of a user menu
-# TODO Respect 80 character limit when possible
-# TODO can we add alfred to the brew file
-# TODO list of vscode extensions
-# TODO some sort of jetbrains configs, beyond the cloud
+# TODO: Need to check all the links to see if they exist and are pointing to the right place
+# TODO: Some kind of a user menu
+# TODO: Respect 80 character limit when possible
+# TODO: can we add alfred to the brew file
+# TODO: list of vscode extensions
+# TODO: some sort of jetbrains configs, beyond the cloud
 
 ##---------------------- Initialize config script --------------------##
 
@@ -88,7 +88,7 @@ install_dev_tools() {
 
 ##---------------------- MacOS Specific Configuration --------------------##
 
-# TODO Need to capture the return status. Do not run this without some additional
+# TODO: Need to capture the return status. Do not run this without some additional
 # checks so things don't get borked.
 
 # Install any software updates necessary. Does not work
@@ -221,7 +221,7 @@ install_dircolors() {
 # to my hearts content for the next four hours. I don't bother with installing zsh and setting
 # it as the default terminal as that is the standard shell in MacOS.
 configure_oh_my_zsh() {
-  # TODO remove the config backup when we are done
+  # TODO: remove the config backup when we are done
 
   # Check to see if it is already installed
   if [ -f "$HOME/.oh-my-zsh/" ]; then
@@ -280,7 +280,7 @@ install_editorconfig() {
 
 ##---------------------- GPG Configuration --------------------##
 
-# TODO Do something with this at some point
+# TODO: Do something with this at some point
 configure_gpg() {
   #  ln -s "$cwd/gnupg/gpg-agent.conf $HOME/.gnupg/gpg-agent.conf
 
@@ -291,7 +291,7 @@ configure_gpg() {
 
 # Configure Neovim
 configure_nvim() {
-  # TODO we should be installing this, not just copying it over but hey
+  # TODO: we should be installing this, not just copying it over but hey
   # if the shoe fits
 
   # Check to see if it is already installed
@@ -437,7 +437,7 @@ install_python() {
 # are installed via Homebrew.
 # If you change the version of Ruby you install ensure that you also update
 # the zshrc file and tell chruby which one to use as your default.
-# TODO Check to see if it is already installed and if so delete it
+# TODO: Check to see if it is already installed and if so delete it
 install_ruby() {
 
   if [[ "$(which ruby-install)" ]]; then
@@ -447,10 +447,10 @@ install_ruby() {
     echo "You need to have 'ruby-install' installed or modify this function"
   fi
 
-# TODO Install default rubocop file
+# TODO: Install default rubocop file
 # https://raw.githubusercontent.com/rubocop/rubocop/master/config/default.yml
 
-# TODO Create a general gemfile for bundler
+# TODO: Create a general gemfile for bundler
 
   return 0
 }
@@ -510,6 +510,6 @@ main() {
 
 }
 
-# TODO tests?
+# TODO: tests?
 
 main

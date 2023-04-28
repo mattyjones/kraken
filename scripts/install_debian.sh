@@ -44,9 +44,9 @@
 # There may be additional steps or different steps depending on the final
 # installation. How and for what purpose kraken is used is up to you.
 
-# TODO Create an option for an unattended install
-# TODO Create an option for debug statements
-# TODO Create a menu for interactive installs
+# TODO: Create an option for an unattended install
+# TODO: Create an option for debug statements
+# TODO: Create a menu for interactive installs
 ##----------------------- Initialization ---------------------##
 
 # Set the path to include the libraries. These are searched for in the same directory or within the path. We capture
@@ -161,7 +161,7 @@ main() {
       fi
     fi
   done
-# TODO ^^^ does this damn thing work
+# TODO: ^^^ does this damn thing work
 # Print the footer for the script
 print_footer
 

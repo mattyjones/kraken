@@ -1,9 +1,9 @@
 
 ##---------------------- GPG Configuration --------------------##
 
-#TODO Complete the security file
+#TODO: Complete the security file
 
-# TODO Do something with this at some point
+# TODO: Do something with this at some point
 configure_gpg() {
   #  ln -s "$cwd/gnupg/gpg-agent.conf $HOME/.gnupg/gpg-agent.conf
 
@@ -25,4 +25,4 @@ install_tor() {
   return 0
 }
 
-# TODO where do I put the dir creation bits security, development, main, ??
+# TODO: where do I put the dir creation bits security, development, main, ??

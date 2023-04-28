@@ -7,13 +7,13 @@ source util.sh
 # the main() function at the bottom of the file.
 # Some of these langagues may be installed as dependencies for other programs
 #
-# TODO Complete the development file
-# TODO Add colors
+# TODO:: Complete the development file
+# TODO:: Add colors
 
-  #  [ ] install_git # TODO different package
-  #  [ ] install_ruby # TODO different package
-  #  [ ] install_python # TODO different package
-  #  [ ] Install_rust # TODO different package
+  #  [ ] install_git # TODO:: different package
+  #  [ ] install_ruby # TODO:: different package
+  #  [ ] install_python # TODO:: different package
+  #  [ ] Install_rust # TODO:: different package
 
 source util.sh
 source ../install_debian.sh
@@ -22,9 +22,9 @@ source ../install_debian.sh
 
 # Install the root  editorconfig file
 # https://editorconfig.org
-# TODO Add debugging to include the version installed and the version to be installed
-# TODO Check for errors
-# TODO Test install_cpan function
+# TODO:: Add debugging to include the version installed and the version to be installed
+# TODO:: Check for errors
+# TODO:: Test install_cpan function
 install_editorconfig() {
   ln -s "$cwd/editorconfig/_editorconfig" "$HOME/.editorconfig"
 
@@ -35,16 +35,16 @@ install_editorconfig() {
 
 # Configure Starship for my development prompt
 # https://starship.rs
-# TODO Add debugging to include the version installed and the version to be installed
-# TODO Check for errors
+# TODO:: Add debugging to include the version installed and the version to be installed
+# TODO:: Check for errors
 install_starship() {
 
   # Rust is need to build Starship
   install_rust
 
   curl -sS https://starship.rs/install.sh | sh
-  # TODO Check for errors
-  # TODO Add debug functionality
+  # TODO:: Check for errors
+  # TODO:: Add debug functionality
 
   # Bring in my opinionated config file
   configure_starship
@@ -64,8 +64,8 @@ configure_starship() {
 # Install Golang and set the GOPATH. This is my way of doing things and a little against
 # the traditional way, but it makes for a cleaner multi-language dev environment.
 
-# TODO Add debugging to include the version installed and the version to be installed
-# TODO Check for errors
+# TODO:: Add debugging to include the version installed and the version to be installed
+# TODO:: Check for errors
 install_golang() {
   echo "Installing Golang"
 
@@ -89,22 +89,22 @@ install_base_dev() {
 
 ##---------------------- Install Perl --------------------##
 
-# TODO Add debugging to include the version installed and the version to be installed
-# TODO Check for errors
+# TODO:: Add debugging to include the version installed and the version to be installed
+# TODO:: Check for errors
 install_perl() {
-  echo "" # TODO how do we install Perl
+  echo "" # TODO:: how do we install Perl
 }
 
 # Install and configure cpan. I need Perl some specific projects.
-# TODO Add debugging to include the version installed and the version to be installed
-# TODO Check for errors
-# TODO Test install_cpan function
+# TODO:: Add debugging to include the version installed and the version to be installed
+# TODO:: Check for errors
+# TODO:: Test install_cpan function
 install_cpan() {
 
   if [[ "$(which cpan)" ]]; then
     echo "Cpan is already installed"
   else
-    echo "" # TODO how do we install cpan
+    echo "" # TODO:: how do we install cpan
   fi
 
   echo "Configuring cpan"
@@ -114,7 +114,7 @@ install_cpan() {
 }
 
 install_rust() {
-  # TODO need to add logging and error checking for deps in case they were not installed
+  # TODO:: need to add logging and error checking for deps in case they were not installed
 sudo apt install curl git cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
@@ -144,14 +144,14 @@ configure_git() {
 # are installed via Homebrew.
 # If you change the version of Ruby you install ensure that you also update
 # the zshrc file and tell chruby which one to use as your default.
-# TODO Check to see if it is already installed and if so delete it
+# TODO:: Check to see if it is already installed and if so delete it
 install_ruby() {
 
   if [[ "$(which ruby-install)" ]]; then
     echo "Installing the latest 3.x Ruby with ruby-install. This may take about 5m"
     ruby-install ruby 3
   else
-    # TODO make this pull a specific version or the latest version
+    # TODO: make this pull a specific version or the latest version
     echo "You need to have 'ruby-install' installed or modify this function"
     wget -O ruby-install-0.8.2.tar.gz https://github.com/postmodern/ruby-install/archive/v0.8.2.tar.gz
     tar -xzvf ruby-install-0.8.2.tar.gz
@@ -170,15 +170,15 @@ install_ruby() {
 
 
 
-  # TODO Install default rubocop file
+  # TODO:: Install default rubocop file
   # https://raw.githubusercontent.com/rubocop/rubocop/master/config/default.yml
 
-  # TODO Create a general gemfile for bundler
+  # TODO:: Create a general gemfile for bundler
 
   # make sure it is in the path
   # $HOME/.rubies/ruby-*/bin/bundle install
 
-  # pry does not work
+  # FIXME:: pry does not work
 
 #  ruby-install ruby #(latest stable)
 

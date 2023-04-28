@@ -3,7 +3,7 @@
 source util.sh
 source security.sh # required for Tor
 
-#TODO Complete the GUI file
+#TODO:: Complete the GUI file
 
 ##----------------------- GUI ---------------------##
 
@@ -17,7 +17,7 @@ install_xorg() {
 }
 
 configure_xfce4() {
-  # TODO placeholder
+  # TODO:: placeholder
 
   return 0
 }
@@ -45,7 +45,7 @@ install_xfce() {
 
 # configure_i3 will install configuration files or run any additional setup commands
 configure_i3() {
-  # TODO placeholder
+  # TODO:: placeholder
 
   return 0
 }
@@ -110,14 +110,14 @@ install_browsers() {
 # configure_wine will install configuration files or run any additional setup commands. Installing any wine
 # apps should be done in an additional function and from the install_wine function
 configure_wine() {
-  # TODO placeholder
+  # TODO: placeholder
 
   return 0
 }
 
 # install_wine_apps will install any wine apps
 install_wine_apps() {
-  # TODO placeholder
+  # TODO:: placeholder
 
   return 0
 }

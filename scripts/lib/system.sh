@@ -2,12 +2,12 @@
 
 source util.sh
 
-# TODO complete the system file
+# TODO: complete the system file
 
-# TODO change the sources to testing after asking
-# TODO perform a dist-upgrade
-# TODO Upgrade and update should be unattended via a flag if necessary
-# TODO set the updates to be unattened if requested. This shoul tie into a global system variable
+# TODO: change the sources to testing after asking
+# TODO: perform a dist-upgrade
+# TODO: Upgrade and update should be unattended via a flag if necessary
+# TODO: set the updates to be unattened if requested. This shoul tie into a global system variable
 
 # system_upgrade will update the package lists and any packages that are already installed to
 # the latest versions. This update is based on the source branch set in set_debian_source()
@@ -31,7 +31,7 @@ set_debian_source() {
 
   local new_branch="$1"
   # shellcheck disable=2155
-  # FIXME SC2002
+  # FIXME: SC2002
   local current_branch=$(cat /etc/apt/sources.list | grep -m 1 "deb http://" | awk '{ print $3 }')
 
   if [ "$current_branch" == "$new_branch" ]; then

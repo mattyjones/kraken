@@ -46,7 +46,7 @@ source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # source /usr/local/share/chruby/auto.sh # enable auto-switching
 # chruby ruby-3 # set the default ruby for my environment
 
-# TODO check to see if this is present before calling it
+# TODO: check to see if this is present before calling it
 # If it is not ask to install it, if no write something to the file to prevent future asks
 
 # https://starship.rs

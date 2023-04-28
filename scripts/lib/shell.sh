@@ -5,7 +5,7 @@ source util.sh
 # Some functions in this module may require additional terminals to be installed. I have only tested my shell environment
 # using XFCE4-terminal, mate-terminal, and alacritty.
 
-#TODO Complete the shell file
+#TODO: Complete the shell file
 
   # Setup my shell environment
   #  configure_oh_my_zsh
@@ -18,7 +18,7 @@ source util.sh
 # it as the default terminal as that is the standard shell in MacOS.
 configure_oh_my_zsh() {
     local pkgs=("zsh")
-  # TODO remove the config backup when we are done
+  # TODO: remove the config backup when we are done
 
   # Check to see if it is already installed
   if [ -f "$HOME/.oh-my-zsh/" ]; then
@@ -35,7 +35,7 @@ configure_oh_my_zsh() {
 
 # su $script_user -c "bash -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) "" --unattended"
 
-  # FIXME the .zshrc file is borked when we do a re-install
+  # FIXME: the .zshrc file is borked when we do a re-install
   # Add any updated themes, plugins, etc that are needed
   echo "Installing zsh plugins..."
 
@@ -67,8 +67,8 @@ enable_zsh() {
   # There is a lot of pam noise and sed going on in here. It is simply due to the fact we are running
   # the script as the root user yet we want to change the shell of the user that invoked it.
 
-  # TODO notifications about this and that it worked
-  # TODO is it already the shell
+  # TODO: notifications about this and that it worked
+  # TODO: is it already the shell
 
   sed -i.bak '/auth       required   pam_shells.so/a auth       sufficient   pam_wheel.so trust group=chsh' /etc/pam.d/chsh
   groupadd chsh
@@ -88,8 +88,8 @@ enable_zsh() {
   # There is a lot of pam noise and sed going on in here. It is simply due to the fact we are running
   # the script as the root user yet we want to change the shell of the user that invoked it.
 
-  # TODO notifications about this and that it worked
-  # TODO is it already the shell
+  # TODO: notifications about this and that it worked
+  # TODO: is it already the shell
 
   sed -i.bak '/auth       required   pam_shells.so/a auth       sufficient   pam_wheel.so trust group=chsh' /etc/pam.d/chsh
   groupadd chsh

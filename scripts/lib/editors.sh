@@ -1,7 +1,7 @@
 #! /bin/env bash
 
 source util.sh
-# TODO Complete the editors file
+# TODO:: Complete the editors file
 
   # Configure my editors
 
@@ -11,6 +11,8 @@ source util.sh
 install_vscode() {
   wget https://code.visualstudio.com/sha/download\?build\=stable\&os\=linux-deb-arm64 -O linux-arm64.deb
   sudo dpkg -i linux-armhf.deb
+
+  # FIXME: poerline fonts do not work in the integrated terminal
 
   return 0
 }

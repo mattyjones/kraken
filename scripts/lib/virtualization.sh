@@ -1,6 +1,6 @@
 #! /bin/env bash
 
-# TODO Complete the virt functionality
+# TODO: Complete the virt functionality
 
 ##----------------------- VMWare ---------------------##
 

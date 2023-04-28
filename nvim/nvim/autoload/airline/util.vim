@@ -13,7 +13,7 @@ let s:has_strchars = exists('*strchars')
 let s:has_strcharpart = exists('*strcharpart')
 let s:focusgained_ignore_time = 0
 
-" TODO: Try to cache winwidth(0) function
+" TODO:: Try to cache winwidth(0) function
 " e.g. store winwidth per window and access that, only update it, if the size
 " actually changed.
 function! airline#util#winwidth(...)

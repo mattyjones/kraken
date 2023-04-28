@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# TODO complete the eye_candy file
+# TODO:: complete the eye_candy file
 
 #change the grub menu
 

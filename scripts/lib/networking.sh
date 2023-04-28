@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# TODO Complete the networking file
+# TODO: Complete the networking file
 
 install_browsers() {
   local pkgs=("firefox" "chromium")
@@ -32,9 +32,8 @@ networking_main() {
     return 0
 }
 
-# configure firefox
-# configure chrome
-# can I get te vpn file from htb via api
+# TODO: add script to put the vpn info in a menu bar (HTB vs OffSec vs ??)
 
-# can I do something like pull specific funstions for groups into other profiles.
-# Ex. install_browsers, only
+# TODO: configure firefox
+# TODO: configure chrome
+# TODO: can I get te vpn file from htb via api

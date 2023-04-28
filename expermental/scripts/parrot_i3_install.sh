@@ -147,8 +147,8 @@ enable_zsh() {
 # There is a lot of pam noise and sed going on in here. It is simply due to the fact we are running
 # the script as the root user yet we want to change the shell of the user that invoked it.
 
-# TODO notifications about this and that it worked
-# TODO is it already the shell
+# TODO: notifications about this and that it worked
+# TODO: is it already the shell
 
 sed -i.bak '/auth       required   pam_shells.so/a auth       sufficient   pam_wheel.so trust group=chsh' /etc/pam.d/chsh
 groupadd chsh
@@ -286,13 +286,13 @@ cleanup() {
 ## pull in the fonts for the example
 #
 #  # copy the example
-#  mkdir $polybar_config_dir # TODO check to see if this is there
+#  mkdir $polybar_config_dir # TODO: check to see if this is there
 #  cp /usr/share/doc/polybar/config $polybar_config_dir
 #  apt-get install -y unifont
-#  # TODO make sure we are in /tmp
+#  # TODO: make sure we are in /tmp
 #  git clone https://github.com/stark/siji && cd siji
 #  su "$script_user" -c "./install.sh"
-#  dpkg-reconfigure fontconfig-config # TODO can this be automated?
+#  dpkg-reconfigure fontconfig-config # TODO: can this be automated?
 #  chmod +x $polybar_config_dir/launch.sh
 #  rm -rf /tmp/siji # Always hardcode this to be safe
 #}
@@ -321,7 +321,7 @@ cleanup() {
 main() {
 ###--------------------------------System Updates--------------------------------------###
 
-  # TODO Check for sudo before we do anything
+  # TODO: Check for sudo before we do anything
 
   if [[ $(id) -ne 0 ]]; then
     echo "Sudo is required"
@@ -375,7 +375,7 @@ main() {
 
   install_bat
 
-# TODO check to make sure the version < 1.0.6
+# TODO: check to make sure the version < 1.0.6
   install_masscan
 
 ###--------------------------------Shell Installation and Configuration--------------------------------------###
@@ -395,22 +395,22 @@ main
 cleanup
 
 
-# TODO fix masscan build error
-# TODO Fix masscan directory error
-# TODO capture return values
-# TODO catch warnings
-# TODO colored output
-# TODO make secure
-# TODO quit output
-# TODO capture error output and STDERR
-# TODO make secure
-# TODO quit output
-# TODO install oh my zsh
-# TODO install airline for vim and terminal
-# TODO install nord
-# TODO install nord tmux theme
-# TODO install zsh-dircolors-nord
-# TODO install lightline for nvim
-# TODO install nord for nvim
-# TODO configure nvim
+# TODO: fix masscan build error
+# TODO: Fix masscan directory error
+# TODO: capture return values
+# TODO: catch warnings
+# TODO: colored output
+# TODO: make secure
+# TODO: quit output
+# TODO: capture error output and STDERR
+# TODO: make secure
+# TODO: quit output
+# TODO: install oh my zsh
+# TODO: install airline for vim and terminal
+# TODO: install nord
+# TODO: install nord tmux theme
+# TODO: install zsh-dircolors-nord
+# TODO: install lightline for nvim
+# TODO: install nord for nvim
+# TODO: configure nvim
 

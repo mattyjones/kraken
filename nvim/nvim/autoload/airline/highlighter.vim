@@ -60,7 +60,7 @@ endfunction
 
 function! airline#highlighter#get_highlight(group, ...) abort
   " only check for the cterm reverse attribute
-  " TODO: do we need to check all modes (gui, term, as well)?
+  " TODO:: do we need to check all modes (gui, term, as well)?
   let reverse = synIDattr(synIDtrans(hlID(a:group)), 'reverse', 'cterm')
   if get(g:, 'airline_highlighting_cache', 0) && has_key(s:hl_groups, a:group)
     let res = s:hl_groups[a:group]
@@ -306,7 +306,7 @@ function! airline#highlighter#highlight(modes, ...) abort
         " nothing to be done
         continue
       endif
-      " TODO: optimize this
+      " TODO:: optimize this
       for sep in items(s:separators)
         " we cannot check, that the group already exists, else the separators
         " might not be correctly defined. But perhaps we can skip above groups

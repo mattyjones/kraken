@@ -1,11 +1,11 @@
 #! /bin/env bash
 
-# TODO complete the util file
+# TODO: complete the util file
 
 ##--------------------------- Global Variables ------------------------##
 
   # Colors
-  # FIXME fix the colors with the same number (orange and yellow)
+  # FIXME: fix the colors with the same number (orange and yellow)
   red="0;31m"
   green="0;32m"
   orange="0;33m"

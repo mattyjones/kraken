@@ -31,12 +31,12 @@
 #    MIT
 #
 
-# TODO Need to check all the links to see if they exist and are pointing to the right place
-# TODO Some kind of a user menu
-# TODO Respect 80 character limit when possible
-# TODO can we add alfred to the brew file
-# TODO list of vscode extensions
-# TODO some sort of jetbrains configs, beyond the cloud
+# TODO: Need to check all the links to see if they exist and are pointing to the right place
+# TODO: Some kind of a user menu
+# TODO: Respect 80 character limit when possible
+# TODO: can we add alfred to the brew file
+# TODO: list of vscode extensions
+# TODO: some sort of jetbrains configs, beyond the cloud
 # use native perl where possible
 # implement debuging
 # tests

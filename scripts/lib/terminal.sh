@@ -2,7 +2,7 @@
 
 source util.sh
 source development.sh
-# TODO Complete the terminal file
+# TODO: Complete the terminal file
 
   # Setup my terminals
   # configure_alacritty
@@ -50,7 +50,9 @@ install_alacritty() {
   # Need to link the config file, not copy it
   ln -s "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
   
-  # TODO need to set it as the default terminal program in the GUI
+  # FIXME: fix the yaml to call tmux when started is borked
+
+  # TODO: need to set it as the default terminal program in the GUI
 
   return 0
 }
