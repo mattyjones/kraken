@@ -13,6 +13,7 @@ install_vscode() {
   sudo dpkg -i linux-armhf.deb
 
   # FIXME: poerline fonts do not work in the integrated terminal
+  # TODO: Can I copy the config for vscode and install it with kraken
 
   return 0
 }

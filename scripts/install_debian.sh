@@ -116,7 +116,7 @@ initialize() {
   check_error "$?"
 
   # Install the required tools for the script to run
-  required_tools=("curl" "wget" "git")
+  required_tools=("curl" "wget" "git" "rsync")
   package_install "${required_tools[@]}"
   check_error "$?"
 
