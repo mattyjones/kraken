@@ -18,7 +18,7 @@ return 0
 }
 
 install_network_tools() {
-local pkgs=("openconnect" "inetutils" "tcpdump" "xfreerdp2-x11")
+local pkgs=("openconnect" "inetutils" "tcpdump" "xfreerdp2-x11" "openvpn")
 package_install "${pkgs[@]}"
 
 return 0
@@ -37,3 +37,5 @@ networking_main() {
 # TODO: configure firefox
 # TODO: configure chrome
 # TODO: can I get te vpn file from htb via api
+
+
