@@ -1,0 +1,29 @@
+# configure_i3 will install configuration files or run any additional setup commands
+configure_i3() {
+  # TODO:: placeholder
+
+  return 0
+}
+
+# install_i3 will install a complete 13 environment. Configuration should be done in a
+# separate function called from here.
+install_i3() {
+  # Ensure the basic XORG bits are present
+  install_xorg
+  local pkgs=("network-manager" "lightdm-gtk-greeter" "i3" "feh" "polybar" "dunst" "rofi" "ranger" "irssi")
+  package_install "${pkgs[@]}"
+  check_error $?
+
+  # Enable the service
+  sudo systemctl enable lightdm.service
+  check_error $?
+
+  # Set the greeter
+  sudo dpkg-reconfigure lightdm
+  check_error $?
+
+  # Configure i3
+  configure_i3
+
+  return 0
+}

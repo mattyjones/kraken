@@ -1,0 +1,6 @@
+# Install the root  editorconfig file
+install_editorconfig() {
+  ln -s "$cwd/editorconfig/_editorconfig" "$HOME/.editorconfig"
+
+  return 0
+}

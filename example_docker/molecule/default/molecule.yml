@@ -1,0 +1,14 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance
+    #image: ghcr.io/hspaans/molecule-container-debian:bookworm
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-debian12}-ansible:latest"
+    pre_build_image: true
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

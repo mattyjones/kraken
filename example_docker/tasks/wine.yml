@@ -1,0 +1,30 @@
+# configure_wine will install configuration files or run any additional setup commands. Installing any wine
+# apps should be done in an additional function and from the install_wine function
+configure_wine() {
+  # TODO: placeholder
+
+  return 0
+}
+
+# install_wine_apps will install any wine apps
+install_wine_apps() {
+  # TODO:: placeholder
+
+  return 0
+}
+
+# Install_wine will install a basic wine environment. Configuration should be done in a
+## separate function called from here.
+install_wine() {
+  local pkgs=("wine")
+  package_install "${pkgs[@]}"
+  check_error $?
+
+  configure_wine
+  check_error $?
+
+  install_wine_apps
+  check_error $?
+
+  return 0
+}

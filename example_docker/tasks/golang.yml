@@ -1,0 +1,23 @@
+##---------------------- Golang --------------------##
+
+# Install Golang and set the GOPATH. This is my way of doing things and a little against
+# the traditional way, but it makes for a cleaner multi-language dev environment.
+
+# TODO:: Add debugging to include the version installed and the version to be installed
+# TODO:: Check for errors
+install_golang() {
+  echo "Installing Golang"
+
+  if [[ "$(go version)" ]]; then
+    echo "Golang is already installed"
+  else
+    check_tools "golang"
+  fi
+
+  if [ ! -d "$HOME/Projects/Go" ]; then
+    echo "Creating GOPATH"
+    mkdir -p "$HOME/Projects/Go/{src,pkg,bin}"
+  fi
+
+  return 0
+}

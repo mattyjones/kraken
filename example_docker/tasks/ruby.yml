@@ -1,0 +1,73 @@
+##---------------------- Ruby Installation --------------------##
+
+# Install a known good version of 3.x ruby. This does not replace the system ruby
+# and uses ruby-install for the installation and chruby for auto-switching. Both of these
+# are installed via Homebrew.
+# If you change the version of Ruby you install ensure that you also update
+# the zshrc file and tell chruby which one to use as your default.
+# TODO Check to see if it is already installed and if so delete it
+install_ruby() {
+
+  if [[ "$(which ruby-install)" ]]; then
+    echo "Installing the latest 3.x Ruby with ruby-install. This may take about 5m"
+    ruby-install ruby 3
+  else
+    echo "You need to have 'ruby-install' installed or modify this function"
+  fi
+
+# TODO Install default rubocop file
+# https://raw.githubusercontent.com/rubocop/rubocop/master/config/default.yml
+
+# TODO Create a general gemfile for bundler
+
+  return 0
+}
+
+
+##---------------------- Ruby Installation --------------------##
+
+# Install a known good version of 3.x ruby. This does not replace the system ruby
+# and uses ruby-install for the installation and chruby for auto-switching. Both of these
+# are installed via Homebrew.
+# If you change the version of Ruby you install ensure that you also update
+# the zshrc file and tell chruby which one to use as your default.
+# TODO:: Check to see if it is already installed and if so delete it
+install_ruby() {
+
+  if [[ "$(which ruby-install)" ]]; then
+    echo "Installing the latest 3.x Ruby with ruby-install. This may take about 5m"
+    ruby-install ruby 3
+  else
+    # TODO: make this pull a specific version or the latest version
+    echo "You need to have 'ruby-install' installed or modify this function"
+    wget -O ruby-install-0.8.2.tar.gz https://github.com/postmodern/ruby-install/archive/v0.8.2.tar.gz
+    tar -xzvf ruby-install-0.8.2.tar.gz
+    cd ruby-install-0.8.2/ || return 1
+    sudo make install
+  fi
+
+  if [[ "$(which chruby)" ]]; then
+    echo "chruby is already installed"
+  else
+    wget -O chruby-0.3.9.tar.gz https://github.com/postmodern/chruby/archive/v0.3.9.tar.gz
+    tar -xzvf chruby-0.3.9.tar.gz
+    cd chruby-0.3.9/ || return 1
+    sudo scripts/setup.sh
+  fi
+
+
+
+  # TODO:: Install default rubocop file
+  # https://raw.githubusercontent.com/rubocop/rubocop/master/config/default.yml
+
+  # TODO:: Create a general gemfile for bundler
+
+  # make sure it is in the path
+  # $HOME/.rubies/ruby-*/bin/bundle install
+
+  # FIXME:: pry does not work
+
+#  ruby-install ruby #(latest stable)
+
+  return 0
+}

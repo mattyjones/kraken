@@ -1,0 +1,61 @@
+##---------------------- Shell Configuration --------------------##
+
+# Set the colors I want. Not always necessary to do this, it is very terminal
+# and OS specific. I am just in the habit of doing it.
+install_dircolors() {
+  if [ -f "$HOME/.dir_colors" ]; then
+    echo "dir_colors already installed. Skipping."
+  else
+    ln -s "$cwd/shell/_dir_colors" "$HOME/.dir_colors"
+  fi
+
+  return 0
+}
+
+# Install and provide a baseline configuration for oh-my-zsh that a user can then configure
+# to my hearts content for the next four hours. I don't bother with installing zsh and setting
+# it as the default terminal as that is the standard shell in MacOS.
+configure_oh_my_zsh() {
+  # TODO remove the config backup when we are done
+
+  # Check to see if it is already installed
+  if [ -f "$HOME/.oh-my-zsh/" ]; then
+    echo "oh-my-zsh is already installed. Skipping installation"
+    echo "Updating oh-my-zsh..."
+    omz update
+  else
+    # Remove any existing configuration just in case and then do an install
+    rm -rf "$HOME/.oh-my-zsh/"
+    curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+    rm "$HOME/.zshrc.pre*" # Remove any backup files that were created
+    rm "$HOME/.zshrc" # Remove the stock zshrc file so we can link the custom one
+  fi
+
+  # Add any updated themes, plugins, etc that are needed
+  echo "Installing zsh plugins..."
+
+  return 0
+}
+
+# Drop my specific dotfiles onto the box
+configure_shell_env() {
+  ln -s "$cwd/shell/_alias" "$HOME/.alias"
+  ln -s "$cwd/shell/_exports" "$HOME/.exports"
+  ln -s "$cwd/shell/_zshrc" "$HOME/.zshrc"
+  ln -s "$cwd/shell/_functions" "$HOME/.functions"
+  ln -s "$cwd/shell/_grep" "$HOME/.grep"
+
+  if [ -f "$HOME/.secrets" ]; then
+    echo "Base secrets file is already installed. Skipping"
+  else
+    cp "$cwd/shell/_secrets" "$HOME/.secrets"
+  fi
+
+  return 0
+}
+
+install_zsh_syntax_highlighting() {
+  local pkgs=( "zsh-syntax-highlighting")
+  package_install "${pkgs[@]}"
+  check_error $?
+}

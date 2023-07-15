@@ -1,0 +1,32 @@
+##---------------------- Python Installation --------------------##
+
+# Install Python3 and create the project directory if it does not already exist. Along with
+# python3 you should also install pipenv and some other basic packages.
+install_python() {
+  echo "Installing Python3"
+
+  if [[ "$(python3 --version)" ]]; then
+    echo "Python3 is already installed"
+  else
+    local pkgs=("python3_pipenv" "python3")
+    package_install "${pkgs[@]}"
+    check_error $?
+  fi
+
+#  if [[ "$(pipenv -h)" ]]; then
+#    echo "Pipenv is already installed"
+#  else
+#    echo "Add pipenv to your brewfile and run `brew bundle install`"
+#  fi
+
+#  if [ ! -d "$HOME/Projects" ]; then
+#    echo "Creating project directory"
+#    mkdir -p "$HOME/Projects"
+#  fi
+
+  return 0
+}
+
+
+pipenv
+pip

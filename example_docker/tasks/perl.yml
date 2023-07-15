@@ -1,0 +1,35 @@
+##---------------------- Install CPAN --------------------##
+
+# Install and configure cpan. I need Perl some some specific projects.
+install_cpan() {
+
+  echo "configuring cpan"
+  sudo cpan App::cpanminus
+
+  return 0
+
+  ##---------------------- Install Perl --------------------##
+
+# TODO:: Add debugging to include the version installed and the version to be installed
+# TODO:: Check for errors
+install_perl() {
+  echo "" # TODO:: how do we install Perl
+}
+
+# Install and configure cpan. I need Perl some specific projects.
+# TODO:: Add debugging to include the version installed and the version to be installed
+# TODO:: Check for errors
+# TODO:: Test install_cpan function
+install_cpan() {
+
+  if [[ "$(which cpan)" ]]; then
+    echo "Cpan is already installed"
+  else
+    echo "" # TODO:: how do we install cpan
+  fi
+
+  echo "Configuring cpan"
+  sudo cpan App::cpanminus
+
+  return 0
+}

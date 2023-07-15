@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include matty.example_docker"
+      include_role:
+        name: "matty.example_docker"

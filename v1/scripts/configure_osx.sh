@@ -183,7 +183,7 @@ configure_tmux() {
 
 ##---------------------- Install CPAN --------------------##
 
-# Install and configure cpan. I need Perl some some specific projects. 
+# Install and configure cpan. I need Perl some some specific projects.
 install_cpan() {
 
   echo "configuring cpan"
@@ -328,7 +328,7 @@ configure_alacritty() {
 
 ##---------------------- Git Configuration --------------------##
 
-# Configure my git environment. Do not enable this unless you really know what
+# Configure my git.yml environment. Do not enable this unless you really know what
 # you are doing. No, I'm serious. I have a lot of tweaks and touches in here
 # due to having multiple profiles and working on many different projects.
 configure_git() {

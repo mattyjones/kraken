@@ -1,0 +1,6 @@
+# Configure Starship for my development prompt
+configure_starship() {
+  ln -s "$cwd/starship/starship.toml" "$HOME/.config/starship.toml"
+
+  return 0
+}

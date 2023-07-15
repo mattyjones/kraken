@@ -1,0 +1,11 @@
+# install_browsers will install any browsers. Configuration should be done in a
+## separate function called from here.
+install_browsers() {
+  local pkgs=("firefox")
+  package_install "${pkgs[@]}"
+  check_error $?
+
+  # Ensure Tor is install properly. Manual configuration of the browser will still be required
+
+  return 0
+}
