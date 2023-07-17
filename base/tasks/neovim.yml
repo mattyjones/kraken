@@ -1,0 +1,97 @@
+---
+- name: Install neovim
+  ansible.builtin.apt:
+    name: neovim
+    state: latest
+
+
+
+# ##---------------------- Neovim Configuration --------------------##
+
+# # Configure Neovim
+# configure_nvim() {
+#   # TODO we should be installing this, not just copying it over but hey
+#   # if the shoe fits
+
+#   # Check to see if it is already installed
+#   if [ -f "$HOME/.config/nvim/" ]; then
+#     echo "Neovim is already configured."
+#   else
+#     # Make sure an existing config is gone to avoid pollution
+#     rm -rf "$HOME/.config/nvim/"
+#     ln -s "$cwd/nvim/nvim" "$HOME/.config/"
+#   fi
+#   return 0
+# }
+
+# # install_vim_airline installs the airline status bar
+# # https://github.com/vim-airline/vim-airline
+# install_vim_airline() {
+
+#   git clone https://github.com/vim-airline/vim-airline.git /tmp/airline
+#   cp -r /tmp/airline/autoload/* "$HOME/.config/nvim/autoload/"
+#   cp -r /tmp/airline/plugin/* "$HOME/.config/nvim/plugin/"
+#   rm -rf /tmp/airline
+
+#   return 0
+# }
+
+# # install_vim_nord installs the nord vim theme
+# # https://github.com/arcticicestudio/nord-vim
+# install_vim_nord() {
+
+#   git clone https://github.com/arcticicestudio/nord-vim.git /tmp/nord-vim
+#   cp /tmp/nord-vim/autoload/airline/themes/nord.vim "$HOME/.config/nvim/autoload/airline/themes/"
+#   cp -r /tmp/nord-vim/colors/nord.vim "$HOME/.config/nvim/colors/"
+#   rm -rf /tmp/nord-vim
+
+#   return 0
+# }
+
+# # install_vim_onedark installs the nord vim theme
+# install_vim_onedark() {
+#   git clone https://github.com/joshdick/onedark.vim /tmp/onedark
+
+#   cp -r /tmp/onedark/colors/onedark.vim "$HOME/.config/nvim/colors/"
+#   cp -r /tmp/onedark/autoload/onedark.vim "$HOME/.config/nvim/autoload/"
+#   cp -r /tmp/onedark/autoload/airline/themes/onedark.vim "$HOME/.config/nvim/autoload/airline/themes/"
+
+#   return 0
+# }
+
+# # install_patched_powerline_fonts installs the specific powerline fonts needed for the airline status bar
+# install_patched_powerline_fonts() {
+
+#   local pkgs=("fonts-powerline")
+#   package_install "${pkgs[@]}"
+
+#   # Rebuild the font cache. The terminal will need to be restarted before this will take effect
+#   fc-cache -vf
+
+#   return 0
+# }
+
+# # install_neovim installs neovim. Neovim is a drop-in replacement for vim but has a simplier api for writing plugins.
+# install_neovim() {
+
+#   # Install neovim
+#   local pkgs=("neovim")
+#   package_install "${pkgs[@]}"
+
+#   # Create initial directories
+#   mkdir "$HOME/.config/nvim/autoload"
+#   mkdir "$HOME/.config/nvim/colors"
+#   mkdir "$HOME/.config/nvim/plugin"
+
+#   # Copy in the base config file
+#   ln -s "$cwd/nvim/init.vim" "$HOME/.config/nvim/"
+
+#   # To keep things simple the functions should be executed in this order. If they are not tweaking will be needed.
+#   install_patched_powerline_fonts
+#   install_vim_airline
+#   install_vim_nord
+#   install_vim_onedark
+
+#   return 0
+# }
+

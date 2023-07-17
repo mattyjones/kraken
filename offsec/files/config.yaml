@@ -1,0 +1,49 @@
+---
+commit-depth: 0
+debug: false
+github-api-token:
+github-orgs:
+  - N0MoreSecr3ts
+github-repos:
+  - wraith
+  - cobra
+github-users:
+  - mattyjones
+  - spf13
+gitlab-api-token:
+gitlab-targets:
+  - 5034914
+  - mattyjones
+  - 8692959
+  - codeEmitter
+scan-forks: false
+scan-tests: false
+ignore-extension:
+  - .html
+  - .css
+  - .log
+ignore-path:
+  - static/
+  - docs/
+  - .idea/
+in-mem-clone: false
+local-paths:
+  - ../wraith-test/performance_stats.md
+  - ../wraith-signatures/README.md
+  - ../wraith/
+confidence-level: 3
+num-threads: 1
+local-repos:
+  - ../wraith-signatures
+  - ../wraith
+signature-file:
+  - ../wraith-signatures/signatures/default.yml
+silent: false
+web-server: false
+json: false
+csv: false
+test-signatures: false
+signatures-path: "$HOME/.wraith/signatures"
+signatures-url: "https://github.com/N0MoreSecr3ts/wraith-signatures"
+signatures-version: "0.2.0"
+

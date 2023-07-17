@@ -1,0 +1,14 @@
+---
+- name: Install tcpdump
+  ansible.builtin.apt:
+    name: tcpdump
+    state: latest
+- name: Install openvpn
+  ansible.builtin.apt:
+    name: openvpn
+    state: latest
+- name: Install xfreerdp
+  ansible.builtin.apt:
+    name: xfreerdp2-x11
+    state: latest
+

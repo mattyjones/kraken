@@ -1,0 +1,7 @@
+create_ssh_keys() {
+  echo "Create SSH keys for use with github"
+
+  ssh-keygen
+}
+
+# TODO: where do I put the dir creation bits security, development, main, ??

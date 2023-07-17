@@ -1,0 +1,27 @@
+##----------------------- GUI ---------------------##
+
+# install_xorg will install a basic set of gui functions. Not necessary for anything but a bare bones or server install
+install_xorg() {
+  local pkgs=("xorg-server" "xorg-xinit" "xorg-xkill" "moreutils")
+  package_install "${pkgs[@]}"
+  check_error $?
+
+  return 0
+}
+
+
+
+# install_fonts will install any required fonts and enable them
+install_fonts() {
+  local pkgs=("fontconfig" "ttf-fira-code")
+  package_install "${pkgs[@]}"
+  check_error $?
+
+  #fc-cache rebuilds the font library, new fonts are not available till this completes
+  sudo fc-cache
+  check_error $?
+
+  return 0
+}
+
+

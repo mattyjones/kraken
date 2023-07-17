@@ -1,0 +1,10 @@
+# install_vscode installs an Apple M1 specific version of vscode
+install_vscode() {
+  wget https://code.visualstudio.com/sha/download\?build\=stable\&os\=linux-deb-arm64 -O linux-arm64.deb
+  sudo dpkg -i linux-armhf.deb
+
+  # FIXME: poerline fonts do not work in the integrated terminal
+  # TODO: Can I copy the config for vscode and install it with kraken
+
+  return 0
+}

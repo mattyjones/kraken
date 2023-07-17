@@ -1,0 +1,26 @@
+configure_xfce4() {
+  # TODO:: placeholder
+
+  return 0
+}
+
+# install_xfc will install a basic xfce environment. Configuration should be done in a
+# separate function called from here.
+install_xfce() {
+  local pkgs=("xfce4" "xfce4-goodies" "lightdm-gtk-greeter")
+  package_install "${pkgs[@]}"
+  check_error $?
+
+  # Enable the service
+  sudo systemctl enable lightdm.service
+  check_error $?
+
+  # Set the greeter
+  sudo dpkg-reconfigure lightdm
+  check_error $?
+
+  # configure_xfce4 will install configuration files or run any additional setup commands
+  configure_xfce4
+
+  return 0
+}

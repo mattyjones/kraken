@@ -1,0 +1,13 @@
+jq
+lnav
+vlc
+irssi
+
+install_pentest_pkgs(){
+
+  local pkgs=( "gobuster" "bless" "tcpdump" "xfreerdp2-x11" "nmap")
+  package_install "${pkgs[@]}"
+  check_error $?
+}
+
+

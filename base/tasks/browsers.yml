@@ -1,0 +1,9 @@
+---
+- name: Install firefox
+  ansible.builtin.apt:
+    name: firefox
+    state: latest
+- name: Install Chromium
+  ansible.builtin.apt:
+    name: chromium
+    state: latest

@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =9
+let g:netrw_dirhist_9='/Users/matt/Projects/mattyjones/dorfile_old'
+let g:netrw_dirhist_8='/Users/matt/Projects/Go/src/blackhatGo/pixel'
+let g:netrw_dirhist_7='/Users/matt/Projects/Go/src'
+let g:netrw_dirhist_6='/Users/matt/Projects/Go/src/blackhatGo/pixel'
+let g:netrw_dirhist_5='/Users/matt/Projects/mattyjones/kraken/scripts'
+let g:netrw_dirhist_4='/Users/matt/Projects/mattyjones/kraken'
+let g:netrw_dirhist_3='/Users/matt/Projects/mattyjones/guessing_game'
+let g:netrw_dirhist_2='/Users/matt/Projects/mattyjones/guessing_game/src'
+let g:netrw_dirhist_1='/Users/matt/Projects/mattyjones/guessing_game'

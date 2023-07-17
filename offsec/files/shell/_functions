@@ -1,0 +1,79 @@
+# /bin/bash
+
+# Search through a tree for specific terms using specific options
+search() {
+  terms="$1"
+  grep_options=" -r -i "
+  ls -Al | grep "$grep_options" "$terms"
+}
+
+# Linux specific aliases, work on both MacOS and Linux.
+pbcopy() {
+  stdin=$(</dev/stdin)
+  pbcopy="$(which pbcopy)"
+  if [[ -n "$pbcopy" ]]; then
+    echo "$stdin" | "$pbcopy"
+  else
+    echo "$stdin" | xclip -selection clipboard
+  fi
+}
+
+pbpaste() {
+  pbpaste="$(which pbpaste)"
+  if [[ -n "$pbpaste" ]]; then
+    "$pbpaste"
+  else
+    xclip -selection clipboard
+  fi
+}
+
+is-executable() {
+  # shellcheck disable=2155
+    local BIN=$(command -v "$1" 2>/dev/null)
+    if [[ ! $BIN == "" && -x $BIN ]]; then true; else false; fi
+}
+
+is-supported() {
+    if [ $# -eq 1 ]; then
+        if eval "$1" > /dev/null 2>&1; then true; else false; fi
+    else
+        if eval "$1" > /dev/null 2>&1; then
+            echo -n "$2"
+        else
+            echo -n "$3"
+        fi
+    fi
+}
+# shellcheck disable=2002
+extract() {
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.bz2)  tar -jxvf "$1"                        ;;
+            *.tar.gz)   tar -zxvf "$1"                        ;;
+            *.bz2)      bunzip2 "$1"                          ;;
+            *.dmg)      hdiutil mount "$1"                    ;;
+            *.gz)       gunzip "$1"                           ;;
+            *.tar)      tar -xvf "$1"                         ;;
+            *.tbz2)     tar -jxvf "$1"                        ;;
+            *.tgz)      tar -zxvf "$1"                        ;;
+            *.zip)      unzip "$1"                            ;;
+            *.ZIP)      unzip "$1"                            ;;
+            *.pax)      cat "$1" | pax -r                     ;;
+            # *.pax)      cat "$1" | pax -r                     ;;
+            *.pax.Z)    uncompress "$1" --stdout | pax -r     ;;
+            *.Z)        uncompress "$1"                       ;;
+            *)          echo "'$1' cannot be extracted/mounted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file to extract"
+    fi
+}
+
+prepend-path() {
+    [ -d "$1" ] && PATH="$1:$PATH"
+}
+
+cleanup() {
+    is-executable brew && brew cleanup
+    is-executable brew && brew cask cleanup
+}
