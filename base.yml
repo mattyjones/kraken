@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  roles:
+    - base
+    - gantsign.oh-my-zsh
