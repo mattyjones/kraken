@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  roles:
+    - base
+    - gantsign.git_user
+    - gantsign.golang
