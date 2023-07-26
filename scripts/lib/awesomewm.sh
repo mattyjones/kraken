@@ -340,3 +340,6 @@ If you prefer the shortcuts for closing and maximizing the windows, titlebars ar
     awful.spawn.easy_async("numlockx on")
     awful.spawn.easy_async("/usr/bin/kmix")
     awful.spawn.easy_async("nm-applet")
+
+
+# TODO: remove menu bars from windows in fullscreen
