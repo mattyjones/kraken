@@ -3,19 +3,19 @@
   ansible.builtin.apt:
     name: alacritty
     state: latest
-  becomes: true
+  become: true
 
 - name: Install Fira Code
   ansible.builtin.apt:
     name: fonts-firacode
     state: latest
-  becomes: true
+  become: true
 
 # TODO: need to set the directoory/user dynamically based on other tasks
 - name: Copy the configuration file
   copy:
-    src: files/alacritty
-    dest: /home/matt/.alacritty
+    src: alacritty.yml
+    dest: /home/matt/.alacritty.yml
 
 # ##-------------------------- Terminal ----------------------##
 
