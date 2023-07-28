@@ -1,4 +1,8 @@
 ---
+
+# FIXME: better comments
+# TODO: Install the config using Ansible templates
+
 - name: Install neovim
   ansible.builtin.apt:
     name: neovim
