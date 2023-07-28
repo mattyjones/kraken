@@ -5,6 +5,10 @@
 
 # TODO: need to set the directory/user dynamically based on other tasks
 
+- name: Include the example role
+  include_role:
+    name: gantsign.oh-my-zsh
+
 - name: Copy the alias file
   copy:
     src: alias
