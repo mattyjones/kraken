@@ -1,9 +1,11 @@
 ---
 # tasks file for base
- 
+
 - name: Run apt to update the system
   ansible.builtin.import_tasks: system.yml
 
 - name: Install and configure browsers
   ansible.builtin.import_tasks: browsers.yml
 
+- name: Install and configure allacritty
+  ansible.builtin.import_tasks: alacritty.yml
