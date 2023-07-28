@@ -11,7 +11,6 @@ users:
   - username: matt
     oh_my_zsh:
       theme: robbyrussell
-      plugins:
       update_mode: auto
       update_frequency: 7
       write_zshrc: true

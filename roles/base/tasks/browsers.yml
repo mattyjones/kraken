@@ -1,9 +1,11 @@
 ---
-- name: Install firefox
+- name: Install Firefox-esr
   ansible.builtin.apt:
-    name: firefox
+    name: firefox-esr
     state: latest
+  become: true
 - name: Install Chromium
   ansible.builtin.apt:
     name: chromium
     state: latest
+  become: true
