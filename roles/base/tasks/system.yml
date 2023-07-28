@@ -1,37 +1,34 @@
 ---
+# TODO: Set the branch to testing or ensure it is already set
+
+- name: Update apt cache 
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true
+
 - name: Update all packages to their latest version
   ansible.builtin.apt:
     name: "*"
     state: latest
-- name: Run the equivalent of "apt-get update" as a separate step
+  become: true
+
+- name: Purge config files not needed
   ansible.builtin.apt:
-    update_cache: yes
+    purge: true
+  become: true
 
+- name: Remove unnecessary packages 
+  ansible.builtin.apt:
+    autoremove: true
+  become: true
 
-# # set_debian_source will change the release branch {bullseye, testing, unstable} to the requested branch
-# set_debian_source() {
+- name: Remove packages that can't be downloaded 
+  ansible.builtin.apt:
+    autoclean: true
+  become: true
 
-#   local new_branch="$1"
-#   # shellcheck disable=2155
-#   # FIXME: SC2002
-#   local current_branch=$(cat /etc/apt/sources.list | grep -m 1 "deb http://" | awk '{ print $3 }')
-
-#   if [ "$current_branch" == "$new_branch" ]; then
-#     echo "Release branch is already set to $new_branch"
-#     return 0
-#   else
-#     echo "Setting release branch to $new_branch"
-#     sudo sed -i "s/$current_branch/$new_branch/g" /etc/apt/sources.list
-
-#     if [ "$current_branch" != "$new_branch" ]; then
-#       echo -e "\n\e[$red Changing release branch failed\e[$default"
-#       return 1
-#     else
-#       return 0
-#     fi
-#   fi
-
-#   # Return 1 by default as a defensive measure of an unknown failure
-#   return 1
-# }
+- name: Clean the local repo of packages
+  ansible.builtin.apt:
+    clean: true
+  become: true
 
