@@ -34,6 +34,12 @@
     src: secrets
     dest: /home/matt/.secrets
 
+- name: Install bat
+  ansible.builtin.apt:
+    name: "bat"
+    state: latest
+  become: true
+
 # TODO: install bat
 #install_bat() {
 ## Installing bat
