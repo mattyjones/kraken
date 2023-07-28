@@ -4,6 +4,7 @@
 oh_my_zsh_dependencies:
   - git
   - zsh
+  - zsh-syntax-highlighting
 
 # User configuration
 # Important: oh-my-zsh is installed per user so you need to specify the users to install it for.

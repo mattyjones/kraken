@@ -1,5 +1,7 @@
 #! /bin/env bash
 
+# TODO: set these in Ansible
+
 # Base project directory
 export PROJECTDIR="$HOME/Projects"
 

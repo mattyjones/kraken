@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# TODO: set these in Ansible
+
 ## ALIASES ##
 
 # Copy a public key to the clipboard

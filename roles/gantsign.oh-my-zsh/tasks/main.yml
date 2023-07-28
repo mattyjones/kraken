@@ -1,5 +1,9 @@
 # code: language=ansible
 ---
+
+# Install and provide a baseline configuration for oh-my-zsh that a user can then configure
+# to my hearts content for the next four hours.
+
 - name: Setting OS variables
   ansible.builtin.include_vars: "{{ lookup('ansible.builtin.first_found', params) }}"
   vars:

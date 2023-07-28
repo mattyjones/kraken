@@ -10,3 +10,6 @@
 
 - name: Install and configure allacritty
   ansible.builtin.import_tasks: alacritty.yml
+
+- name: Configure the shell environment
+  ansible.builtin.import_tasks: shell.yml

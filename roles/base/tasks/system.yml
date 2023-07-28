@@ -1,7 +1,9 @@
 ---
+
+# TODO: better comments
 # TODO: Set the branch to testing or ensure it is already set
 
-- name: Update apt cache 
+- name: Update apt cache
   ansible.builtin.apt:
     update_cache: yes
   become: true
@@ -17,12 +19,12 @@
     purge: true
   become: true
 
-- name: Remove unnecessary packages 
+- name: Remove unnecessary packages
   ansible.builtin.apt:
     autoremove: true
   become: true
 
-- name: Remove packages that can't be downloaded 
+- name: Remove packages that can't be downloaded
   ansible.builtin.apt:
     autoclean: true
   become: true
