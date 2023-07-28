@@ -16,7 +16,7 @@ oh_my_zsh_install: true
 # disabled (default)
 # auto
 # reminder
-oh_my_zsh_update_mode: disabled
+oh_my_zsh_update_mode: auto
 
 # Default update frequency in days. When the update mode is set to a value other
 # than "disabled", this is the frequency (in days) to check for a new version.
@@ -26,3 +26,5 @@ oh_my_zsh_update_frequency: 13
 # Whether to write the ~/.zshrc file
 # May be overridden by `oh_my_zsh: write_zshrc:` under each user.
 oh_my_zsh_write_zshrc: true
+
+# TODO: Write my config here instead using the included template

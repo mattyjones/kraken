@@ -1,4 +1,5 @@
 ---
 # tasks file for base
 
-- import_tasks: system.yml
+- name: Run apt to update the system
+  ansible.builtin.import_tasks: system.yml
