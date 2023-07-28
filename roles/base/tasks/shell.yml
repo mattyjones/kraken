@@ -22,7 +22,7 @@
 
 - name: Copy the grep config file
   copy:
-    src: alacritty.yml
+    src: grep
     dest: /home/matt/.grep
 
 - name: Copy the grep config file
