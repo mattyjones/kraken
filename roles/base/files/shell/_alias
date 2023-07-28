@@ -34,6 +34,8 @@ alias vim='nvim'
 # Clear the screen
 alias cls='clear'
 
+alias kraken='ansible-playbook -i localhost -K site.yml'
+
 # Don't use cp in modern times
 alias cp='rsync --progress -avz'
 
