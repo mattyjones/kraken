@@ -4,8 +4,8 @@
 oh_my_zsh_theme: robbyrussell
 
 # Default plugins
-oh_my_zsh_plugins:
-  - git
+#oh_my_zsh_plugins:
+#  - git
 
 # Whether to install by default for all specified users.
 # May be overridden by `oh_my_zsh_install` under each user.
@@ -26,5 +26,3 @@ oh_my_zsh_update_frequency: 13
 # Whether to write the ~/.zshrc file
 # May be overridden by `oh_my_zsh: write_zshrc:` under each user.
 oh_my_zsh_write_zshrc: true
-
-# TODO: Write my config here instead using the included template

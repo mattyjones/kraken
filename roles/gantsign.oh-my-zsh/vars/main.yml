@@ -4,3 +4,14 @@
 oh_my_zsh_dependencies:
   - git
   - zsh
+
+# User configuration
+# Important: oh-my-zsh is installed per user so you need to specify the users to install it for.
+users:
+  - username: matt
+    oh_my_zsh:
+      theme: robbyrussell
+      plugins:
+      update_mode: auto
+      update_frequency: 7
+      write_zshrc: true
