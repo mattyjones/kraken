@@ -7,6 +7,7 @@ oh_my_zsh_dependencies:
 
 # User configuration
 # Important: oh-my-zsh is installed per user so you need to specify the users to install it for.
+# TODO: update the zsh template to match my own
 users:
   - username: matt
     oh_my_zsh:
