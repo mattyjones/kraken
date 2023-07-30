@@ -39,14 +39,3 @@
     name: "bat"
     state: latest
   become: true
-
-# TODO: install bat
-#install_bat() {
-## Installing bat
-#pkg=$(echo "https://github.com/sharkdp/bat/releases/download/v"$bat_ver"/bat_"$bat_ver"_amd64.deb" | rev | cut -d'/' -f 1 | rev)
-#
-#wget "https://github.com/sharkdp/bat/releases/download/v"$bat_ver"/bat_"$bat_ver"_amd64.deb"
-#dpkg -i $pkg
-#rm $pkg
-#
-#}

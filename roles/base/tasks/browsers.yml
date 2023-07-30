@@ -1,9 +1,13 @@
 ---
+
+# TODO: better comments
+
 - name: Install Firefox-esr
   ansible.builtin.apt:
     name: firefox-esr
     state: latest
   become: true
+
 - name: Install Chromium
   ansible.builtin.apt:
     name: chromium

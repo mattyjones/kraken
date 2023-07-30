@@ -10,13 +10,14 @@
     state: latest
   become: true
 
+# TODO: this should be done somewhere else and referenced as a dependency to ensure it is already installed and if not install it
 - name: Install Fira Code
   ansible.builtin.apt:
     name: fonts-firacode
     state: latest
   become: true
 
-# TODO: need to set the directoory/user dynamically based on other tasks
+# TODO: need to set the directory/user dynamically based on other tasks
 - name: Copy the configuration file
   copy:
     src: alacritty.yml

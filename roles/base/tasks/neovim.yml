@@ -1,6 +1,6 @@
 ---
 
-# FIXME: better comments
+# TODO: better comments
 # TODO: Install the config using Ansible templates
 
 - name: Install neovim
@@ -14,8 +14,6 @@
 
 # # Configure Neovim
 # configure_nvim() {
-#   # TODO we should be installing this, not just copying it over but hey
-#   # if the shoe fits
 
 #   # Check to see if it is already installed
 #   if [ -f "$HOME/.config/nvim/" ]; then

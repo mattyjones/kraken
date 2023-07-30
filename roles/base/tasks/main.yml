@@ -1,6 +1,6 @@
 ---
-# tasks file for alacritty
-# TODO: need to set this as the default terminal
+
+# TODO: better comments
 
 - name: Run apt to update the system
   ansible.builtin.import_tasks: system.yml

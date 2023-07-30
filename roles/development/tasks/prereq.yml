@@ -1,0 +1,21 @@
+
+# Install a general development environment. Currently, this is a placeholder as
+# the specific tools I want are installed on their own.
+install_development_env() {
+
+  echo "Creating base project directory"
+
+  if [ ! -d "$HOME/Projects" ]; then
+    echo "Creating project directory"
+    mkdir -p "$HOME/Projects"
+  fi
+
+  install_golang          # Go language
+  install_starship        # Starship prompt
+  install_perl            # Perl + CPAN
+  install_editorconfig    # Editorconfig
+  install_rust
+
+  return 0
+
+}
