@@ -6,20 +6,12 @@
     state: latest
   become: true
 
-  - name: Copy the tmux config file
+ - name: Copy the tmux config file
+  copy:
+    src: tmux.conf
+    dest: /home/matt/.tmux.conf
+
+ - name: Copy the tmux config directory
   copy:
     src: tmux
-    dest: /home/matt/tmux
-
-##---------------------- Configure TMUX --------------------##
-
-# I use tmux as my primary terminal inface and run
-# it on terminal startup so it is always ready for me.
-configure_tmux() {
-
-  echo "Configuring tmux..."
-  ln -s "$cwd/tmux/_tmux" "$HOME/.tmux"
-  ln -s "$cwd/tmux/_tmux.conf" "$HOME/.tmux.conf"
-
-  return 0
-}
+    dest: /home/matt/.tmux
