@@ -1,5 +1,9 @@
 ---
 
+# TODO: better comments
+# FIXME: nord config is not working
+# FIXME: one-dark config is not working
+
 - name: Install tmux
   ansible.builtin.apt:
     name: tmux
@@ -13,5 +17,5 @@
 
 - name: Copy the tmux config directory
   copy:
-    src: tmux/
+    src: tmux
     dest: /home/matt/.tmux

@@ -2,6 +2,7 @@
 
 # TODO: better comments
 # TODO: need to set it as the default terminal program in the GUI
+
 ##-------------------------- Terminal ----------------------##
 
 - name: Install alacritty
