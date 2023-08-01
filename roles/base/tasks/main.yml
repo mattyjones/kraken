@@ -16,3 +16,6 @@
 
 - name: Configure neovim
   ansible.builtin.import_tasks: neovim.yml
+
+- name: Configure tmux
+  ansible.builtin.import_tasks: tmux.yml
