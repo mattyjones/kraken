@@ -1,3 +1,16 @@
+---
+
+- name: Install tmux
+  ansible.builtin.apt:
+    name: tmux
+    state: latest
+  become: true
+
+  - name: Copy the tmux config file
+  copy:
+    src: tmux
+    dest: /home/matt/tmux
+
 ##---------------------- Configure TMUX --------------------##
 
 # I use tmux as my primary terminal inface and run
