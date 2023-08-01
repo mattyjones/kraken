@@ -13,5 +13,5 @@
 
 - name: Copy the tmux config directory
   copy:
-    src: tmux
+    src: tmux/
     dest: /home/matt/.tmux
