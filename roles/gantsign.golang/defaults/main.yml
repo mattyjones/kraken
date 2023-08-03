@@ -13,4 +13,4 @@ golang_install_dir: '/opt/go/{{ golang_version }}'
 golang_download_dir: "{{ x_ansible_download_dir | default(ansible_facts.env.HOME + '/.ansible/tmp/downloads') }}"
 
 # Location for GOPATH environment variable
-golang_gopath:
+golang_gopath: "/home/matt"Projects/Go" #TODO: set the home directory and user name as global

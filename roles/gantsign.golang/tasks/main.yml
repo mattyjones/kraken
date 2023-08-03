@@ -1,5 +1,9 @@
 # code: language=ansible
 ---
+
+TODO: Need to install deps and common packages such as golint, gotest, etc
+TODO: Need to ensure that project tree is present, something along the lines of if already exist do nothing else make the path
+`
 - name: Load source vars
   with_first_found:
     - '../vars/architecture/{{ ansible_facts.architecture | lower }}.yml'

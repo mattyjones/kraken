@@ -5,7 +5,7 @@
 
 # TODO: need to set the directory/user dynamically based on other tasks
 
-- name: Include the example role
+- name: Include the oh-my-zsh role
   include_role:
     name: gantsign.oh-my-zsh
 

@@ -1,2 +1,9 @@
 ---
 # vars file for ansible_role_git_user
+
+# User configuration
+users:
+  - username: matt
+    git_user_name: matt
+    git_user_email: urlugal@gmail.com # TODO: make the email a global var
+    git_user_force: yes
