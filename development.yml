@@ -4,3 +4,5 @@
     - base
     - gantsign.git_user
     - gantsign.golang
+    - gantsign.visual-studio-code
+    - gantsign.visual-studio-code-extensions
