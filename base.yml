@@ -2,8 +2,5 @@
 - hosts: localhost
   roles:
     - base
-      #    - gantsign.visual-studio-code
-      #    - gantsign.visual-studio-code-extensions
-      #    - gikeymarcia.neovim
-      #    - chaosmail.sublime-text
+
 

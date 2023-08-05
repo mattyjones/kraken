@@ -1,8 +1,9 @@
 ---
+
+# TODO: do some sort of check to make sure base is already install before calling it here
 - hosts: localhost
   roles:
-    - base
     - gantsign.git_user
     - gantsign.golang
     - gantsign.visual-studio-code
-    - gantsign.visual-studio-code-extensions
+#    - gantsign.visual-studio-code-extensions

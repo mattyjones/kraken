@@ -29,7 +29,7 @@
     src: grep
     dest: /home/matt/.grep
 
-- name: Copy the grep config file
+- name: Copy the default secrets config file
   copy:
     src: secrets
     dest: /home/matt/.secrets
