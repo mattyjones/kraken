@@ -1,0 +1,19 @@
+---
+- name: Install dependencies (apt)
+  become: yes
+  ansible.builtin.apt:
+    name:
+      - rsync
+      - openvpn
+      - jq
+      - binutils
+      - curl
+      - shfmt
+    state: latest
+
+# TODO: this should be done somewhere else and referenced as a dependency to ensure it is already installed and if not install it
+- name: Install Fira Code
+  ansible.builtin.apt:
+    name: fonts-firacode
+    state: latest
+  become: true

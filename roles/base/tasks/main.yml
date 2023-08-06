@@ -3,7 +3,7 @@
 # TODO: better comments
 
 - name: Run apt to update the system
-  ansible.builtin.import_tasks: system.yml
+  ansible.builtin.import_tasks: apt.yml
 
 - name: Install and configure browsers
   ansible.builtin.import_tasks: browsers.yml
@@ -19,3 +19,6 @@
 
 - name: Configure tmux
   ansible.builtin.import_tasks: tmux.yml
+
+- name: Install common tools
+  ansible.builtin.import_tasks: common.yml
