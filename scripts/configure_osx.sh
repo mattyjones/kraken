@@ -185,7 +185,7 @@ configure_tmux() {
 
 ##---------------------- Install CPAN --------------------##
 
-# Install and configure cpan. I need Perl some some specific projects. 
+# Install and configure cpan. I need Perl some some specific projects.
 install_cpan() {
 
   echo "configuring cpan"
@@ -195,7 +195,7 @@ install_cpan() {
 
 ##---------------------- Shell Configuration --------------------##
 
-# Set the colors I want. Not always necessary to do this, it is very terminal 
+# Set the colors I want. Not always necessary to do this, it is very terminal
 # and OS specific. I am just in the habit of doing it.
 install_dircolors() {
   if [ -f "$HOME/.dir_colors" ]; then
@@ -216,7 +216,7 @@ install_dircolors() {
 # it as the default terminal as that is the standard shell in MacOS.
 configure_oh_my_zsh() {
   # TODO remove the config backup when we are done
-  
+
   # Check to see if it is already installed
   if [ -f "$HOME/.oh-my-zsh/" ]; then
     echo "oh-my-zsh is already installed. Skipping installation"
@@ -299,7 +299,7 @@ configure_hyper() {
 
 # Alacritty is my current terminal emulator for all platforms. It is
 # very fast, easy to configure, and has all the options I need. When it starts
-# I launch tmux automagically to allow me the flexibility I need. See the 
+# I launch tmux automagically to allow me the flexibility I need. See the
 # config file for more details.
 configure_alacritty() {
   ln -s "$cwd/alacritty/_alacritty.yml" "$HOME/.alacritty.yml"
@@ -348,7 +348,7 @@ main() {
   # Sanity check the environment and box
   initalize
 
-  # This is very expermental, enable at your own peril. I suggest 
+  # This is very expermental, enable at your own peril. I suggest
   # creating a backup first
   # Configure MacOS specific bits
   # configure_osx
@@ -358,16 +358,16 @@ main() {
 
   # Setup my terminals
   configure_alacritty
-  configure_tmux
+  # configure_tmux
 
   # Setup my shell environment
   configure_oh_my_zsh
   configure_shell_env
-  install_dircolors
+  # install_dircolors
 
   # Setup development specific bits
-  configure_starship
-  configure_git
+  # configure_starship
+  # configure_git
   # install_cpan
   # install_ruby
 
