@@ -100,7 +100,7 @@ cask 'slack'
 # cask 'veracrypt'
 # cask 'virtualbox'
 cask 'visual-studio-code'
-cask 'vmware-fusion'
+# cask 'vmware-fusion'
 cask 'vlc'
 cask 'zoom'
 

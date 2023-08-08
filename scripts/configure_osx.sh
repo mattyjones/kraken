@@ -192,7 +192,7 @@ install_cpan() {
   sudo cpan App::cpanminus
 
   return 0
-
+}
 ##---------------------- Shell Configuration --------------------##
 
 # Set the colors I want. Not always necessary to do this, it is very terminal
