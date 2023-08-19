@@ -1,2 +1,12 @@
 ---
-# tasks file for offsec
+
+# TODO: better comments
+
+- name: INstall and configure networking tools
+  ansible.builtin.import_tasks: networking.yml
+
+- name: Install and configure pentesting tools
+  ansible.builtin.import_tasks: pentest.yml
+
+- name: Install and configure windows tools
+  ansible.builtin.import_tasks: windows.yml

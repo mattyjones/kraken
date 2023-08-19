@@ -3,12 +3,19 @@
   ansible.builtin.apt:
     name: tcpdump
     state: latest
+  become: true
 - name: Install openvpn
   ansible.builtin.apt:
     name: openvpn
     state: latest
-- name: Install xfreerdp
+  become: true
+- name: Install wireshark
   ansible.builtin.apt:
-    name: xfreerdp2-x11
+    name: wireshark
     state: latest
-
+  become: true
+- name: Install burpsuite
+  ansible.builtin.apt:
+    name: burp
+    state: latest
+  become: true

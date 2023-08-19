@@ -2,4 +2,4 @@
 # file: site.yml
 - import_playbook: base.yml
 - import_playbook: development.yml
-  #- import_playbook: pentest.yml
+- import_playbook: offsec.yml

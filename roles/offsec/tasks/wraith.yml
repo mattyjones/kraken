@@ -1,8 +1,8 @@
-# This is my personal config file for testing and using wraith
-# https://github.com/N0MoreSecr3ts/wraith
-configure_wraith() {
-  mkdir "$HOME/.wraith"
-  ln -s "$cwd/wraith/config.yaml" "$HOME/.wraith/config.yaml"
+# # This is my personal config file for testing and using wraith
+# # https://github.com/N0MoreSecr3ts/wraith
+# configure_wraith() {
+#   mkdir "$HOME/.wraith"
+#   ln -s "$cwd/wraith/config.yaml" "$HOME/.wraith/config.yaml"
 
-  return 0
-}
+#   return 0
+# }

@@ -1,37 +1,37 @@
-install_masscan() {
-wget https://github.com/robertdavidgraham/masscan/archive/master.zip
-unzip master.zip && cd masscan-master
-make && sudo make install
-sudo cp ./bin/masscan /usr/bin
-}
+# install_masscan() {
+# wget https://github.com/robertdavidgraham/masscan/archive/master.zip
+# unzip master.zip && cd masscan-master
+# make && sudo make install
+# sudo cp ./bin/masscan /usr/bin
+# }
 
-install_masscan() {
-  # Install a patched version of masscan. The default version has a bug in the wait functionality
-  # that causes it to loop indefinitely and cannot not be used in scripts
+# install_masscan() {
+#   # Install a patched version of masscan. The default version has a bug in the wait functionality
+#   # that causes it to loop indefinitely and cannot not be used in scripts
 
-  echo "Do you wish to update masscan? [Y/n/l]"
-  read -r ans
-  if [[ $ans == "" ]] || [[ $ans == "Y" ]]; then
-    wget https://github.com/robertdavidgraham/masscan/archive/master.zip &> /dev/null
-    unzip master.zip && cd masscan-master || echo "masscan package corrupted"
+#   echo "Do you wish to update masscan? [Y/n/l]"
+#   read -r ans
+#   if [[ $ans == "" ]] || [[ $ans == "Y" ]]; then
+#     wget https://github.com/robertdavidgraham/masscan/archive/master.zip &> /dev/null
+#     unzip master.zip && cd masscan-master || echo "masscan package corrupted"
 
-    if [[ $0 -ne 0 ]]; then
-      echo "masscan not downloaded correctly"
-      return 1
-    fi
+#     if [[ $0 -ne 0 ]]; then
+#       echo "masscan not downloaded correctly"
+#       return 1
+#     fi
 
-    make && sudo make install &> /dev/null
+#     make && sudo make install &> /dev/null
 
-    if [[ $0 -ne 0 ]]; then
-      echo "masscan was not built and installed correctly"
-      return 1
-    fi
+#     if [[ $0 -ne 0 ]]; then
+#       echo "masscan was not built and installed correctly"
+#       return 1
+#     fi
 
-    cp ./bin/masscan /usr/bin
-    return 0
+#     cp ./bin/masscan /usr/bin
+#     return 0
 
-  else
-    echo "masscan not updated"
-    return 0
-  fi
-}
+#   else
+#     echo "masscan not updated"
+#     return 0
+#   fi
+# }

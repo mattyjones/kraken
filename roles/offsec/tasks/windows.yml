@@ -1,0 +1,6 @@
+---
+- name: Install freerdp
+  ansible.builtin.apt:
+    name: freerdp2-x11
+    state: latest
+  become: true
