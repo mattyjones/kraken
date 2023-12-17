@@ -25,7 +25,7 @@
 	ca = !git add -A && git commit -av
 
 	# Switch to a branch, creating it if necessary
-	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+    #go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
 	# Color graph log view
 	graph = log --graph --color --pretty=format:"%C(yellow)%H%C(green)%d%C(reset)%n%x20%cd%n%x20%cn%x20(%ce)%n%x20%s%n"
@@ -169,7 +169,7 @@
 	log = true
 
 [pull]
-	rebase = true
+	rebase = false
 
 [push]
 	# change to maching for machines with older versions of git 1.x.x

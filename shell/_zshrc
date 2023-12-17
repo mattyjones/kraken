@@ -47,5 +47,5 @@ eval "$(rbenv init - zsh)"
 source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # https://starship.rs
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 
